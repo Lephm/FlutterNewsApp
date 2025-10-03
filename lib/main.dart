@@ -1,3 +1,4 @@
+import 'package:centranews/models/app_info.dart';
 import 'package:centranews/utils/custom_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +13,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-      title: 'Centra News',
+      title: AppInfo.title,
       initialRoute: customNavigator.initialRoute,
       routes: customNavigator.allRoutes,
     );
