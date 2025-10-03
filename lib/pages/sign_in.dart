@@ -1,4 +1,6 @@
 import 'package:centranews/models/custom_theme.dart';
+import 'package:centranews/models/language_localization.dart';
+import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/utils/validationhelper.dart';
 import 'package:centranews/widgets/custom_checkbox.dart';
@@ -24,6 +26,7 @@ class _SignInState extends ConsumerState<SignIn> {
   @override
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
+    var localization = ref.watch(localizationProvider);
     return Scaffold(
       body: SizedBox(
         width: double.infinity,
@@ -33,13 +36,16 @@ class _SignInState extends ConsumerState<SignIn> {
 
           children: [
             Image(image: AssetImage("assets/blackcircle.png")),
-            Text("Welcome", style: currentTheme.textTheme.headlineMedium),
             Text(
-              "Sign in to your account",
+              localization.welcome,
+              style: currentTheme.textTheme.headlineMedium,
+            ),
+            Text(
+              localization.signInToYourAccount,
               style: currentTheme.textTheme.bodyLightMedium,
             ),
-            signInForm(currentTheme, context),
-            rememberMeAndForgotPasswordRow(currentTheme),
+            signInForm(currentTheme, context, localization),
+            rememberMeAndForgotPasswordRow(currentTheme, localization),
           ],
         ),
       ),
@@ -47,7 +53,10 @@ class _SignInState extends ConsumerState<SignIn> {
     );
   }
 
-  Padding rememberMeAndForgotPasswordRow(CustomTheme currentTheme) {
+  Padding rememberMeAndForgotPasswordRow(
+    CustomTheme currentTheme,
+    LanguageLocalizationTexts localization,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 0),
       child: Row(
@@ -61,14 +70,17 @@ class _SignInState extends ConsumerState<SignIn> {
                   isCheckboxOn: rememberMe,
                   onChanged: setRememberMe,
                 ),
-                Text("Remember me", style: currentTheme.textTheme.bodyMedium),
+                Text(
+                  localization.rememberMe,
+                  style: currentTheme.textTheme.bodyMedium,
+                ),
               ],
             ),
           ),
           TextButton(
             onPressed: () {},
             child: Text(
-              "Forgot Password",
+              localization.forgotPassword,
               style: TextStyle(
                 color: currentTheme.currentColorScheme.textSecondary,
                 decoration: TextDecoration.underline,
@@ -80,17 +92,21 @@ class _SignInState extends ConsumerState<SignIn> {
     );
   }
 
-  Widget signInForm(CustomTheme customTheme, BuildContext context) => Form(
+  Widget signInForm(
+    CustomTheme customTheme,
+    BuildContext context,
+    LanguageLocalizationTexts localization,
+  ) => Form(
     key: _signInFormKey,
     child: Column(
       children: [
         CustomTextFormField(
-          hintText: "Enter your email",
+          hintText: localization.enterYourEmail,
           controller: emailController,
           validatorFunc: isEmailValid,
         ),
         CustomTextFormField(
-          hintText: "Enter your password",
+          hintText: localization.enterYourPassword,
           controller: passwordController,
           validatorFunc: isPasswordValid,
           obscureText: obsecureText,
@@ -100,7 +116,7 @@ class _SignInState extends ConsumerState<SignIn> {
           onPressed: () {
             if (_signInFormKey.currentState!.validate()) {}
           },
-          content: "Sign In",
+          content: localization.signIn,
         ),
       ],
     ),

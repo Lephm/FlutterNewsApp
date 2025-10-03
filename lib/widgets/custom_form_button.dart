@@ -15,10 +15,7 @@ class CustomFormButton extends ConsumerWidget {
 
       child: TextButton(
         onPressed: onPressed,
-        child: Text(
-          "${content}",
-          style: currentTheme.textTheme.bodyInverseMedium,
-        ),
+        child: Text(content, style: currentTheme.textTheme.bodyInverseMedium),
       ),
     );
   }
