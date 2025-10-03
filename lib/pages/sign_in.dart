@@ -201,12 +201,16 @@ class _SignInState extends ConsumerState<SignIn> {
         CustomTextFormField(
           hintText: localization.enterYourEmail,
           controller: emailController,
-          validatorFunc: isEmailValid,
+          validatorFunc: (value) {
+            return isEmailValid(value, localization);
+          },
         ),
         CustomTextFormField(
           hintText: localization.enterYourPassword,
           controller: passwordController,
-          validatorFunc: isPasswordValid,
+          validatorFunc: (value) {
+            return isPasswordValid(value, localization);
+          },
           obscureText: obsecureText,
           suffixIcon: displayPasswordVisibilityIcon(),
         ),
@@ -245,9 +249,4 @@ class _SignInState extends ConsumerState<SignIn> {
       });
     }
   }
-
-  //TODO: implement these functions with firebase
-  void signInWithGoogle() {}
-  void signInWithApple() {}
-  void signInWithX() {}
 }
