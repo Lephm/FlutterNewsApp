@@ -7,6 +7,7 @@ import 'package:centranews/utils/validationhelper.dart';
 import 'package:centranews/widgets/custom_checkbox.dart';
 import 'package:centranews/widgets/custom_form_button.dart';
 import 'package:centranews/widgets/custom_textformfield.dart';
+import 'package:centranews/widgets/form_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,6 +30,7 @@ class _SignInState extends ConsumerState<SignIn> {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
     return Scaffold(
+      appBar: getFormAppBar(context, currentTheme),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
         child: SizedBox(
@@ -39,24 +41,50 @@ class _SignInState extends ConsumerState<SignIn> {
             crossAxisAlignment: CrossAxisAlignment.center,
 
             children: [
-              Image(image: AssetImage("assets/blackcircle.png")),
-              Text(
-                localization.welcome,
-                style: currentTheme.textTheme.headlineMedium,
-              ),
-              Text(
-                localization.signInToYourAccount,
-                style: currentTheme.textTheme.bodyLightMedium,
-              ),
+              appIntroWidget(localization, currentTheme),
               signInForm(currentTheme, context, localization),
               rememberMeAndForgotPasswordRow(currentTheme, localization),
               signInWithSocialMediaRow(localization),
               otherSignInMethodRow(currentTheme),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("/sign_up");
+                  },
+                  child: Text(
+                    localization.dontHaveAnAccountSignUpHere,
+                    style: TextStyle(
+                      color: currentTheme.currentColorScheme.textSecondary,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
       backgroundColor: currentTheme.currentColorScheme.bgPrimary,
+    );
+  }
+
+  Widget appIntroWidget(
+    LanguageLocalizationTexts localization,
+    CustomTheme currentTheme,
+  ) {
+    return Column(
+      children: [
+        Image(image: AssetImage("assets/blackcircle.png")),
+        Text(
+          localization.welcome,
+          style: currentTheme.textTheme.headlineMedium,
+        ),
+        Text(
+          localization.signInToYourAccount,
+          style: currentTheme.textTheme.bodyLightMedium,
+        ),
+      ],
     );
   }
 

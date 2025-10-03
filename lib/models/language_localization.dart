@@ -9,6 +9,7 @@ class LanguageLocalizationTexts {
     required this.welcome,
     required this.signInWithSocialMedia,
     required this.signInToYourAccount,
+    required this.dontHaveAnAccountSignUpHere,
   });
   final String signIn;
   final String signOut;
@@ -19,6 +20,7 @@ class LanguageLocalizationTexts {
   final String welcome;
   final String signInWithSocialMedia;
   final String signInToYourAccount;
+  final String dontHaveAnAccountSignUpHere;
 }
 
 var engLocalization = LanguageLocalizationTexts(
@@ -31,4 +33,5 @@ var engLocalization = LanguageLocalizationTexts(
   welcome: "Welcome",
   signInWithSocialMedia: "Sign in with Social media",
   signInToYourAccount: "Sign in to your account ",
+  dontHaveAnAccountSignUpHere: "Don't have an account, Sign up here",
 );
