@@ -1,11 +1,14 @@
 import 'package:centranews/models/language_localization.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final localizationProvider =
-    StateNotifierProvider<LocalizationNotifier, LanguageLocalizationTexts>(
-      (ref) => LocalizationNotifier(),
+    NotifierProvider<LocalizationNotifier, LanguageLocalizationTexts>(
+      () => LocalizationNotifier(),
     );
 
-class LocalizationNotifier extends StateNotifier<LanguageLocalizationTexts> {
-  LocalizationNotifier() : super(engLocalization);
+class LocalizationNotifier extends Notifier<LanguageLocalizationTexts> {
+  @override
+  LanguageLocalizationTexts build() {
+    return engLocalization;
+  }
 }

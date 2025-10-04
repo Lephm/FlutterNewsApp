@@ -1,10 +1,14 @@
 import 'package:centranews/models/local_user.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final userProvider = StateNotifierProvider<UserNotifier, LocalUser>(
-  (ref) => UserNotifier(),
+final userProvider = NotifierProvider<UserNotifier, LocalUser?>(
+  () => UserNotifier(),
 );
 
-class UserNotifier extends StateNotifier<LocalUser> {
-  UserNotifier() : super(LocalUser());
+class UserNotifier extends Notifier<LocalUser?> {
+  @override
+  LocalUser? build() {
+    LocalUser? initialValue;
+    return initialValue;
+  }
 }
