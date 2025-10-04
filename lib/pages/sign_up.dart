@@ -1,5 +1,6 @@
 import 'package:centranews/models/custom_theme.dart';
 import 'package:centranews/models/language_localization.dart';
+import 'package:centranews/providers/local_user_provider.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/utils/validationhelper.dart';
@@ -28,6 +29,7 @@ class _SignUpState extends ConsumerState<SignUp> {
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
+    var userManager = ref.watch(userProvider.notifier);
     return Scaffold(
       appBar: FormAppBar(),
       body: Padding(
@@ -41,7 +43,7 @@ class _SignUpState extends ConsumerState<SignUp> {
 
             children: [
               signUpIntroWidget(localization, currentTheme),
-              signUnForm(currentTheme, context, localization),
+              signUnForm(currentTheme, context, localization, userManager),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: TextButton(
@@ -88,6 +90,7 @@ class _SignUpState extends ConsumerState<SignUp> {
     CustomTheme customTheme,
     BuildContext context,
     LanguageLocalizationTexts localization,
+    UserNotifier userManager,
   ) => Form(
     key: _signUpFormKey,
     child: Column(
@@ -123,7 +126,13 @@ class _SignUpState extends ConsumerState<SignUp> {
         ),
         CustomFormButton(
           onPressed: () {
-            if (_signUpFormKey.currentState!.validate()) {}
+            if (_signUpFormKey.currentState!.validate()) {
+              userManager.createAccountWithEmailAndPassword(
+                email: emailController.text,
+                password: passwordController.text,
+                context: context,
+              );
+            }
           },
           content: localization.signIn,
         ),

@@ -1,6 +1,7 @@
 import 'package:centranews/models/custom_color_scheme.dart';
 import 'package:centranews/models/custom_theme.dart';
 import 'package:centranews/models/language_localization.dart';
+import 'package:centranews/providers/local_user_provider.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/utils/validationhelper.dart';
@@ -29,6 +30,7 @@ class _SignInState extends ConsumerState<SignIn> {
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
+    var userManager = ref.watch(userProvider.notifier);
     return Scaffold(
       appBar: FormAppBar(),
       body: Padding(
@@ -42,7 +44,7 @@ class _SignInState extends ConsumerState<SignIn> {
 
             children: [
               appIntroWidget(localization, currentTheme),
-              signInForm(currentTheme, context, localization),
+              signInForm(currentTheme, context, localization, userManager),
               rememberMeAndForgotPasswordRow(currentTheme, localization),
               signInWithSocialMediaRow(localization),
               otherSignInMethodRow(currentTheme),
@@ -194,6 +196,7 @@ class _SignInState extends ConsumerState<SignIn> {
     CustomTheme customTheme,
     BuildContext context,
     LanguageLocalizationTexts localization,
+    UserNotifier userManager,
   ) => Form(
     key: _signInFormKey,
     child: Column(
@@ -216,7 +219,13 @@ class _SignInState extends ConsumerState<SignIn> {
         ),
         CustomFormButton(
           onPressed: () {
-            if (_signInFormKey.currentState!.validate()) {}
+            if (_signInFormKey.currentState!.validate()) {
+              userManager.signInWithEmailAndPassword(
+                email: emailController.text,
+                password: passwordController.text,
+                context: context,
+              );
+            }
           },
           content: localization.signIn,
         ),
