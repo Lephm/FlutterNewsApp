@@ -31,6 +31,7 @@ class _SignUpState extends ConsumerState<SignUp> {
     var localization = ref.watch(localizationProvider);
     var userManager = ref.watch(userProvider.notifier);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: FormAppBar(),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
