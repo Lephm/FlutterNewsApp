@@ -1,13 +1,16 @@
-import 'package:centranews/firebase_options.dart';
 import 'package:centranews/models/app_info.dart';
 import 'package:centranews/utils/custom_navigator_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Supabase.initialize(
+    url: 'https://abugihnaowqdwntoervn.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFidWdpaG5hb3dxZHdudG9lcnZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk1MjE5MzcsImV4cCI6MjA3NTA5NzkzN30.SkLffRRkYKoP8V_syZk2WM6MBUUggwVQERY64sqk25s',
+  );
   runApp(ProviderScope(child: MyApp()));
 }
 

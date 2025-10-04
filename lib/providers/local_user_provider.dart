@@ -1,16 +1,19 @@
 import 'package:centranews/models/custom_theme.dart';
 import 'package:centranews/models/local_user.dart';
 import 'package:centranews/providers/theme_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+final supabase = Supabase.instance.client;
 
 final userProvider = NotifierProvider<UserNotifier, LocalUser?>(
   () => UserNotifier(),
 );
 
 class UserNotifier extends Notifier<LocalUser?> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _auth = supabase.auth;
   @override
   LocalUser? build() {
     LocalUser? initialValue;
@@ -23,10 +26,7 @@ class UserNotifier extends Notifier<LocalUser?> {
     required BuildContext context,
   }) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await _auth.signUp(email: email, password: password);
     } catch (e) {
       _showAlertMessage(
         context,
@@ -41,7 +41,7 @@ class UserNotifier extends Notifier<LocalUser?> {
     required BuildContext context,
   }) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await _auth.signInWithPassword(email: email, password: password);
     } catch (e) {
       _showAlertMessage(
         context,
