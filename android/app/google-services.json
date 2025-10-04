@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "188841892955",
+    "project_id": "centranews-21bfe",
+    "storage_bucket": "centranews-21bfe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188841892955:android:9ff6e34c3f865816e5337e",
+        "android_client_info": {
+          "package_name": "com.example.centranews"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCLPhGRVsPBBSp9a7oXHcZxKDERARKvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

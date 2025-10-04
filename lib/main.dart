@@ -1,11 +1,13 @@
+import 'package:centranews/firebase_options.dart';
 import 'package:centranews/models/app_info.dart';
 import 'package:centranews/utils/custom_navigator_settings.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(ProviderScope(child: MyApp()));
 }
 
