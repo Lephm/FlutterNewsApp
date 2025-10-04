@@ -1,5 +1,5 @@
 class LocalUser {
-  LocalUser(this.uid, this.bookmarkPostsId);
+  LocalUser(this.uid, this.bookmarkPostsIds);
   final String uid;
-  final List<String> bookmarkPostsId;
+  final List<String> bookmarkPostsIds;
 }

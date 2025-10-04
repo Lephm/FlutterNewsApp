@@ -48,7 +48,7 @@ class _SignInState extends ConsumerState<SignIn> {
               signInForm(currentTheme, context, localization, userManager),
               rememberMeAndForgotPasswordRow(currentTheme, localization),
               signInWithSocialMediaRow(localization),
-              otherSignInMethodRow(currentTheme),
+              otherSignInMethodRow(currentTheme, userManager, context),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: TextButton(
@@ -91,7 +91,11 @@ class _SignInState extends ConsumerState<SignIn> {
     );
   }
 
-  Widget otherSignInMethodRow(CustomTheme currentTheme) {
+  Widget otherSignInMethodRow(
+    CustomTheme currentTheme,
+    UserNotifier userManager,
+    BuildContext context,
+  ) {
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 600),
       child: Container(
@@ -101,7 +105,9 @@ class _SignInState extends ConsumerState<SignIn> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                userManager.signInWithGoogle(context);
+              },
               icon: Image.asset("assets/google.png", width: 40, height: 40),
             ),
             IconButton(
