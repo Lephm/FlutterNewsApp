@@ -1,6 +1,8 @@
 import 'package:centranews/models/custom_theme.dart';
 import 'package:centranews/models/local_user.dart';
+import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
+import 'package:centranews/utils/custom_navigator_settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +16,21 @@ final userProvider = NotifierProvider<UserNotifier, LocalUser?>(
 );
 
 class UserNotifier extends Notifier<LocalUser?> {
+  UserNotifier() {
+    supabase.auth.onAuthStateChange.listen((data) {
+      debugPrint("Auth Change Event Happens");
+      if (supabase.auth.currentUser == null) {
+        debugPrint(supabase.auth.currentUser.toString());
+        setLocalUser(null);
+      } else {
+        setLocalUser(LocalUser(supabase.auth.currentUser!.id, []));
+        //CustomNavigatorSettings.navigatorKey.currentState?.pushNamed("/home");
+      }
+    });
+  }
   final _auth = supabase.auth;
+  Route<Object?>? _progressBarRoute;
+
   @override
   LocalUser? build() {
     LocalUser? initialValue;
@@ -27,14 +43,18 @@ class UserNotifier extends Notifier<LocalUser?> {
     required BuildContext context,
   }) async {
     try {
+      var localization = ref.watch(localizationProvider);
       await _auth.signUp(email: email, password: password);
+      await _auth.signInWithPassword(email: email, password: password);
+      if (context.mounted) {
+        _showAlertMessage(context, localization.signInSucessFullyMessage);
+      }
     } catch (e) {
       if (context.mounted) {
-        _showAlertMessage(
-          context,
-          "There was something wrong when creating an account, Please try again later",
-        );
+        _showAlertMessage(context, e.toString());
       }
+    } finally {
+      closeProgressBar();
     }
   }
 
@@ -43,15 +63,19 @@ class UserNotifier extends Notifier<LocalUser?> {
     required String password,
     required BuildContext context,
   }) async {
+    var localization = ref.watch(localizationProvider);
     try {
+      showProgressBar(context);
       await _auth.signInWithPassword(email: email, password: password);
+      if (context.mounted) {
+        _showAlertMessage(context, localization.signInSucessFullyMessage);
+      }
     } catch (e) {
       if (context.mounted) {
-        _showAlertMessage(
-          context,
-          "There was an error when you tried to log is. Please Try Again Later",
-        );
+        _showAlertMessage(context, e.toString());
       }
+    } finally {
+      closeProgressBar();
     }
   }
 
@@ -73,6 +97,7 @@ class UserNotifier extends Notifier<LocalUser?> {
   }
 
   void signInWithGoogle(BuildContext context) async {
+    var localization = ref.watch(localizationProvider);
     if (kIsWeb) {
       try {
         await supabase.auth.signInWithOAuth(
@@ -80,13 +105,15 @@ class UserNotifier extends Notifier<LocalUser?> {
           redirectTo:
               'https://abugihnaowqdwntoervn.supabase.co/auth/v1/callback',
         );
+        if (context.mounted) {
+          _showAlertMessage(context, localization.signInSucessFullyMessage);
+        }
       } catch (e) {
         if (context.mounted) {
-          _showAlertMessage(
-            context,
-            "Something Went Wrong when you tried to log in",
-          );
+          _showAlertMessage(context, e.toString());
         }
+      } finally {
+        closeProgressBar();
       }
       return;
     }
@@ -125,7 +152,40 @@ class UserNotifier extends Notifier<LocalUser?> {
   }
 
   //TODO: implement progress bar
-  void showProgressBar(CustomTheme currentTheme) {}
+  void showProgressBar(BuildContext context) {
+    var currentTheme = ref.watch(themeProvider);
+    _progressBarRoute = DialogRoute(
+      context: context,
+      builder: (context) => Center(
+        heightFactor: 0.5,
+        widthFactor: 0.5,
+        child: CircularProgressIndicator(
+          color: currentTheme.currentColorScheme.bgInverse,
+          backgroundColor: currentTheme.currentColorScheme.bgPrimary,
+        ),
+      ),
+    );
+    try {
+      CustomNavigatorSettings.navigatorKey.currentState!.push(
+        _progressBarRoute as DialogRoute<Object?>,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  void closeProgressBar() {
+    try {
+      if (_progressBarRoute != null) {
+        CustomNavigatorSettings.navigatorKey.currentState?.removeRoute(
+          _progressBarRoute as Route<Object?>,
+        );
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    _progressBarRoute = null;
+  }
 
   // TODO: implement set local user
   void setLocalUser(LocalUser? user) {

@@ -13,4 +13,6 @@ abstract class CustomNavigatorSettings {
   };
 
   static String initialRoute = '/';
+
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 }

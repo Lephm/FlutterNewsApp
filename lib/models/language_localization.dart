@@ -19,6 +19,7 @@ class LanguageLocalizationTexts {
     required this.pleaseEnterAValidEmail,
     required this.pleaseConfirmYourPassword,
     required this.passwordsDoNotMatch,
+    required this.signInSucessFullyMessage,
   });
   final String signIn;
   final String signUp;
@@ -39,6 +40,7 @@ class LanguageLocalizationTexts {
   final String pleaseEnterAValidEmail;
   final String pleaseConfirmYourPassword;
   final String passwordsDoNotMatch;
+  final String signInSucessFullyMessage;
 }
 
 var engLocalization = LanguageLocalizationTexts(
@@ -61,4 +63,5 @@ var engLocalization = LanguageLocalizationTexts(
   passwordMustBeLonger: "Password must be longer",
   pleaseConfirmYourPassword: "Please confirm your password",
   passwordsDoNotMatch: "Passwords do not match",
+  signInSucessFullyMessage: "You Have Sign In Sucessfully",
 );

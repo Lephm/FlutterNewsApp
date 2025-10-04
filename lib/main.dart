@@ -24,6 +24,7 @@ class MyApp extends ConsumerWidget {
       initialRoute: CustomNavigatorSettings.initialRoute,
       routes: CustomNavigatorSettings.allRoutes,
       debugShowCheckedModeBanner: false,
+      navigatorKey: CustomNavigatorSettings.navigatorKey,
     );
   }
 }

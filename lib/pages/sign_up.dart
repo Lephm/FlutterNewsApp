@@ -135,7 +135,7 @@ class _SignUpState extends ConsumerState<SignUp> {
               );
             }
           },
-          content: localization.signIn,
+          content: localization.signUp,
         ),
       ],
     ),
