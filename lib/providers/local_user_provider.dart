@@ -17,7 +17,7 @@ final userProvider = NotifierProvider<UserNotifier, LocalUser?>(
 
 class UserNotifier extends Notifier<LocalUser?> {
   UserNotifier() {
-    supabase.auth.onAuthStateChange.listen((data) {
+    supabase.auth.onAuthStateChange.listen((data) async {
       debugPrint("Auth Change Event Happens");
       if (supabase.auth.currentUser == null) {
         debugPrint(supabase.auth.currentUser.toString());
@@ -105,9 +105,6 @@ class UserNotifier extends Notifier<LocalUser?> {
           redirectTo:
               'https://abugihnaowqdwntoervn.supabase.co/auth/v1/callback',
         );
-        if (context.mounted) {
-          _showAlertMessage(context, localization.signInSucessFullyMessage);
-        }
       } catch (e) {
         if (context.mounted) {
           _showAlertMessage(context, e.toString());

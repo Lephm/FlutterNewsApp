@@ -156,7 +156,7 @@ class _SignUpState extends ConsumerState<SignUp> {
   IconButton displayConfirmPasswordVisibilityIcon() {
     return IconButton(
       onPressed: () {
-        switchobsecurePassword();
+        switchobsecureConfirmedPassword();
       },
       icon: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
