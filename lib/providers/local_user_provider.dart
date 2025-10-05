@@ -20,11 +20,19 @@ class UserNotifier extends Notifier<LocalUser?> {
     supabase.auth.onAuthStateChange.listen((data) async {
       debugPrint("Auth Change Event Happens");
       if (supabase.auth.currentUser == null) {
-        debugPrint(supabase.auth.currentUser.toString());
         setLocalUser(null);
       } else {
-        setLocalUser(LocalUser(supabase.auth.currentUser!.id, []));
-        //CustomNavigatorSettings.navigatorKey.currentState?.pushNamed("/home");
+        debugPrint("User Logged In");
+        setLocalUser(
+          LocalUser(
+            supabase.auth.currentUser!.id,
+            [],
+            supabase.auth.currentUser!.email ?? "User",
+          ),
+        );
+        if (CustomNavigatorSettings.navigatorKey.currentState!.mounted) {
+          CustomNavigatorSettings.navigatorKey.currentState?.pushNamed("/");
+        }
       }
     });
   }
@@ -47,11 +55,11 @@ class UserNotifier extends Notifier<LocalUser?> {
       await _auth.signUp(email: email, password: password);
       await _auth.signInWithPassword(email: email, password: password);
       if (context.mounted) {
-        _showAlertMessage(context, localization.signInSucessFullyMessage);
+        showAlertMessage(context, localization.signInSucessFullyMessage);
       }
     } catch (e) {
       if (context.mounted) {
-        _showAlertMessage(context, e.toString());
+        showAlertMessage(context, e.toString());
       }
     } finally {
       closeProgressBar();
@@ -68,11 +76,11 @@ class UserNotifier extends Notifier<LocalUser?> {
       showProgressBar(context);
       await _auth.signInWithPassword(email: email, password: password);
       if (context.mounted) {
-        _showAlertMessage(context, localization.signInSucessFullyMessage);
+        showAlertMessage(context, localization.signInSucessFullyMessage);
       }
     } catch (e) {
       if (context.mounted) {
-        _showAlertMessage(context, e.toString());
+        showAlertMessage(context, e.toString());
       }
     } finally {
       closeProgressBar();
@@ -83,7 +91,7 @@ class UserNotifier extends Notifier<LocalUser?> {
     return _auth.signOut();
   }
 
-  void _showAlertMessage(BuildContext context, String content) {
+  void showAlertMessage(BuildContext context, String content) {
     CustomTheme currentTheme = ref.watch(themeProvider);
     showDialog(
       context: context,
@@ -97,7 +105,6 @@ class UserNotifier extends Notifier<LocalUser?> {
   }
 
   void signInWithGoogle(BuildContext context) async {
-    var localization = ref.watch(localizationProvider);
     if (kIsWeb) {
       try {
         await supabase.auth.signInWithOAuth(
@@ -107,7 +114,7 @@ class UserNotifier extends Notifier<LocalUser?> {
         );
       } catch (e) {
         if (context.mounted) {
-          _showAlertMessage(context, e.toString());
+          showAlertMessage(context, e.toString());
         }
       } finally {
         closeProgressBar();
@@ -143,7 +150,7 @@ class UserNotifier extends Notifier<LocalUser?> {
       );
     } catch (e) {
       if (context.mounted) {
-        _showAlertMessage(context, e.toString());
+        showAlertMessage(context, e.toString());
       }
     }
   }

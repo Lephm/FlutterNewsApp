@@ -1,3 +1,4 @@
+//TODO: fully implement language localization
 class LanguageLocalizationTexts {
   const LanguageLocalizationTexts({
     required this.signIn,
