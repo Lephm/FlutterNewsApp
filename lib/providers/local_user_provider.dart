@@ -99,7 +99,7 @@ class UserNotifier extends Notifier<LocalUser?> {
         backgroundColor: currentTheme.currentColorScheme.bgPrimary,
 
         title: BackButton(style: ButtonStyle(alignment: Alignment(-1.0, -1.0))),
-        content: Text(content),
+        content: Text(content, style: currentTheme.textTheme.bodyMedium),
       ),
     );
   }

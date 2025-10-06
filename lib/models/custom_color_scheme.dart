@@ -30,3 +30,13 @@ final lightTheme = CustomColorScheme(
   textSecondary: const Color.fromARGB(255, 102, 102, 102),
   textInverse: Colors.white,
 );
+
+final darkTheme = CustomColorScheme(
+  themeType: ThemeBrightness.dark,
+  bgPrimary: Colors.black,
+  bgSecondary: const Color.fromARGB(255, 99, 99, 99),
+  bgInverse: Colors.white,
+  textPrimary: Colors.white,
+  textSecondary: const Color.fromARGB(255, 194, 194, 194),
+  textInverse: Colors.black,
+);

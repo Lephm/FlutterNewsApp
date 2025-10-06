@@ -7,7 +7,6 @@ abstract class CustomNavigatorSettings {
   static final Map<String, Widget Function(BuildContext context)> allRoutes = {
     //TODO: change the home route to home
     "/": (context) => HomePage(),
-    "/home": (context) => HomePage(),
     "/sign_in": (context) => SignIn(),
     "/sign_up": (context) => SignUp(),
   };

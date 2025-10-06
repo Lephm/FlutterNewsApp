@@ -37,12 +37,16 @@ class _CustomHomeNavigationBarState
   List<Widget> navigatorIcons() {
     return [
       NavigationDestination(
-        selectedIcon: Icon(Icons.home),
-        icon: Icon(Icons.home_outlined),
+        selectedIcon: Icon(Icons.article_outlined),
+        icon: Icon(Icons.article),
         label: 'Home',
       ),
       NavigationDestination(icon: Icon(Icons.explore), label: 'Notifications'),
-      NavigationDestination(icon: Icon(Icons.bookmark), label: 'Bookmarks'),
+      NavigationDestination(
+        icon: Icon(Icons.bookmark),
+        selectedIcon: Icon(Icons.bookmark_border_outlined),
+        label: 'Bookmarks',
+      ),
     ];
   }
 }

@@ -37,7 +37,11 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
       onPressed: () {
         Scaffold.of(context).openDrawer();
       },
-      icon: Icon(Icons.subject),
+      icon: Image(
+        image: AssetImage("assets/blackcircle.png"),
+        width: 40,
+        height: 40,
+      ),
     );
   }
 }

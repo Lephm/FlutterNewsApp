@@ -19,6 +19,7 @@ class _HomeEndDrawerState extends ConsumerState<HomeEndDrawer> {
     var localUser = ref.watch(userProvider);
     UserNotifier userNotifier = ref.watch(userProvider.notifier);
     return Drawer(
+      backgroundColor: currentTheme.currentColorScheme.bgPrimary,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

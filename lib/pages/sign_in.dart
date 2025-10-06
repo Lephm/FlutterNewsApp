@@ -47,7 +47,7 @@ class _SignInState extends ConsumerState<SignIn> {
               appIntroWidget(localization, currentTheme),
               signInForm(currentTheme, context, localization, userManager),
               rememberMeAndForgotPasswordRow(currentTheme, localization),
-              signInWithSocialMediaRow(localization),
+              signInWithSocialMediaRow(localization, currentTheme),
               otherSignInMethodRow(currentTheme, userManager, context),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
@@ -138,12 +138,18 @@ class _SignInState extends ConsumerState<SignIn> {
     );
   }
 
-  Widget signInWithSocialMediaRow(LanguageLocalizationTexts localization) {
+  Widget signInWithSocialMediaRow(
+    LanguageLocalizationTexts localization,
+    CustomTheme currentTheme,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         horizontalDivideLine(),
-        Text(localization.signInWithSocialMedia),
+        Text(
+          localization.signInWithSocialMedia,
+          style: currentTheme.textTheme.bodyMedium,
+        ),
         horizontalDivideLine(),
       ],
     );
