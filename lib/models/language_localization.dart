@@ -21,6 +21,11 @@ class LanguageLocalizationTexts {
     required this.pleaseConfirmYourPassword,
     required this.passwordsDoNotMatch,
     required this.signInSucessFullyMessage,
+    required this.youreNotLoggedIn,
+    required this.news,
+    required this.discovery,
+    required this.bookmarks,
+    required this.youHaveSucessfullySignedOut,
   });
   final String signIn;
   final String signUp;
@@ -42,6 +47,11 @@ class LanguageLocalizationTexts {
   final String pleaseConfirmYourPassword;
   final String passwordsDoNotMatch;
   final String signInSucessFullyMessage;
+  final String youreNotLoggedIn;
+  final String news;
+  final String discovery;
+  final String bookmarks;
+  final String youHaveSucessfullySignedOut;
 }
 
 var engLocalization = LanguageLocalizationTexts(
@@ -65,4 +75,10 @@ var engLocalization = LanguageLocalizationTexts(
   pleaseConfirmYourPassword: "Please confirm your password",
   passwordsDoNotMatch: "Passwords do not match",
   signInSucessFullyMessage: "You Have Sign In Sucessfully",
+  youreNotLoggedIn: "You're not logged in",
+  news: "News",
+  discovery: "Discovery",
+  bookmarks: "Bookmarks",
+  youHaveSucessfullySignedOut: "You have sucessfully signed out"
+
 );

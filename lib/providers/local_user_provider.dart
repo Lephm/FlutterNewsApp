@@ -155,7 +155,7 @@ class UserNotifier extends Notifier<LocalUser?> {
     }
   }
 
-  //TODO: implement progress bar
+
   void showProgressBar(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
     _progressBarRoute = DialogRoute(
@@ -191,7 +191,6 @@ class UserNotifier extends Notifier<LocalUser?> {
     _progressBarRoute = null;
   }
 
-  // TODO: implement set local user
   void setLocalUser(LocalUser? user) {
     state = user;
   }
