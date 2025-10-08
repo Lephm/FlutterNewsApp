@@ -26,7 +26,9 @@ class LanguageLocalizationTexts {
     required this.discovery,
     required this.bookmarks,
     required this.youHaveSucessfullySignedOut,
+    required this.settings,
   });
+
   final String signIn;
   final String signUp;
   final String signOut;
@@ -52,6 +54,7 @@ class LanguageLocalizationTexts {
   final String discovery;
   final String bookmarks;
   final String youHaveSucessfullySignedOut;
+  final String settings;
 }
 
 var engLocalization = LanguageLocalizationTexts(
@@ -79,6 +82,6 @@ var engLocalization = LanguageLocalizationTexts(
   news: "News",
   discovery: "Discovery",
   bookmarks: "Bookmarks",
-  youHaveSucessfullySignedOut: "You have sucessfully signed out"
-
+  youHaveSucessfullySignedOut: "You have sucessfully signed out",
+  settings: "Settings",
 );

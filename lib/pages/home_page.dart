@@ -23,20 +23,23 @@ class _HomePageState extends ConsumerState<HomePage> {
     const DiscoverPage(),
     const BookmarksPage(),
   ];
+
   @override
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: HomeAppBar(),
-      drawer: HomeDrawer(),
-      endDrawer: HomeEndDrawer(),
-      body: IndexedStack(index: currentPageIndex, children: _pages),
-      bottomNavigationBar: CustomHomeNavigationBar(
-        setCurrentPageIndex: setCurrentPageIndex,
-        currentPageIndex: currentPageIndex,
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: HomeAppBar(),
+        drawer: HomeDrawer(),
+        endDrawer: HomeEndDrawer(),
+        body: IndexedStack(index: currentPageIndex, children: _pages),
+        bottomNavigationBar: CustomHomeNavigationBar(
+          setCurrentPageIndex: setCurrentPageIndex,
+          currentPageIndex: currentPageIndex,
+        ),
+        backgroundColor: currentTheme.currentColorScheme.bgPrimary,
       ),
-      backgroundColor: currentTheme.currentColorScheme.bgPrimary,
     );
   }
 

@@ -4,6 +4,8 @@ import 'package:centranews/models/local_user.dart';
 import 'package:centranews/providers/local_user_provider.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
+import 'package:centranews/widgets/custom_container.dart';
+import 'package:centranews/widgets/home_button_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,22 +26,33 @@ class _HomeEndDrawerState extends ConsumerState<HomeEndDrawer> {
     return Drawer(
       backgroundColor: currentTheme.currentColorScheme.bgPrimary,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text("Settings", style: currentTheme.textTheme.headlineMedium),
+            Text(
+              localization.settings,
+              style: currentTheme.textTheme.headlineMedium,
+            ),
             Text(
               localUser == null
                   ? localization.youreNotLoggedIn
                   : localUser.emailAdress,
+              style: currentTheme.textTheme.bodyLightMedium,
             ),
-            displaySignInOptions(
-              context: context,
-              currentTheme: currentTheme,
-              localUser: localUser,
-              localization: localization,
-              userNotifier: userNotifier,
+            SizedBox(height: 30),
+            CustomContainer(
+              child: Column(
+                children: [
+                  displaySignInOptions(
+                    context: context,
+                    currentTheme: currentTheme,
+                    localUser: localUser,
+                    localization: localization,
+                    userNotifier: userNotifier,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -52,23 +65,45 @@ class _HomeEndDrawerState extends ConsumerState<HomeEndDrawer> {
     required CustomTheme currentTheme,
     required LocalUser? localUser,
     required UserNotifier userNotifier,
-    required LanguageLocalizationTexts localization
+    required LanguageLocalizationTexts localization,
   }) {
     return localUser == null
-        ? displaySignInButton(context,localization)
-        : displaySignOutButton(context, localization,userNotifier);
+        ? displaySignInButton(context, localization, currentTheme)
+        : displaySignOutButton(
+            context,
+            localization,
+            userNotifier,
+            currentTheme,
+          );
   }
 
-  Widget displaySignInButton(BuildContext context, LanguageLocalizationTexts localization) {
+  Widget displaySignInButton(
+    BuildContext context,
+    LanguageLocalizationTexts localization,
+    CustomTheme currentTheme,
+  ) {
     return TextButton(
       onPressed: () {
         Navigator.of(context).pushNamed("/sign_in");
       },
-      child: Text(localization.signIn),
+      child: HomeButtonContainer(
+        children: [
+          customCircleAvatar(
+            Icon(Icons.login, color: currentTheme.currentColorScheme.bgInverse),
+            currentTheme,
+          ),
+          Text(localization.signIn, style: currentTheme.textTheme.bodyMedium),
+        ],
+      ),
     );
   }
 
-  Widget displaySignOutButton(BuildContext context, LanguageLocalizationTexts localization, UserNotifier userNotifier) {
+  Widget displaySignOutButton(
+    BuildContext context,
+    LanguageLocalizationTexts localization,
+    UserNotifier userNotifier,
+    CustomTheme currentTheme,
+  ) {
     return TextButton(
       onPressed: () async {
         try {
@@ -81,7 +116,26 @@ class _HomeEndDrawerState extends ConsumerState<HomeEndDrawer> {
           userNotifier.showAlertMessage(context, e.toString());
         }
       },
-      child: Text(localization.signOut),
+      child: HomeButtonContainer(
+        children: [
+          customCircleAvatar(
+            Icon(
+              Icons.logout,
+              color: currentTheme.currentColorScheme.bgInverse,
+            ),
+            currentTheme,
+          ),
+          Text(localization.signOut),
+        ],
+      ),
+    );
+  }
+
+  Widget customCircleAvatar(Widget child, CustomTheme currentTheme) {
+    return CircleAvatar(
+      radius: 15,
+      backgroundColor: currentTheme.currentColorScheme.bgSecondary,
+      child: child,
     );
   }
 }
