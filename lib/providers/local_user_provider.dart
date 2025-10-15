@@ -1,4 +1,3 @@
-import 'package:centranews/models/custom_theme.dart';
 import 'package:centranews/models/local_user.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
@@ -8,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../utils/pop_up_message.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -51,16 +52,21 @@ class UserNotifier extends Notifier<LocalUser?> {
     required String password,
     required BuildContext context,
   }) async {
+    var localization = ref.watch(localizationProvider);
+    var currentTheme = ref.watch(themeProvider);
     try {
-      var localization = ref.watch(localizationProvider);
       await _auth.signUp(email: email, password: password);
       await _auth.signInWithPassword(email: email, password: password);
       if (context.mounted) {
-        showAlertMessage(context, localization.signInSucessFullyMessage);
+        showAlertMessage(
+          context,
+          localization.signInSucessFullyMessage,
+          currentTheme,
+        );
       }
     } catch (e) {
       if (context.mounted) {
-        showAlertMessage(context, e.toString());
+        showAlertMessage(context, e.toString(), currentTheme);
       }
     } finally {
       closeProgressBar();
@@ -73,15 +79,20 @@ class UserNotifier extends Notifier<LocalUser?> {
     required BuildContext context,
   }) async {
     var localization = ref.watch(localizationProvider);
+    var currentTheme = ref.watch(themeProvider);
     try {
       showProgressBar(context);
       await _auth.signInWithPassword(email: email, password: password);
       if (context.mounted) {
-        showAlertMessage(context, localization.signInSucessFullyMessage);
+        showAlertMessage(
+          context,
+          localization.signInSucessFullyMessage,
+          currentTheme,
+        );
       }
     } catch (e) {
       if (context.mounted) {
-        showAlertMessage(context, e.toString());
+        showAlertMessage(context, e.toString(), currentTheme);
       }
     } finally {
       closeProgressBar();
@@ -92,20 +103,8 @@ class UserNotifier extends Notifier<LocalUser?> {
     return _auth.signOut();
   }
 
-  void showAlertMessage(BuildContext context, String content) {
-    CustomTheme currentTheme = ref.watch(themeProvider);
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: currentTheme.currentColorScheme.bgPrimary,
-
-        title: BackButton(style: ButtonStyle(alignment: Alignment(-1.0, -1.0))),
-        content: Text(content, style: currentTheme.textTheme.bodyMedium),
-      ),
-    );
-  }
-
   void signInWithGoogle(BuildContext context) async {
+    var currentTheme = ref.watch(themeProvider);
     if (kIsWeb) {
       try {
         await supabase.auth.signInWithOAuth(
@@ -115,7 +114,7 @@ class UserNotifier extends Notifier<LocalUser?> {
         );
       } catch (e) {
         if (context.mounted) {
-          showAlertMessage(context, e.toString());
+          showAlertMessage(context, e.toString(), currentTheme);
         }
       } finally {
         closeProgressBar();
@@ -152,7 +151,7 @@ class UserNotifier extends Notifier<LocalUser?> {
       );
     } catch (e) {
       if (context.mounted) {
-        showAlertMessage(context, e.toString());
+        showAlertMessage(context, e.toString(), currentTheme);
       }
     }
   }
@@ -198,6 +197,7 @@ class UserNotifier extends Notifier<LocalUser?> {
 
   //TODO: fully implement signInWithTwitter
   void signInWithTwitter(BuildContext context) async {
+    var currentTheme = ref.watch(themeProvider);
     try {
       await supabase.auth.signInWithOAuth(
         OAuthProvider.twitter,
@@ -206,7 +206,7 @@ class UserNotifier extends Notifier<LocalUser?> {
       );
     } catch (e) {
       if (context.mounted) {
-        showAlertMessage(context, e.toString());
+        showAlertMessage(context, e.toString(), currentTheme);
       }
     }
   }

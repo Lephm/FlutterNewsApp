@@ -9,6 +9,8 @@ import 'package:centranews/widgets/home_button_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../utils/pop_up_message.dart';
+
 class HomeEndDrawer extends ConsumerStatefulWidget {
   const HomeEndDrawer({super.key});
 
@@ -108,12 +110,13 @@ class _HomeEndDrawerState extends ConsumerState<HomeEndDrawer> {
       onPressed: () async {
         try {
           userNotifier.signOut();
-          userNotifier.showAlertMessage(
+          showAlertMessage(
             context,
             localization.youHaveSucessfullySignedOut,
+            currentTheme,
           );
         } catch (e) {
-          userNotifier.showAlertMessage(context, e.toString());
+          showAlertMessage(context, e.toString(), currentTheme);
         }
       },
       child: HomeButtonContainer(

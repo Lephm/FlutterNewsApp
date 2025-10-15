@@ -2,8 +2,12 @@ import 'package:centranews/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/custom_theme.dart';
+
 class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
-  const HomeAppBar({super.key});
+  const HomeAppBar({super.key, required this.headerText});
+
+  final String headerText;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -13,7 +17,10 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
       shape: Border(
         bottom: BorderSide(color: currentTheme.currentColorScheme.bgInverse),
       ),
-      leading: drawerIcon(context),
+      leading: drawerIcon(context, currentTheme),
+      title: Center(
+        child: Text(headerText, style: currentTheme.textTheme.headlineMedium),
+      ),
       actions: [
         Row(
           children: [
@@ -32,15 +39,15 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
-  Widget drawerIcon(BuildContext context) {
+  Widget drawerIcon(BuildContext context, CustomTheme currentTheme) {
     return IconButton(
       onPressed: () {
         Scaffold.of(context).openDrawer();
       },
-      icon: Image(
-        image: AssetImage("assets/blackcircle.png"),
-        width: 40,
-        height: 40,
+      icon: Icon(
+        Icons.filter_alt,
+        size: 24,
+        color: currentTheme.currentColorScheme.bgInverse.withAlpha(180),
       ),
     );
   }
