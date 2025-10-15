@@ -1,3 +1,4 @@
+import 'package:centranews/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,6 +12,10 @@ class HomeDrawer extends ConsumerStatefulWidget {
 class _HomeDrawerState extends ConsumerState<HomeDrawer> {
   @override
   Widget build(BuildContext context) {
-    return Drawer(child: Text("Drawer"));
+    var currentTheme = ref.watch(themeProvider);
+    return Drawer(
+      backgroundColor: currentTheme.currentColorScheme.bgPrimary,
+      child: Text("Drawer"),
+    );
   }
 }

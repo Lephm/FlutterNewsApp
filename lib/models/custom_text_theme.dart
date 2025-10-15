@@ -19,6 +19,15 @@ class CustomTextTheme {
     );
   }
 
+  TextStyle get bodyMediumBold {
+    return GoogleFonts.inter(
+      textStyle: TextStyle(
+        color: currentColorScheme.textPrimary,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
   TextStyle get bodyInverseMedium {
     return GoogleFonts.inter(
       textStyle: TextStyle(color: currentColorScheme.textInverse),
