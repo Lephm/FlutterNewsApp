@@ -1,38 +1,51 @@
 import 'package:centranews/models/custom_color_scheme.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextTheme {
   CustomTextTheme({required this.currentColorScheme});
+
   CustomColorScheme currentColorScheme;
+
   TextStyle get bodyMedium {
-    return TextStyle(color: currentColorScheme.textPrimary);
+    return GoogleFonts.inter(
+      textStyle: TextStyle(color: currentColorScheme.textPrimary),
+    );
   }
 
   TextStyle get bodyLightMedium {
-    return TextStyle(color: currentColorScheme.textSecondary);
+    return GoogleFonts.inter(
+      textStyle: TextStyle(color: currentColorScheme.textSecondary),
+    );
   }
 
   TextStyle get bodyInverseMedium {
-    return TextStyle(color: currentColorScheme.textInverse);
+    return GoogleFonts.inter(
+      textStyle: TextStyle(color: currentColorScheme.textInverse),
+    );
   }
 
   TextStyle get bodyLarge {
-    return TextStyle();
+    return GoogleFonts.inter(textStyle: TextStyle());
   }
 
   TextStyle get bodySmall {
-    return TextStyle();
+    return GoogleFonts.inter(textStyle: TextStyle());
   }
 
   TextStyle get bodyBold {
-    return TextStyle(
-      fontSize: 15,
-      color: currentColorScheme.textPrimary,
-      fontWeight: FontWeight.bold,
+    return GoogleFonts.inter(
+      textStyle: TextStyle(
+        fontSize: 15,
+        color: currentColorScheme.textPrimary,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 
   TextStyle get headlineMedium {
-    return TextStyle(fontSize: 30, color: currentColorScheme.textPrimary);
+    return GoogleFonts.inter(
+      textStyle: TextStyle(fontSize: 30, color: currentColorScheme.textPrimary),
+    );
   }
 }

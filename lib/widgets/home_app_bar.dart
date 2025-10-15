@@ -19,7 +19,11 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
       ),
       leading: drawerIcon(context, currentTheme),
       title: Center(
-        child: Text(headerText, style: currentTheme.textTheme.headlineMedium),
+        child: Text(
+          headerText,
+          style: currentTheme.textTheme.headlineMedium,
+          textAlign: TextAlign.start,
+        ),
       ),
       actions: [
         Row(
