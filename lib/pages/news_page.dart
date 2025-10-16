@@ -1,11 +1,9 @@
+import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/main_articles_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/widgets/article_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../models/article_data.dart';
 
 class NewsPage extends ConsumerStatefulWidget {
   const NewsPage({super.key});
@@ -20,6 +18,7 @@ class _NewsPageState extends ConsumerState<NewsPage> {
       GlobalKey<RefreshIndicatorState>();
   bool _isLoading = false;
   bool hasFetchDataForTheFirstTime = false;
+  var queryParams = <String>[];
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +53,10 @@ class _NewsPageState extends ConsumerState<NewsPage> {
                       mainArticleProviderRead.length + (_isLoading ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (index == mainArticleProviderRead.length) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          backgroundColor:
-                              currentTheme.currentColorScheme.bgPrimary,
-                          color: currentTheme.currentColorScheme.bgInverse,
-                        ),
-                      );
+                      if (queryParams.isEmpty) {
+                        return displayCircularProgressBar();
+                      }
+                      return displayCantFindRelevantArticles();
                     }
                     return ArticleContainer(
                       articleData: mainArticleProviderRead[index],
@@ -109,5 +105,24 @@ class _NewsPageState extends ConsumerState<NewsPage> {
         hasFetchDataForTheFirstTime = true;
       });
     }
+  }
+
+  Widget displayCircularProgressBar() {
+    var currentTheme = ref.watch(themeProvider);
+    return Center(
+      child: CircularProgressIndicator(
+        backgroundColor: currentTheme.currentColorScheme.bgPrimary,
+        color: currentTheme.currentColorScheme.bgInverse,
+      ),
+    );
+  }
+
+  Widget displayCantFindRelevantArticles() {
+    var currentTheme = ref.watch(themeProvider);
+    var localization = ref.watch(localizationProvider);
+    return Text(
+      localization.cantFindRelevantArticles,
+      style: currentTheme.textTheme.bodyMediumBold,
+    );
   }
 }

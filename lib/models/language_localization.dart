@@ -33,6 +33,8 @@ class LanguageLocalizationTexts {
     required this.lowTrust,
     required this.mediumTrust,
     required this.highTrust,
+    required this.cantFindRelevantArticles,
+    required this.errorLoadingArticles,
   });
 
   final String signIn;
@@ -67,6 +69,8 @@ class LanguageLocalizationTexts {
   final String lowTrust;
   final String mediumTrust;
   final String highTrust;
+  final String cantFindRelevantArticles;
+  final String errorLoadingArticles;
 }
 
 var engLocalization = LanguageLocalizationTexts(
@@ -102,4 +106,6 @@ var engLocalization = LanguageLocalizationTexts(
   lowTrust: "Low Trust",
   mediumTrust: "Medium Trust",
   highTrust: "High Trust",
+  cantFindRelevantArticles: "Can't Find Relevant Articles",
+  errorLoadingArticles: "There was an error loading articles",
 );

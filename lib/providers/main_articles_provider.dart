@@ -1,4 +1,5 @@
 import 'package:centranews/models/article_data.dart';
+import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/utils/pop_up_message.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,6 +24,7 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
     required BuildContext context,
   }) async {
     var currentTheme = ref.watch(themeProvider);
+    var localization = ref.watch(localizationProvider);
     try {
       final data = await supabase
           .from('articles')
@@ -33,7 +35,11 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
       });
     } catch (e) {
       if (context.mounted) {
-        showAlertMessage(context, e.toString(), currentTheme);
+        showAlertMessage(
+          context,
+          localization.errorLoadingArticles,
+          currentTheme,
+        );
       }
     }
   }
@@ -43,6 +49,7 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
     required BuildContext context,
   }) async {
     var currentTheme = ref.watch(themeProvider);
+    var localization = ref.watch(localizationProvider);
     try {
       state = [];
 
@@ -55,7 +62,11 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
       });
     } catch (e) {
       if (context.mounted) {
-        showAlertMessage(context, e.toString(), currentTheme);
+        showAlertMessage(
+          context,
+          localization.errorLoadingArticles,
+          currentTheme,
+        );
       }
     }
   }

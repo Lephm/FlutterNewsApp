@@ -29,9 +29,10 @@ class ArticleData {
     : articleID = json["article_id"].toString(),
       articleTitle = json["title"].toString(),
       articleSummary = json["summary"] as String,
-      categories = json["categories"].cast<String>(),
+      categories = json["categories"]?.cast<String>() ?? [],
       articleContent = json["content"].toString(),
-      articleTrustLevel = json["trust_level"].toString(),
+      articleTrustLevel = json["trust_level"] ?? "",
+
       thumbnailUrl = json["thumbnail_url"].toString(),
       date = parseDateToString(json["published_at"].toString()),
       source = json["source"]?.toString() ?? "N/A";
