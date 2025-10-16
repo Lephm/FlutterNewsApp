@@ -26,10 +26,7 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
     try {
-      final data = await supabase
-          .from('articles')
-          .select()
-          .contains('', queryParams);
+      final data = await queryArticles(queryParams);
       data.forEach((value) {
         state = [...state, ArticleData.fromJson(value)];
       });
@@ -53,10 +50,7 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
     try {
       state = [];
 
-      final data = await supabase
-          .from('articles')
-          .select()
-          .contains('', queryParams);
+      final data = await queryArticles(queryParams);
       data.forEach((value) {
         state = [...state, ArticleData.fromJson(value)];
       });
@@ -69,5 +63,15 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
         );
       }
     }
+  }
+
+  Future<List<Map<String, dynamic>>> queryArticles(
+    List<String> queryParams,
+  ) async {
+    return supabase
+        .from('articles')
+        .select()
+        .contains('categories', queryParams)
+        .order('created_at', ascending: false);
   }
 }
