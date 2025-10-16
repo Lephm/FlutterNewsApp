@@ -27,6 +27,12 @@ class LanguageLocalizationTexts {
     required this.bookmarks,
     required this.youHaveSucessfullySignedOut,
     required this.settings,
+    required this.readMore,
+    required this.sources,
+    required this.copiedSucessfully,
+    required this.lowTrust,
+    required this.mediumTrust,
+    required this.highTrust,
   });
 
   final String signIn;
@@ -55,6 +61,12 @@ class LanguageLocalizationTexts {
   final String bookmarks;
   final String youHaveSucessfullySignedOut;
   final String settings;
+  final String readMore;
+  final String sources;
+  final String copiedSucessfully;
+  final String lowTrust;
+  final String mediumTrust;
+  final String highTrust;
 }
 
 var engLocalization = LanguageLocalizationTexts(
@@ -84,4 +96,10 @@ var engLocalization = LanguageLocalizationTexts(
   bookmarks: "Bookmarks",
   youHaveSucessfullySignedOut: "You have sucessfully signed out",
   settings: "Settings",
+  readMore: "Read more",
+  sources: "Sources",
+  copiedSucessfully: "Copied Sucessfully",
+  lowTrust: "Low Trust",
+  mediumTrust: "Medium Trust",
+  highTrust: "High Trust",
 );

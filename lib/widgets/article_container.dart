@@ -1,7 +1,10 @@
 import 'package:centranews/models/article_data.dart';
+import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
+import 'package:centranews/utils/pop_up_message.dart';
 import 'package:centranews/widgets/article_label.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart';
 
@@ -48,8 +51,47 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
       width: 600,
       height: 300,
 
+      child: Stack(
+        fit: StackFit.passthrough,
+        children: [
+          Column(
+            spacing: 5,
+            children: [
+              displayThumbnail(),
+              displayPublishedDate(),
+              displayTitle(),
+              displaySecondaryLabels(),
+              displaySummaryText(),
+              displayHyperlinkButtonOptions(),
+            ],
+          ),
+          displayCategoriesLabels(),
+        ],
+      ),
+    );
+  }
+
+  Widget displayCategoriesLabels() {
+    var categoryContainers = <Widget>[];
+    widget.articleData.categories.forEach((value) {
+      categoryContainers.add(ArticleLabel(content: value, inversed: true));
+    });
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: containerHorizontalLabelPadding,
+      ),
       child: Column(
-        children: [displayThumbnail(), displayPublishedDate(), displayTitle()],
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: categoryContainers,
+            spacing: 5,
+          ),
+        ],
       ),
     );
   }
@@ -73,7 +115,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
     var currentTheme = ref.watch(themeProvider);
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: 10,
+        vertical: 0,
         horizontal: containerHorizontalLabelPadding,
       ),
       child: Row(
@@ -146,7 +188,144 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
     );
   }
 
-  Widget displaySecondaryLabel() {
-    return ArticleLabel(content: "");
+  Widget displaySecondaryLabels() {
+    var trustLevelIconColor = getSuitableTrustIconColor(
+      widget.articleData.articleTrustLevel,
+    );
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 0,
+        horizontal: containerHorizontalLabelPadding,
+      ),
+      child: Row(
+        children: [
+          ArticleLabel(
+            content: getSuitableTextForTrustLevel(
+              widget.articleData.articleTrustLevel,
+            ),
+            leadingIcon: Icon(
+              Icons.circle,
+              color: trustLevelIconColor,
+              size: 14,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String getSuitableTextForTrustLevel(String trustLevel) {
+    var localization = ref.watch(localizationProvider);
+    switch (trustLevel.toLowerCase()) {
+      case "high":
+        return localization.highTrust;
+      case "medium":
+        return localization.mediumTrust;
+      case "low":
+        return localization.lowTrust;
+      default:
+        return localization.highTrust;
+    }
+  }
+
+  Color getSuitableTrustIconColor(String trustLevel) {
+    switch (trustLevel.toLowerCase()) {
+      case "high":
+        return Colors.green;
+      case "medium":
+        return Colors.orange;
+      case "low":
+        return Colors.red;
+      default:
+        return Colors.green;
+    }
+  }
+
+  Widget displaySummaryText() {
+    var currentTheme = ref.watch(themeProvider);
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: EdgeInsets.symmetric(
+        vertical: 0,
+        horizontal: containerHorizontalLabelPadding,
+      ),
+      child: Text(
+        widget.articleData.articleSummary,
+        style: currentTheme.textTheme.bodySmall,
+        textAlign: TextAlign.start,
+        maxLines: 2,
+        overflow: TextOverflow.fade,
+      ),
+    );
+  }
+
+  Widget displayHyperlinkButtonOptions() {
+    var currentTheme = ref.watch(themeProvider);
+    var localization = ref.watch(localizationProvider);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        TextButton(
+          onPressed: () {},
+          child: Text(
+            localization.readMore,
+            style: currentTheme.textTheme.smallLabelBold,
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            showArticleSource();
+          },
+          child: Text(
+            localization.sources,
+            style: currentTheme.textTheme.smallLabelBold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void showArticleSource() {
+    var currentTheme = ref.watch(themeProvider);
+    var localization = ref.watch(localizationProvider);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: currentTheme.currentColorScheme.bgPrimary,
+
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            BackButton(style: ButtonStyle(alignment: Alignment(-1.0, -1.0))),
+            TextButton(
+              onPressed: () async {
+                try {
+                  await Clipboard.setData(
+                    ClipboardData(text: widget.articleData.source),
+                  );
+                  if (context.mounted) {
+                    showAlertMessage(
+                      context,
+                      localization.copiedSucessfully,
+                      currentTheme,
+                    );
+                  }
+                } catch (e) {
+                  debugPrint(e.toString());
+                }
+              },
+              child: Icon(
+                Icons.copy,
+                color: currentTheme.currentColorScheme.bgInverse,
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          widget.articleData.source,
+          style: currentTheme.textTheme.bodyMedium,
+        ),
+      ),
+    );
   }
 }

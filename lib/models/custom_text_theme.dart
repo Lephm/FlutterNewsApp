@@ -42,6 +42,26 @@ class CustomTextTheme {
     return GoogleFonts.inter(textStyle: TextStyle());
   }
 
+  TextStyle get smallLabelBold {
+    return GoogleFonts.inter(
+      textStyle: TextStyle(
+        fontSize: 10,
+        color: currentColorScheme.textPrimary,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  TextStyle get smallLabelBoldInverse {
+    return GoogleFonts.inter(
+      textStyle: TextStyle(
+        fontSize: 10,
+        color: currentColorScheme.textInverse,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
   TextStyle get bodyBold {
     return GoogleFonts.inter(
       textStyle: TextStyle(
