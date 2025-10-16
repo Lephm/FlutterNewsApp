@@ -68,6 +68,12 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
   Future<List<Map<String, dynamic>>> queryArticles(
     List<String> queryParams,
   ) async {
+    if (queryParams.isEmpty) {
+      return supabase
+          .from('articles')
+          .select()
+          .order('created_at', ascending: false);
+    }
     return supabase
         .from('articles')
         .select()
