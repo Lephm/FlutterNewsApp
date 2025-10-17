@@ -24,11 +24,6 @@ class ArticleContainer extends ConsumerStatefulWidget {
 
 class _ArticleContainer extends ConsumerState<ArticleContainer> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
     return Container(
