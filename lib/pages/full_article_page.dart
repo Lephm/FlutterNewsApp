@@ -47,6 +47,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
     );
   }
 
+  //TODO implement this
   Widget renderErrorPage() {
     return Placeholder();
   }

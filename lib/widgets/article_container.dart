@@ -1,4 +1,5 @@
 import 'package:centranews/models/article_data.dart';
+import 'package:centranews/providers/local_user_provider.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/utils/custom_navigator_settings.dart';
@@ -7,7 +8,6 @@ import 'package:centranews/widgets/article_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const double containerBorderRadius = 10;
@@ -23,6 +23,8 @@ class ArticleContainer extends ConsumerStatefulWidget {
 }
 
 class _ArticleContainer extends ConsumerState<ArticleContainer> {
+  bool isBookmarked = false;
+
   @override
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
@@ -65,14 +67,15 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
   Widget displayCategoriesLabels() {
     var localization = ref.watch(localizationProvider);
     var categoryContainers = <Widget>[];
-    widget.articleData.categories.forEach((value) {
+    for (var categorie in widget.articleData.categories) {
       categoryContainers.add(
         ArticleLabel(
-          content: localization.getLocalLanguageLabelText(value),
+          content: localization.getLocalLanguageLabelText(categorie),
           inversed: true,
         ),
       );
-    });
+    }
+
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 10,
@@ -85,8 +88,8 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
-            children: categoryContainers,
             spacing: 5,
+            children: categoryContainers,
           ),
         ],
       ),
@@ -177,6 +180,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
         final linkToCopied =
             "${CustomNavigatorSettings.domainName}/#/full_article/$articleId";
         await Clipboard.setData(ClipboardData(text: linkToCopied));
+
         if (context.mounted) {
           showAlertMessage(
             context,
@@ -191,14 +195,41 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
 
   Widget bookmarkButton() {
     var currentTheme = ref.watch(themeProvider);
-
+    var localUser = ref.watch(userProvider);
     return IconButton(
-      onPressed: () {},
-      icon: Icon(
-        Icons.bookmarks_outlined,
-        color: currentTheme.currentColorScheme.bgInverse,
-      ),
+      onPressed: () {
+        toggleBookmark();
+      },
+      icon: (isBookmarked && (localUser != null))
+          ? Icon(
+              Icons.bookmark,
+              color: currentTheme.currentColorScheme.bgInverse,
+            )
+          : Icon(
+              Icons.bookmarks_outlined,
+              color: currentTheme.currentColorScheme.bgInverse,
+            ),
     );
+  }
+
+  //TODO: implement this fully
+  void toggleBookmark() async {
+    var currentTheme = ref.watch(themeProvider);
+    var localization = ref.watch(localizationProvider);
+    var localUser = ref.watch(userProvider);
+    if (localUser == null) {
+      showSignInPrompt(context, currentTheme, localization);
+      return;
+    }
+    if (isBookmarked) {
+      setState(() {
+        isBookmarked = false;
+      });
+    } else {
+      setState(() {
+        isBookmarked = true;
+      });
+    }
   }
 
   Widget displaySecondaryLabels() {

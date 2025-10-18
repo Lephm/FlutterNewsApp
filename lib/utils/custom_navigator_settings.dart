@@ -12,7 +12,9 @@ abstract class CustomNavigatorSettings {
   };
 
   static String initialRoute = '/';
-  static String domainName = "";
+
+  //TODO add domain name
+  static const String domainName = "";
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     if (settings.name!.contains("full_article")) {
