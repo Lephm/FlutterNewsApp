@@ -19,6 +19,8 @@ mixin Pagination {
   }
 
   void decreaseCurrentPage() {
-    currentPage -= 1;
+    if (currentPage > 0) {
+      currentPage -= 1;
+    }
   }
 }
