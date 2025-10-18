@@ -23,10 +23,12 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
 
   @override
   Widget build(BuildContext context) {
-    var mainArticleProviderRead = ref.watch(mainArticlesProvider);
+    var mainArticles = ref.watch(mainArticlesProvider);
     var currentTheme = ref.watch(themeProvider);
     _scrollController.addListener(_onScroll);
-    fetchDataForFirstTime(context);
+    if (!hasFetchDataForTheFirstTime) {
+      fetchDataForFirstTime(context);
+    }
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,18 +50,15 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
                     parent: AlwaysScrollableScrollPhysics(),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 40, vertical: 5),
-                  itemCount:
-                      mainArticleProviderRead.length + (_isLoading ? 1 : 0),
+                  itemCount: mainArticles.length + (_isLoading ? 1 : 0),
                   itemBuilder: (context, index) {
-                    if (index == mainArticleProviderRead.length) {
+                    if (index == mainArticles.length) {
                       if (queryParams.isEmpty) {
                         return displayCircularProgressBar();
                       }
                       return displayCantFindRelevantArticles();
                     }
-                    return ArticleContainer(
-                      articleData: mainArticleProviderRead[index],
-                    );
+                    return ArticleContainer(articleData: mainArticles[index]);
                   },
                 ),
               ),
@@ -96,8 +95,8 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
     setState(() {
       _isLoading = true;
     });
-    var mainArticleProviders = ref.watch(mainArticlesProvider.notifier);
-    await mainArticleProviders.fetchArticlesData(
+    var mainArticleNotifier = ref.watch(mainArticlesProvider.notifier);
+    await mainArticleNotifier.fetchArticlesData(
       context: context,
       startIndex: startIndex,
       endIndex: endIndex,
@@ -108,7 +107,11 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
   }
 
   void fetchDataForFirstTime(BuildContext context) {
-    if (hasFetchDataForTheFirstTime == false) {
+    var mainArticles = ref.watch(mainArticlesProvider);
+    if (mainArticles.isEmpty) {
+      setState(() {
+        resetCurrentPage();
+      });
       _fetchArticlesList(context);
       setState(() {
         hasFetchDataForTheFirstTime = true;
@@ -136,12 +139,12 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
   }
 
   void refreshData() {
-    var mainArticleProvider = ref.watch(mainArticlesProvider.notifier);
+    var mainArticleNotifier = ref.watch(mainArticlesProvider.notifier);
     setState(() {
       resetCurrentPage();
     });
     debugPrint("refresh articles data");
-    mainArticleProvider.refereshArticlesData(
+    mainArticleNotifier.refereshArticlesData(
       context: context,
       startIndex: startIndex,
       endIndex: endIndex,

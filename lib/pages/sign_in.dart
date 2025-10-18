@@ -1,6 +1,4 @@
 import 'package:centranews/models/custom_color_scheme.dart';
-import 'package:centranews/models/custom_theme.dart';
-import 'package:centranews/models/language_localization.dart';
 import 'package:centranews/providers/local_user_provider.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
@@ -30,7 +28,6 @@ class _SignInState extends ConsumerState<SignIn> {
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
-    var userManager = ref.watch(userProvider.notifier);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: FormAppBar(),
@@ -44,11 +41,11 @@ class _SignInState extends ConsumerState<SignIn> {
             crossAxisAlignment: CrossAxisAlignment.center,
 
             children: [
-              appIntroWidget(localization, currentTheme),
-              signInForm(currentTheme, context, localization, userManager),
-              rememberMeAndForgotPasswordRow(currentTheme, localization),
-              signInWithSocialMediaRow(localization, currentTheme),
-              otherSignInMethodRow(currentTheme, userManager, context),
+              appIntroWidget(),
+              signInForm(),
+              rememberMeAndForgotPasswordRow(),
+              signInWithSocialMediaRow(),
+              otherSignInMethodRow(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: TextButton(
@@ -72,10 +69,9 @@ class _SignInState extends ConsumerState<SignIn> {
     );
   }
 
-  Widget appIntroWidget(
-    LanguageLocalizationTexts localization,
-    CustomTheme currentTheme,
-  ) {
+  Widget appIntroWidget() {
+    var currentTheme = ref.watch(themeProvider);
+    var localization = ref.watch(localizationProvider);
     return Column(
       children: [
         Image(image: AssetImage("assets/blackcircle.png")),
@@ -91,11 +87,9 @@ class _SignInState extends ConsumerState<SignIn> {
     );
   }
 
-  Widget otherSignInMethodRow(
-    CustomTheme currentTheme,
-    UserNotifier userManager,
-    BuildContext context,
-  ) {
+  Widget otherSignInMethodRow() {
+    var userManager = ref.watch(userProvider.notifier);
+    var currentTheme = ref.watch(themeProvider);
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 600),
       child: Container(
@@ -140,10 +134,9 @@ class _SignInState extends ConsumerState<SignIn> {
     );
   }
 
-  Widget signInWithSocialMediaRow(
-    LanguageLocalizationTexts localization,
-    CustomTheme currentTheme,
-  ) {
+  Widget signInWithSocialMediaRow() {
+    var localization = ref.watch(localizationProvider);
+    var currentTheme = ref.watch(themeProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -168,10 +161,9 @@ class _SignInState extends ConsumerState<SignIn> {
     );
   }
 
-  Widget rememberMeAndForgotPasswordRow(
-    CustomTheme currentTheme,
-    LanguageLocalizationTexts localization,
-  ) {
+  Widget rememberMeAndForgotPasswordRow() {
+    var localization = ref.watch(localizationProvider);
+    var currentTheme = ref.watch(themeProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 0),
       child: Row(
@@ -207,46 +199,45 @@ class _SignInState extends ConsumerState<SignIn> {
     );
   }
 
-  Widget signInForm(
-    CustomTheme customTheme,
-    BuildContext context,
-    LanguageLocalizationTexts localization,
-    UserNotifier userManager,
-  ) => Form(
-    key: _signInFormKey,
-    child: Column(
-      children: [
-        CustomTextFormField(
-          hintText: localization.enterYourEmail,
-          controller: emailController,
-          validatorFunc: (value) {
-            return isEmailValid(value, localization);
-          },
-        ),
-        CustomTextFormField(
-          hintText: localization.enterYourPassword,
-          controller: passwordController,
-          validatorFunc: (value) {
-            return isPasswordValid(value, localization);
-          },
-          obscureText: obsecureText,
-          suffixIcon: displayPasswordVisibilityIcon(),
-        ),
-        CustomFormButton(
-          onPressed: () {
-            if (_signInFormKey.currentState!.validate()) {
-              userManager.signInWithEmailAndPassword(
-                email: emailController.text,
-                password: passwordController.text,
-                context: context,
-              );
-            }
-          },
-          content: localization.signIn,
-        ),
-      ],
-    ),
-  );
+  Widget signInForm() {
+    var localization = ref.watch(localizationProvider);
+    var userManager = ref.watch(userProvider.notifier);
+    return Form(
+      key: _signInFormKey,
+      child: Column(
+        children: [
+          CustomTextFormField(
+            hintText: localization.enterYourEmail,
+            controller: emailController,
+            validatorFunc: (value) {
+              return isEmailValid(value, localization);
+            },
+          ),
+          CustomTextFormField(
+            hintText: localization.enterYourPassword,
+            controller: passwordController,
+            validatorFunc: (value) {
+              return isPasswordValid(value, localization);
+            },
+            obscureText: obsecureText,
+            suffixIcon: displayPasswordVisibilityIcon(),
+          ),
+          CustomFormButton(
+            onPressed: () {
+              if (_signInFormKey.currentState!.validate()) {
+                userManager.signInWithEmailAndPassword(
+                  email: emailController.text,
+                  password: passwordController.text,
+                  context: context,
+                );
+              }
+            },
+            content: localization.signIn,
+          ),
+        ],
+      ),
+    );
+  }
 
   IconButton displayPasswordVisibilityIcon() {
     return IconButton(

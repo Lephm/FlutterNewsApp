@@ -1,5 +1,3 @@
-import 'package:centranews/models/custom_theme.dart';
-import 'package:centranews/models/language_localization.dart';
 import 'package:centranews/providers/local_user_provider.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
@@ -25,11 +23,11 @@ class _SignUpState extends ConsumerState<SignUp> {
       TextEditingController();
   bool obsecurePassword = true;
   bool obsecureConfirmedPassword = true;
+
   @override
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
-    var userManager = ref.watch(userProvider.notifier);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: FormAppBar(),
@@ -43,8 +41,8 @@ class _SignUpState extends ConsumerState<SignUp> {
             crossAxisAlignment: CrossAxisAlignment.center,
 
             children: [
-              signUpIntroWidget(localization, currentTheme),
-              signUnForm(currentTheme, context, localization, userManager),
+              signUpIntroWidget(),
+              signUnForm(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: TextButton(
@@ -68,10 +66,9 @@ class _SignUpState extends ConsumerState<SignUp> {
     );
   }
 
-  Widget signUpIntroWidget(
-    LanguageLocalizationTexts localization,
-    CustomTheme currentTheme,
-  ) {
+  Widget signUpIntroWidget() {
+    var localization = ref.watch(localizationProvider);
+    var currentTheme = ref.watch(themeProvider);
     return Column(
       children: [
         Image(image: AssetImage("assets/blackcircle.png")),
@@ -87,59 +84,58 @@ class _SignUpState extends ConsumerState<SignUp> {
     );
   }
 
-  Widget signUnForm(
-    CustomTheme customTheme,
-    BuildContext context,
-    LanguageLocalizationTexts localization,
-    UserNotifier userManager,
-  ) => Form(
-    key: _signUpFormKey,
-    child: Column(
-      children: [
-        CustomTextFormField(
-          hintText: localization.enterYourEmail,
-          controller: emailController,
-          validatorFunc: (value) {
-            return isEmailValid(value, localization);
-          },
-        ),
-        CustomTextFormField(
-          hintText: localization.enterYourPassword,
-          controller: passwordController,
-          validatorFunc: (value) {
-            return isPasswordValid(value, localization);
-          },
-          obscureText: obsecurePassword,
-          suffixIcon: displayPasswordVisibilityIcon(),
-        ),
-        CustomTextFormField(
-          hintText: localization.confirmPassword,
-          controller: confirmPasswordController,
-          validatorFunc: (value) {
-            return isTheSamePassword(
-              passwordController.text,
-              confirmPasswordController.text,
-              localization,
-            );
-          },
-          obscureText: obsecureConfirmedPassword,
-          suffixIcon: displayConfirmPasswordVisibilityIcon(),
-        ),
-        CustomFormButton(
-          onPressed: () {
-            if (_signUpFormKey.currentState!.validate()) {
-              userManager.createAccountWithEmailAndPassword(
-                email: emailController.text,
-                password: passwordController.text,
-                context: context,
+  Widget signUnForm() {
+    var localization = ref.watch(localizationProvider);
+    var userManager = ref.watch(userProvider.notifier);
+    return Form(
+      key: _signUpFormKey,
+      child: Column(
+        children: [
+          CustomTextFormField(
+            hintText: localization.enterYourEmail,
+            controller: emailController,
+            validatorFunc: (value) {
+              return isEmailValid(value, localization);
+            },
+          ),
+          CustomTextFormField(
+            hintText: localization.enterYourPassword,
+            controller: passwordController,
+            validatorFunc: (value) {
+              return isPasswordValid(value, localization);
+            },
+            obscureText: obsecurePassword,
+            suffixIcon: displayPasswordVisibilityIcon(),
+          ),
+          CustomTextFormField(
+            hintText: localization.confirmPassword,
+            controller: confirmPasswordController,
+            validatorFunc: (value) {
+              return isTheSamePassword(
+                passwordController.text,
+                confirmPasswordController.text,
+                localization,
               );
-            }
-          },
-          content: localization.signUp,
-        ),
-      ],
-    ),
-  );
+            },
+            obscureText: obsecureConfirmedPassword,
+            suffixIcon: displayConfirmPasswordVisibilityIcon(),
+          ),
+          CustomFormButton(
+            onPressed: () {
+              if (_signUpFormKey.currentState!.validate()) {
+                userManager.createAccountWithEmailAndPassword(
+                  email: emailController.text,
+                  password: passwordController.text,
+                  context: context,
+                );
+              }
+            },
+            content: localization.signUp,
+          ),
+        ],
+      ),
+    );
+  }
 
   IconButton displayPasswordVisibilityIcon() {
     return IconButton(
