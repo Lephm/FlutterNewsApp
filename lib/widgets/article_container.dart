@@ -2,16 +2,19 @@ import 'package:centranews/models/article_data.dart';
 import 'package:centranews/providers/local_user_provider.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
+import 'package:centranews/utils/bookmark_manager.dart';
 import 'package:centranews/utils/custom_navigator_settings.dart';
 import 'package:centranews/utils/pop_up_message.dart';
 import 'package:centranews/widgets/article_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const double containerBorderRadius = 10;
 const double containerHorizontalLabelPadding = 5;
+final supabase = Supabase.instance.client;
 
 class ArticleContainer extends ConsumerStatefulWidget {
   const ArticleContainer({super.key, required this.articleData});
@@ -24,6 +27,16 @@ class ArticleContainer extends ConsumerStatefulWidget {
 
 class _ArticleContainer extends ConsumerState<ArticleContainer> {
   bool isBookmarked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    supabase.auth.onAuthStateChange.listen((data) async {
+      if (supabase.auth.currentUser != null) {
+        loadBookmarkStateStartUp(supabase.auth.currentUser!.id);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -210,6 +223,16 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
               color: currentTheme.currentColorScheme.bgInverse,
             ),
     );
+  }
+
+  void loadBookmarkStateStartUp(String userId) async {
+    var articleIsBookmarked = await BookmarkManager.isArticleBookmarked(
+      userId,
+      widget.articleData.articleID,
+    );
+    setState(() {
+      isBookmarked = articleIsBookmarked;
+    });
   }
 
   //TODO: implement this fully
