@@ -125,5 +125,5 @@ var engLocalization = const LanguageLocalizationTexts(
   youDoNotHaveAnyBookmark: "You do not have any bookmark",
 );
 
-//TODO: There is a bug where u change language, the news page cant re-render immediately
+//TODO: add vietnamese local lang
 var vietLocalization = engLocalization;

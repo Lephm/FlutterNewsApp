@@ -24,11 +24,13 @@ class _HomeEndDrawerState extends ConsumerState<HomeEndDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    loadInitialLanguageSetting();
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
     var localUser = ref.watch(userProvider);
     UserNotifier userNotifier = ref.watch(userProvider.notifier);
+    if (context.mounted) {
+      loadInitialLanguageSetting();
+    }
     return Drawer(
       backgroundColor: currentTheme.currentColorScheme.bgPrimary,
       child: Padding(
@@ -148,8 +150,8 @@ class _HomeEndDrawerState extends ConsumerState<HomeEndDrawer> {
   }
 
   void loadInitialLanguageSetting() {
+    var localLangPreference = localStorage.getItem("language");
     if (selectedLanguage == null) {
-      var localLangPreference = localStorage.getItem("language");
       setState(() {
         selectedLanguage = localLangPreference ?? "en";
       });
@@ -168,17 +170,19 @@ class _HomeEndDrawerState extends ConsumerState<HomeEndDrawer> {
           DropdownMenuItem(value: 'vn', child: Text("Vietnamese")),
         ],
         onChanged: (String? newValue) {
-          if (newValue == "en") {
-            localizationManager.changeLanguageToEnglish();
-            localStorage.setItem('language', "en");
-          }
-          if (newValue == "vn") {
-            localizationManager.changeLanguageToVietnamese();
-            localStorage.setItem('language', "vn");
-          }
           setState(() {
             selectedLanguage = newValue;
           });
+          if (newValue == "en") {
+            localStorage.setItem('language', "en");
+            localizationManager.changeLanguageToEnglish();
+            Navigator.of(context).pushReplacementNamed("/");
+          }
+          if (newValue == "vn") {
+            localStorage.setItem('language', "vn");
+            localizationManager.changeLanguageToVietnamese();
+            Navigator.of(context).pushReplacementNamed("/");
+          }
         },
         elevation: 16,
       ),
