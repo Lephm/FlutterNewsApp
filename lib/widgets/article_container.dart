@@ -220,13 +220,13 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
       },
       icon: (isBookmarked && (localUser != null))
           ? Icon(
-              Icons.bookmark,
-              color: currentTheme.currentColorScheme.bgInverse,
-            )
+        Icons.bookmark,
+        color: currentTheme.currentColorScheme.bgInverse,
+      )
           : Icon(
-              Icons.bookmarks_outlined,
-              color: currentTheme.currentColorScheme.bgInverse,
-            ),
+        Icons.bookmarks_outlined,
+        color: currentTheme.currentColorScheme.bgInverse,
+      ),
     );
   }
 
@@ -248,22 +248,26 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
       showSignInPrompt(context, currentTheme, localization);
       return;
     }
-    if (isBookmarked) {
-      BookmarkManager.removeArticleIdFromBookmark(
-        localUser.uid,
-        widget.articleData.articleID,
-      );
-      setState(() {
-        isBookmarked = false;
-      });
-    } else {
-      BookmarkManager.addArticleIdToBookmark(
-        localUser.uid,
-        widget.articleData.articleID,
-      );
-      setState(() {
-        isBookmarked = true;
-      });
+    try {
+      if (isBookmarked) {
+        BookmarkManager.removeArticleIdFromBookmark(
+          localUser.uid,
+          widget.articleData.articleID,
+        );
+        setState(() {
+          isBookmarked = false;
+        });
+      } else {
+        BookmarkManager.addArticleIdToBookmark(
+          localUser.uid,
+          widget.articleData.articleID,
+        );
+        setState(() {
+          isBookmarked = true;
+        });
+      }
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 
@@ -381,33 +385,35 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
     var currentTheme = ref.watch(themeProvider);
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: currentTheme.currentColorScheme.bgPrimary,
+      builder: (context) =>
+          AlertDialog(
+            backgroundColor: currentTheme.currentColorScheme.bgPrimary,
 
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            BackButton(style: ButtonStyle(alignment: Alignment(-1.0, -1.0))),
-            TextButton(
-              onPressed: () async {
-                try {
-                  await launchUrl(Uri.parse(widget.articleData.source));
-                } catch (e) {
-                  debugPrint(e.toString());
-                }
-              },
-              child: Icon(
-                Icons.link,
-                color: currentTheme.currentColorScheme.bgInverse,
-              ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                BackButton(
+                    style: ButtonStyle(alignment: Alignment(-1.0, -1.0))),
+                TextButton(
+                  onPressed: () async {
+                    try {
+                      await launchUrl(Uri.parse(widget.articleData.source));
+                    } catch (e) {
+                      debugPrint(e.toString());
+                    }
+                  },
+                  child: Icon(
+                    Icons.link,
+                    color: currentTheme.currentColorScheme.bgInverse,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        content: Text(
-          widget.articleData.source,
-          style: currentTheme.textTheme.bodyMedium,
-        ),
-      ),
+            content: Text(
+              widget.articleData.source,
+              style: currentTheme.textTheme.bodyMedium,
+            ),
+          ),
     );
   }
 }
