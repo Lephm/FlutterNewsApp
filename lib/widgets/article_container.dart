@@ -31,6 +31,11 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
   @override
   void initState() {
     super.initState();
+    supabase.auth.onAuthStateChange.listen((data) {
+      if (supabase.auth.currentUser != null) {
+        loadBookmarkStateStartUp(supabase.auth.currentUser!.id);
+      }
+    });
   }
 
   @override
@@ -234,9 +239,11 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
       userId,
       widget.articleData.articleID,
     );
-    setState(() {
-      isBookmarked = articleIsBookmarked;
-    });
+    if (mounted) {
+      setState(() {
+        isBookmarked = articleIsBookmarked;
+      });
+    }
   }
 
   void toggleBookmark() async {
