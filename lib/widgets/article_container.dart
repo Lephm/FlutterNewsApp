@@ -199,7 +199,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
             "${CustomNavigatorSettings.domainName}/#/full_article/$articleId";
         await Clipboard.setData(ClipboardData(text: linkToCopied));
 
-        if (context.mounted) {
+        if (mounted) {
           showAlertMessage(
             context,
             localization.copiedSucessfully,

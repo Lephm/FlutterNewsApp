@@ -199,6 +199,7 @@ class _BookmarksPageState extends ConsumerState<BookmarksPage> with Pagination {
         });
       }
     } catch (e) {
+      debugPrint(e.toString());
     } finally {
       setState(() {
         isLoading = false;
