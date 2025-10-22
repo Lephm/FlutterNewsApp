@@ -88,13 +88,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
                 articleData!.articleTitle,
                 style: currentTheme.textTheme.headlineMedium,
               ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  articleData!.articleSummary,
-                  style: currentTheme.textTheme.bodySmall,
-                ),
-              ),
+
               Image.network(
                 articleData!.thumbnailUrl,
                 width: double.infinity,
@@ -102,7 +96,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
                 fit: BoxFit.cover,
               ),
               Text(
-                articleData!.articleContent,
+                articleData!.articleSummary,
                 style: currentTheme.textTheme.bodySmall,
               ),
               Align(

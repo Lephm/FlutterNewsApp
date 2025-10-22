@@ -18,7 +18,6 @@ class ArticleData {
     required this.articleTitle,
     required this.articleSummary,
     required this.categories,
-    required this.articleContent,
     required this.articleTrustLevel,
     required this.thumbnailUrl,
     required this.date,
@@ -30,7 +29,6 @@ class ArticleData {
       articleTitle = json["title"].toString(),
       articleSummary = json["summary"] as String,
       categories = json["categories"]?.cast<String>() ?? [],
-      articleContent = json["content"].toString(),
       articleTrustLevel = json["trust_level"] ?? "",
 
       thumbnailUrl = json["thumbnail_url"].toString(),
@@ -41,7 +39,6 @@ class ArticleData {
   final String articleTitle;
   final String articleSummary;
   final List<String> categories;
-  final String articleContent;
   final String articleTrustLevel;
   final String thumbnailUrl;
   final String source;
@@ -54,7 +51,6 @@ class ArticleData {
       "articleTitle": articleTitle,
       "article Summary": articleSummary,
       "categories": categories.toString(),
-      "articleContent": articleContent,
       "articleTrustLevel": articleTrustLevel,
       "thumbnail_url": thumbnailUrl,
       "date": date,

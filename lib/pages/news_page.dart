@@ -15,7 +15,7 @@ class NewsPage extends ConsumerStatefulWidget {
 
 class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-  GlobalKey<RefreshIndicatorState>();
+      GlobalKey<RefreshIndicatorState>();
   final ScrollController scrollController = ScrollController();
   bool hasFetchDataForTheFirstTime = false;
   var queryParams = <String>[];
@@ -94,9 +94,11 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
 
   Future<void> fetchMoreArticlesList(BuildContext context) async {
     if (currentPage == 0) return;
-    setState(() {
-      isLoading = true;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = true;
+      });
+    }
     var mainArticleNotifier = ref.watch(mainArticlesProvider.notifier);
     try {
       await mainArticleNotifier.fetchArticlesData(
@@ -107,9 +109,11 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
     } catch (e) {
       debugPrint(e.toString());
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -130,9 +134,11 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
       } catch (e) {
         debugPrint(e.toString());
       } finally {
-        setState(() {
-          hasFetchDataForTheFirstTime = true;
-        });
+        if (mounted) {
+          setState(() {
+            hasFetchDataForTheFirstTime = true;
+          });
+        }
       }
     }
   }
