@@ -142,15 +142,20 @@ class _BookmarksPageState extends ConsumerState<BookmarksPage> with Pagination {
   void onScroll() async {
     if (isTheEndOfThePage(scrollController)) {
       try {
-        setState(() {
-          increaseCurrentPage();
-        });
+        if (mounted) {
+          setState(() {
+            increaseCurrentPage();
+          });
+        }
+
         await fetchMoreBookmarkArticles(context);
       } catch (e) {
         debugPrint(e.toString());
-        setState(() {
-          decreaseCurrentPage();
-        });
+        if (mounted) {
+          setState(() {
+            decreaseCurrentPage();
+          });
+        }
       }
     }
   }
@@ -170,16 +175,20 @@ class _BookmarksPageState extends ConsumerState<BookmarksPage> with Pagination {
         endIndex,
       );
       if (bookmarkArticlesList.isNotEmpty) {
-        setState(() {
-          bookmarkArticles = [...bookmarkArticles, ...bookmarkArticlesList];
-        });
+        if (mounted) {
+          setState(() {
+            bookmarkArticles = [...bookmarkArticles, ...bookmarkArticlesList];
+          });
+        }
       }
     } catch (e) {
       debugPrint(e.toString());
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -202,9 +211,11 @@ class _BookmarksPageState extends ConsumerState<BookmarksPage> with Pagination {
     } catch (e) {
       debugPrint(e.toString());
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 }
