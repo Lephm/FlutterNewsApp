@@ -37,6 +37,24 @@ class LanguageLocalizationTexts {
     required this.errorLoadingArticles,
     required this.youMustSignInPrompt,
     required this.youDoNotHaveAnyBookmark,
+    required this.politics,
+    required this.asia,
+    required this.europe,
+    required this.america,
+    required this.economics,
+    required this.finance,
+    required this.stocks,
+    required this.crypto,
+    required this.worldNews,
+    required this.lawAndJustice,
+    required this.science,
+    required this.technology,
+    required this.health,
+    required this.business,
+    required this.cultureAndArts,
+    required this.sports,
+    required this.environment,
+    required this.media,
   });
 
   final String signIn;
@@ -76,9 +94,48 @@ class LanguageLocalizationTexts {
   final String youMustSignInPrompt;
   final String youDoNotHaveAnyBookmark;
 
+  //Categories label
+  final String politics;
+  final String asia;
+  final String europe;
+  final String america;
+  final String economics;
+  final String finance;
+  final String stocks;
+  final String crypto;
+  final String worldNews;
+  final String lawAndJustice;
+  final String science;
+  final String technology;
+  final String health;
+  final String business;
+  final String cultureAndArts;
+  final String sports;
+  final String environment;
+  final String media;
+
   //TODO implement this map
   Map<String, String> _englishLabelTextsToLocalTextsMap() {
-    return {"Finance": "Kinh tế"};
+    return {
+      "Politics": politics,
+      "Asia": asia,
+      "Europe": europe,
+      "America": america,
+      "Economics": finance,
+      "Finance": finance,
+      "Stocks": stocks,
+      "Crypto": crypto,
+      "World News": worldNews,
+      "Laws And Justice": lawAndJustice,
+      "Science": science,
+      "Technology": technology,
+      "Health": health,
+      "Business": business,
+      "Culture And Arts": cultureAndArts,
+      "Sports": sports,
+      "Environment": environment,
+      "Media": media,
+    };
   }
 
   String getLocalLanguageLabelText(String engLabel) {
@@ -123,7 +180,79 @@ var engLocalization = const LanguageLocalizationTexts(
   errorLoadingArticles: "There was an error loading articles",
   youMustSignInPrompt: "You must sign in to use this feature",
   youDoNotHaveAnyBookmark: "You do not have any bookmark",
+  politics: "Politics",
+  asia: "Asia",
+  europe: "Europe",
+  america: "America",
+  economics: "Economics",
+  finance: "Finance",
+  stocks: "Stocks",
+  crypto: "Crypto",
+  worldNews: "World News",
+  lawAndJustice: "Law And Justice",
+  science: "Science",
+  technology: "Technology",
+  health: "Health",
+  business: "Business",
+  cultureAndArts: "Culture And Arts",
+  sports: "Sports",
+  environment: "Environment",
+  media: "Media",
 );
 
-//TODO: add vietnamese local lang
-var vietLocalization = engLocalization;
+var vietLocalization = const LanguageLocalizationTexts(
+  signIn: "Đăng nhập",
+  signOut: "Đăng xuất",
+  signUp: "Đăng ký",
+  enterYourEmail: "Email",
+  enterYourPassword: "Mật khẩu",
+  rememberMe: "Ghi nhớ đăng nhập",
+  forgotPassword: "Quên mật khẩu",
+  welcome: "Chào mừng",
+  signInWithSocialMedia: "Đăng nhập bằng tài khoản mạng xã hội",
+  signInToYourAccount: "Đăng nhập",
+  dontHaveAnAccountSignUpHere: "Chưa có tài khoản? Đăng ký tại đây",
+  alreadyHaveAnAccountSignInHere: "Đã cí tài khoản? Đăng nhập tại đây",
+  confirmPassword: "Xác nhận mật khẩu",
+  pleaseEnterAnEmail: "Vui lòng nhập email",
+  pleaseEnterAValidEmail: "Vui lòng nhập email hợp lệ",
+  pleaseEnterAPassword: "Vui lòng nhập mật khẩu",
+  passwordMustBeLonger: "Mật khẩu quá ngắn",
+  pleaseConfirmYourPassword: "Vui lòng xác nhận mật khẩu",
+  passwordsDoNotMatch: "Mật khẩu không khớp",
+  signInSucessFullyMessage: "Đăng nhập thành công",
+  youreNotLoggedIn: "Bạn chưa đăng nhập",
+  news: "Tin tức",
+  discovery: "Khám phá",
+  bookmarks: "Lưu bài",
+  youHaveSucessfullySignedOut: "Đăng xuất thành công",
+  settings: "Cài đặt",
+  readMore: "Xem thêm",
+  sources: "Nguồn",
+  copiedSucessfully: "Đã sao chép liên kết",
+  lowTrust: "Độ tin cậy thấp",
+  mediumTrust: "Độ tin cậy trung bình",
+  highTrust: "Độ tin cậy cao",
+  cantFindRelevantArticles: "Không tìm thấy bài viết phù hợp",
+  errorLoadingArticles: "Có lỗi khi tải bài viết",
+  youMustSignInPrompt: "Bạn cần phải đăng nhập để sử dụng tính năng này",
+  youDoNotHaveAnyBookmark: "Chưa có bài nào được lưu",
+  politics: "Chính trị",
+  asia: "Châu Á",
+  europe: "Châu Âu",
+  america: "Châu Mỹ",
+  economics: "Kinh tế",
+  finance: "Tài chính",
+  stocks: "Cổ phiếu",
+  crypto: "Tiền số",
+  worldNews: "Tin tức thế giới",
+  lawAndJustice: "Pháp luật",
+  science: "Khoa học",
+  technology: "Công nghệ",
+  health: "Sức khỏe",
+  business: "Kinh doanh",
+  cultureAndArts: "Văn hóa & Nghệ thuật",
+  sports: "Thể thao",
+  environment: "Môi trường",
+  media: "Truyền thông",
+);

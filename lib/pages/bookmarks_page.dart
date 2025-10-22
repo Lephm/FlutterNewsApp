@@ -88,12 +88,7 @@ class _BookmarksPageState extends ConsumerState<BookmarksPage> with Pagination {
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 1200),
                 child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    crossAxisSpacing: 20,
-                    maxCrossAxisExtent: 600,
-                    mainAxisExtent: 300,
-                    childAspectRatio: 1.0,
-                  ),
+                  gridDelegate: pageGridDelegate,
                   controller: scrollController,
                   physics: BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics(),

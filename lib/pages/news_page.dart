@@ -15,7 +15,7 @@ class NewsPage extends ConsumerStatefulWidget {
 
 class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
+  GlobalKey<RefreshIndicatorState>();
   final ScrollController scrollController = ScrollController();
   bool hasFetchDataForTheFirstTime = false;
   var queryParams = <String>[];
@@ -44,12 +44,7 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 1200),
                 child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    crossAxisSpacing: 20,
-                    maxCrossAxisExtent: 600,
-                    mainAxisExtent: 300,
-                    childAspectRatio: 1.0,
-                  ),
+                  gridDelegate: pageGridDelegate,
                   controller: scrollController,
                   physics: BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics(),
