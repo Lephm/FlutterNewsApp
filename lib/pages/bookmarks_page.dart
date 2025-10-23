@@ -195,7 +195,6 @@ class _BookmarksPageState extends ConsumerState<BookmarksPage> with Pagination {
   void onRefresh() async {
     setState(() {
       resetCurrentPage();
-      bookmarkArticles = [];
       isLoading = true;
     });
     try {
@@ -203,6 +202,9 @@ class _BookmarksPageState extends ConsumerState<BookmarksPage> with Pagination {
         startIndex,
         endIndex,
       );
+      setState(() {
+        bookmarkArticles = [];
+      });
       if (bookmarkArticlesList.isNotEmpty) {
         setState(() {
           bookmarkArticles = [...bookmarkArticles, ...bookmarkArticlesList];

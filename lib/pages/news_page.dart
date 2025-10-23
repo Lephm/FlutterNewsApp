@@ -134,7 +134,7 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
         isLoading = true;
       });
       try {
-        await mainArticleNotifier.fetchArticlesData(
+        await mainArticleNotifier.refereshArticlesData(
           context: context,
           startIndex: startIndex,
           endIndex: endIndex,

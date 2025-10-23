@@ -59,9 +59,10 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
   }) async {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
-    state = [];
+
     try {
       final data = await queryArticles(queryParams, startIndex, endIndex);
+      state = [];
       for (var value in data) {
         state = [...state, ArticleData.fromJson(value)];
       }
