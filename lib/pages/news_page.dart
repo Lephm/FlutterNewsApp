@@ -58,7 +58,10 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
                       }
                       return displayCantFindRelevantArticles();
                     }
-                    return ArticleContainer(articleData: mainArticles[index]);
+                    return ArticleContainer(
+                      articleData: mainArticles[index],
+                      key: UniqueKey(),
+                    );
                   },
                 ),
               ),

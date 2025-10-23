@@ -103,6 +103,7 @@ class _BookmarksPageState extends ConsumerState<BookmarksPage> with Pagination {
                       }
                       return ArticleContainer(
                         articleData: bookmarkArticles[index],
+                        key: UniqueKey(),
                       );
                     } catch (e) {
                       return displayCircularProgressBar(currentTheme);
