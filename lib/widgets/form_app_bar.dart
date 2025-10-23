@@ -12,6 +12,7 @@ class FormAppBar extends ConsumerWidget implements PreferredSizeWidget {
     var currentTheme = ref.watch(themeProvider);
     return AppBar(
       backgroundColor: currentTheme.currentColorScheme.bgPrimary,
+      forceMaterialTransparency: true,
       leading: BackButton(
         onPressed: () {
           if (onBackButtonPressed == null) {
