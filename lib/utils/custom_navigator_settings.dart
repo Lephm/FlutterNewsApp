@@ -1,5 +1,6 @@
 import 'package:centranews/pages/full_article_page.dart';
 import 'package:centranews/pages/home_page.dart';
+import 'package:centranews/pages/searched_articles_page.dart';
 import 'package:centranews/pages/sign_in.dart';
 import 'package:centranews/pages/sign_up.dart';
 import 'package:flutter/material.dart';

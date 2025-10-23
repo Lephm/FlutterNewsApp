@@ -1,4 +1,5 @@
 import 'package:centranews/providers/theme_provider.dart';
+import 'package:centranews/widgets/custom_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,15 +21,17 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
     return AppBar(
       forceMaterialTransparency: true,
       backgroundColor: currentTheme.currentColorScheme.bgPrimary,
-      leading: (currentPageIndex == 0)
+      leading: (isNewsPage())
           ? drawerIcon(context, currentTheme)
           : SizedBox.shrink(),
       title: Center(
-        child: Text(
-          headerText,
-          style: currentTheme.textTheme.headlineMedium,
-          textAlign: TextAlign.start,
-        ),
+        child: (isNewsPage())
+            ? CustomSearchBar()
+            : Text(
+                headerText,
+                style: currentTheme.textTheme.headlineMedium,
+                textAlign: TextAlign.start,
+              ),
       ),
       actions: [
         Row(
@@ -47,6 +50,10 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  bool isNewsPage() {
+    return currentPageIndex == 0;
+  }
 
   Widget drawerIcon(BuildContext context, CustomTheme currentTheme) {
     return IconButton(

@@ -28,48 +28,52 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
     if (!hasFetchDataForTheFirstTime) {
       fetchDataForFirstTime();
     }
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: RefreshIndicator(
-              key: _refreshIndicatorKey,
-              backgroundColor: currentTheme.currentColorScheme.bgPrimary,
-              color: currentTheme.currentColorScheme.bgInverse,
-              onRefresh: () async {
-                refreshData();
-              },
+    return (mainArticles.isEmpty && !isLoading)
+        ? displayCantFindRelevantArticles()
+        : Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: RefreshIndicator(
+                    key: _refreshIndicatorKey,
+                    backgroundColor: currentTheme.currentColorScheme.bgPrimary,
+                    color: currentTheme.currentColorScheme.bgInverse,
+                    onRefresh: () async {
+                      refreshData();
+                    },
 
-              child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 1200),
-                child: GridView.builder(
-                  gridDelegate: pageGridDelegate,
-                  controller: scrollController,
-                  physics: BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics(),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 1200),
+                      child: GridView.builder(
+                        gridDelegate: pageGridDelegate,
+                        controller: scrollController,
+                        physics: BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics(),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 5,
+                        ),
+                        itemCount: mainArticles.length + (isLoading ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (index == mainArticles.length) {
+                            if (queryParams.isEmpty && isLoading) {
+                              return displayCircularProgressBar(currentTheme);
+                            }
+                          }
+                          return ArticleContainer(
+                            articleData: mainArticles[index],
+                            key: UniqueKey(),
+                          );
+                        },
+                      ),
+                    ),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 5),
-                  itemCount: mainArticles.length + (isLoading ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (index == mainArticles.length) {
-                      if (queryParams.isEmpty && isLoading) {
-                        return displayCircularProgressBar(currentTheme);
-                      }
-                      return displayCantFindRelevantArticles();
-                    }
-                    return ArticleContainer(
-                      articleData: mainArticles[index],
-                      key: UniqueKey(),
-                    );
-                  },
                 ),
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 
   @override
@@ -127,6 +131,7 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
       setState(() {
         resetCurrentPage();
         hasFetchDataForTheFirstTime = true;
+        isLoading = true;
       });
       try {
         await mainArticleNotifier.fetchArticlesData(
@@ -140,6 +145,7 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
         if (mounted) {
           setState(() {
             hasFetchDataForTheFirstTime = true;
+            isLoading = false;
           });
         }
       }
@@ -149,9 +155,12 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
   Widget displayCantFindRelevantArticles() {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
-    return Text(
-      localization.cantFindRelevantArticles,
-      style: currentTheme.textTheme.bodyMediumBold,
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Text(
+        localization.cantFindRelevantArticles,
+        style: currentTheme.textTheme.bodyMediumBold,
+      ),
     );
   }
 

@@ -55,6 +55,7 @@ class LanguageLocalizationTexts {
     required this.sports,
     required this.environment,
     required this.media,
+    required this.search,
   });
 
   final String signIn;
@@ -93,6 +94,7 @@ class LanguageLocalizationTexts {
   final String errorLoadingArticles;
   final String youMustSignInPrompt;
   final String youDoNotHaveAnyBookmark;
+  final String search;
 
   //Categories label
   final String politics;
@@ -180,6 +182,7 @@ var engLocalization = const LanguageLocalizationTexts(
   errorLoadingArticles: "There was an error loading articles",
   youMustSignInPrompt: "You must sign in to use this feature",
   youDoNotHaveAnyBookmark: "You do not have any bookmark",
+  search: "Search",
   politics: "Politics",
   asia: "Asia",
   europe: "Europe",
@@ -255,4 +258,5 @@ var vietLocalization = const LanguageLocalizationTexts(
   sports: "Thể thao",
   environment: "Môi trường",
   media: "Truyền thông",
+  search: "Tìm Kiếm",
 );
