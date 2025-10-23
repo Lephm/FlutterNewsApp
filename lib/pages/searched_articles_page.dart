@@ -24,7 +24,7 @@ class SearchedArticlesPage extends ConsumerStatefulWidget {
 class _SearchedArticlesPageState extends ConsumerState<SearchedArticlesPage>
     with Pagination {
   final ScrollController scrollController = ScrollController();
-
+  String searchTerm = "";
   List<ArticleData> searchedArticles = [];
 
   @override
@@ -36,6 +36,9 @@ class _SearchedArticlesPageState extends ConsumerState<SearchedArticlesPage>
         Navigator.of(context).pushNamed("/");
       } else {
         searchArticles(arg);
+        setState(() {
+          searchTerm = arg;
+        });
       }
     } catch (e) {
       Navigator.of(context).pushNamed("/");
@@ -45,6 +48,7 @@ class _SearchedArticlesPageState extends ConsumerState<SearchedArticlesPage>
   @override
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
+
     scrollController.addListener(onScroll);
 
     return SafeArea(
@@ -61,6 +65,10 @@ class _SearchedArticlesPageState extends ConsumerState<SearchedArticlesPage>
           title: Center(
             child: CustomSearchBar(
               onSubmittedSearched: (value) {
+                setState(() {
+                  searchTerm = value;
+                  resetCurrentPage();
+                });
                 searchArticles(value);
               },
             ),
@@ -85,15 +93,19 @@ class _SearchedArticlesPageState extends ConsumerState<SearchedArticlesPage>
                       ),
                       itemCount: searchedArticles.length + (isLoading ? 1 : 0),
                       itemBuilder: (context, index) {
-                        if (index == searchedArticles.length) {
-                          if (searchedArticles.isEmpty && isLoading) {
-                            return displayCircularProgressBar(currentTheme);
+                        try {
+                          if (index == searchedArticles.length) {
+                            if (searchedArticles.isEmpty && isLoading) {
+                              return displayCircularProgressBar(currentTheme);
+                            }
                           }
+                          return ArticleContainer(
+                            articleData: searchedArticles[index],
+                            key: UniqueKey(),
+                          );
+                        } catch (e) {
+                          return displayCircularProgressBar(currentTheme);
                         }
-                        return ArticleContainer(
-                          articleData: searchedArticles[index],
-                          key: UniqueKey(),
-                        );
                       },
                     ),
                   ),
@@ -113,7 +125,9 @@ class _SearchedArticlesPageState extends ConsumerState<SearchedArticlesPage>
       var data = await supabase
           .from("articles")
           .select()
-          .or("title.ilike.%$value%,summary.ilike.%$value%");
+          .or("title.ilike.%$value%,summary.ilike.%$value%")
+          .range(startIndex, endIndex)
+          .order('created_at', ascending: false);
 
       if (data.isNotEmpty) {
         for (var value in data) {
@@ -147,7 +161,7 @@ class _SearchedArticlesPageState extends ConsumerState<SearchedArticlesPage>
           });
         }
 
-        //await fetchMoreSearchedArticles();
+        await fetchMoreSearchedArticles();
       } catch (e) {
         debugPrint(e.toString());
         if (mounted) {
@@ -171,7 +185,39 @@ class _SearchedArticlesPageState extends ConsumerState<SearchedArticlesPage>
     );
   }
 
-  void fetchMoreSearchedArticles() {
-    return;
+  Future<void> fetchMoreSearchedArticles() async {
+    if (searchTerm == "" || searchTerm.isEmpty) return;
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var data = await supabase
+          .from("articles")
+          .select()
+          .or("title.ilike.%$searchTerm%,summary.ilike.%$searchTerm%")
+          .range(startIndex, endIndex)
+          .order('created_at', ascending: false);
+
+      if (data.isNotEmpty) {
+        for (var value in data) {
+          if (context.mounted) {
+            setState(() {
+              searchedArticles = [
+                ...searchedArticles,
+                ArticleData.fromJson(value),
+              ];
+            });
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 }
