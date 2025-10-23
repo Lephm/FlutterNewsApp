@@ -35,37 +35,39 @@ class _SignInState extends ConsumerState<SignIn> {
           Navigator.of(context).pushNamed("/");
         },
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-        child: SizedBox(
-          width: double.infinity,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
+          child: SizedBox(
+            width: double.infinity,
 
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
 
-            children: [
-              appIntroWidget(),
-              signInForm(),
-              rememberMeAndForgotPasswordRow(),
-              signInWithSocialMediaRow(),
-              otherSignInMethodRow(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed("/sign_up");
-                  },
-                  child: Text(
-                    localization.dontHaveAnAccountSignUpHere,
-                    style: TextStyle(
-                      color: currentTheme.currentColorScheme.textSecondary,
-                      decoration: TextDecoration.underline,
+              children: [
+                appIntroWidget(),
+                signInForm(),
+                rememberMeAndForgotPasswordRow(),
+                signInWithSocialMediaRow(),
+                otherSignInMethodRow(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/sign_up");
+                    },
+                    child: Text(
+                      localization.dontHaveAnAccountSignUpHere,
+                      style: TextStyle(
+                        color: currentTheme.currentColorScheme.textSecondary,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

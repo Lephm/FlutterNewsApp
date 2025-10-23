@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/localization_provider.dart';
 
+const double navigationBarIconSize = 20;
+
 class CustomHomeNavigationBar extends ConsumerStatefulWidget {
   const CustomHomeNavigationBar({
     super.key,
@@ -28,10 +30,7 @@ class _CustomHomeNavigationBarState
     var localization = ref.watch(localizationProvider);
     return SafeArea(
       child: Container(
-        decoration: BoxDecoration(
-          color: currentTheme.currentColorScheme.bgPrimary,
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-        ),
+        constraints: BoxConstraints(maxHeight: 60),
         child: NavigationBarTheme(
           data: NavigationBarThemeData(
             labelTextStyle: WidgetStateProperty.all(
@@ -62,10 +61,12 @@ class _CustomHomeNavigationBarState
         selectedIcon: Icon(
           Icons.article,
           color: currentTheme.currentColorScheme.bgInverse,
+          size: navigationBarIconSize,
         ),
         icon: Icon(
           Icons.article_outlined,
           color: currentTheme.currentColorScheme.bgInverse,
+          size: navigationBarIconSize,
         ),
         label: localization.news,
       ),
@@ -73,6 +74,7 @@ class _CustomHomeNavigationBarState
         icon: Icon(
           Icons.explore,
           color: currentTheme.currentColorScheme.bgInverse,
+          size: navigationBarIconSize,
         ),
         label: localization.discovery,
       ),
@@ -80,10 +82,12 @@ class _CustomHomeNavigationBarState
         icon: Icon(
           Icons.bookmark_border,
           color: currentTheme.currentColorScheme.bgInverse,
+          size: navigationBarIconSize,
         ),
         selectedIcon: Icon(
           Icons.bookmarks,
           color: currentTheme.currentColorScheme.bgInverse,
+          size: navigationBarIconSize,
         ),
         label: localization.bookmarks,
       ),

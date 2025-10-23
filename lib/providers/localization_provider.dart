@@ -24,7 +24,6 @@ class LocalizationNotifier extends Notifier<LanguageLocalizationTexts> {
     }
   }
 
-  //TODO implement this
   void changeLanguageToVietnamese() {
     state = vietLocalization;
   }

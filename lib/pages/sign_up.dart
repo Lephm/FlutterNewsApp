@@ -31,34 +31,36 @@ class _SignUpState extends ConsumerState<SignUp> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: FormAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-        child: SizedBox(
-          width: double.infinity,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
+          child: SizedBox(
+            width: double.infinity,
 
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
 
-            children: [
-              signUpIntroWidget(),
-              signUnForm(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed("/sign_in");
-                  },
-                  child: Text(
-                    localization.dontHaveAnAccountSignUpHere,
-                    style: TextStyle(
-                      color: currentTheme.currentColorScheme.textSecondary,
-                      decoration: TextDecoration.underline,
+              children: [
+                signUpIntroWidget(),
+                signUnForm(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/sign_in");
+                    },
+                    child: Text(
+                      localization.dontHaveAnAccountSignUpHere,
+                      style: TextStyle(
+                        color: currentTheme.currentColorScheme.textSecondary,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
