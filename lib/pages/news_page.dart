@@ -1,5 +1,6 @@
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/main_articles_provider.dart';
+import 'package:centranews/providers/query_categories_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/utils/pagination.dart';
 import 'package:centranews/widgets/article_container.dart';
@@ -24,9 +25,16 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
   Widget build(BuildContext context) {
     var mainArticles = ref.watch(mainArticlesProvider);
     var currentTheme = ref.watch(themeProvider);
+    var queryCategories = ref.watch(queryCategoriesProvider);
     scrollController.addListener(onScroll);
-    if (!hasFetchDataForTheFirstTime) {
-      fetchDataForFirstTime();
+    if (mounted && !hasFetchDataForTheFirstTime) {
+      if (mainArticles.isEmpty) {
+        fetchDataForFirstTime();
+      } else {
+        setState(() {
+          hasFetchDataForTheFirstTime = true;
+        });
+      }
     }
     return (mainArticles.isEmpty && !isLoading)
         ? displayCantFindRelevantArticles()
@@ -58,7 +66,7 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
                         itemCount: mainArticles.length + (isLoading ? 1 : 0),
                         itemBuilder: (context, index) {
                           if (index == mainArticles.length) {
-                            if (queryParams.isEmpty && isLoading) {
+                            if (queryCategories.isEmpty && isLoading) {
                               return displayCircularProgressBar(currentTheme);
                             }
                           }

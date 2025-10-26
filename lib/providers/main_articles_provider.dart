@@ -1,5 +1,6 @@
 import 'package:centranews/models/article_data.dart';
 import 'package:centranews/providers/localization_provider.dart';
+import 'package:centranews/providers/query_categories_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/utils/custom_exception.dart';
 import 'package:centranews/utils/pop_up_message.dart';
@@ -21,7 +22,6 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
   }
 
   Future<void> fetchArticlesData({
-    List<String> queryParams = const [],
     required BuildContext context,
     required int startIndex,
     required int endIndex,
@@ -29,7 +29,7 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
     try {
-      final data = await queryArticles(queryParams, startIndex, endIndex);
+      final data = await queryArticles(startIndex, endIndex);
       if (data.isEmpty) {
         throw ArticleDataIsEmpty("There are no more articles");
       }
@@ -52,16 +52,14 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
   }
 
   Future<void> refereshArticlesData({
-    List<String> queryParams = const [],
     required BuildContext context,
     required int startIndex,
     required int endIndex,
   }) async {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
-
     try {
-      final data = await queryArticles(queryParams, startIndex, endIndex);
+      final data = await queryArticles(startIndex, endIndex);
       state = [];
       for (var value in data) {
         state = [...state, ArticleData.fromJson(value)];
@@ -78,10 +76,10 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
   }
 
   Future<List<Map<String, dynamic>>> queryArticles(
-    List<String> queryParams,
     int startIndex,
     int endIndex,
   ) async {
+    var queryParams = ref.watch(queryCategoriesProvider);
     if (queryParams.isEmpty) {
       return supabase
           .from('articles')
