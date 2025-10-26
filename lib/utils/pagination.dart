@@ -6,12 +6,6 @@ mixin Pagination {
   final int _itemsPerPage = 15;
   int currentPage = 0;
   bool isLoading = false;
-  final pageGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
-    crossAxisSpacing: 20,
-    maxCrossAxisExtent: 600,
-    mainAxisExtent: 300,
-    childAspectRatio: 1.0,
-  );
 
   int get startIndex {
     return currentPage * _itemsPerPage;

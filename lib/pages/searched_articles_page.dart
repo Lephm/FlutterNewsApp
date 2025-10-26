@@ -82,8 +82,7 @@ class _SearchedArticlesPageState extends ConsumerState<SearchedArticlesPage>
                 child: Center(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 1200),
-                    child: GridView.builder(
-                      gridDelegate: pageGridDelegate,
+                    child: ListView.builder(
                       controller: scrollController,
                       physics: BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics(),

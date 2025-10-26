@@ -378,7 +378,6 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
     var articleID = widget.articleData.articleID;
     return TextButton(
       onPressed: () {
-        adManager.requestToShowAd();
         Navigator.of(context).pushNamed("full_article/$articleID");
       },
       child: Text(

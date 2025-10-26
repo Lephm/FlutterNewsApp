@@ -3,9 +3,12 @@ import 'package:centranews/providers/main_articles_provider.dart';
 import 'package:centranews/providers/query_categories_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/utils/pagination.dart';
+import 'package:centranews/widgets/BannerAdContainer.dart';
 import 'package:centranews/widgets/article_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+const numberOfArticlesBeforeShowingBannerAd = 2;
 
 class NewsPage extends ConsumerStatefulWidget {
   const NewsPage({super.key});
@@ -19,7 +22,6 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
       GlobalKey<RefreshIndicatorState>();
   final ScrollController scrollController = ScrollController();
   bool hasFetchDataForTheFirstTime = false;
-  var queryParams = <String>[];
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +55,7 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
 
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: 1200),
-                      child: GridView.builder(
-                        gridDelegate: pageGridDelegate,
+                      child: ListView.builder(
                         controller: scrollController,
                         physics: BouncingScrollPhysics(
                           parent: AlwaysScrollableScrollPhysics(),
@@ -70,10 +71,19 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
                               return displayCircularProgressBar(currentTheme);
                             }
                           }
-                          return ArticleContainer(
-                            articleData: mainArticles[index],
-                            key: UniqueKey(),
-                          );
+                          if (index % numberOfArticlesBeforeShowingBannerAd ==
+                              0) {
+                            return BannerAdContainer(
+                              articleContainer: ArticleContainer(
+                                articleData: mainArticles[index],
+                              ),
+                            );
+                          } else {
+                            return ArticleContainer(
+                              articleData: mainArticles[index],
+                              key: UniqueKey(),
+                            );
+                          }
                         },
                       ),
                     ),
