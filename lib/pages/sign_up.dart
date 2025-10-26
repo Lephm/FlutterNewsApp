@@ -72,17 +72,19 @@ class _SignUpState extends ConsumerState<SignUp> {
   }
 
   Widget signUpIntroWidget() {
-    var localization = ref.watch(localizationProvider);
     var currentTheme = ref.watch(themeProvider);
+    var localization = ref.watch(localizationProvider);
     return Column(
       children: [
-        Image(image: AssetImage("assets/app_logo.png"), height: 300),
+        SizedBox(height: 80),
+        Image(image: AssetImage("assets/app_icon.png"), height: 150),
+        SizedBox(height: 10),
         Text(
           localization.welcome,
           style: currentTheme.textTheme.headlineMedium,
         ),
         Text(
-          localization.signUp,
+          localization.signInToYourAccount,
           style: currentTheme.textTheme.bodyLightMedium,
         ),
       ],

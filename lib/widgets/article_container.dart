@@ -2,6 +2,7 @@ import 'package:centranews/models/article_data.dart';
 import 'package:centranews/providers/local_user_provider.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
+import 'package:centranews/utils/ad_manager.dart';
 import 'package:centranews/utils/bookmark_manager.dart';
 import 'package:centranews/utils/custom_navigator_settings.dart';
 import 'package:centranews/utils/pop_up_message.dart';
@@ -377,6 +378,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
     var articleID = widget.articleData.articleID;
     return TextButton(
       onPressed: () {
+        adManager.requestToShowAd();
         Navigator.of(context).pushNamed("full_article/$articleID");
       },
       child: Text(
