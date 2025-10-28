@@ -9,13 +9,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 const androidBannerAdKey = "ca-app-pub-3940256099942544/9214589741";
 const iosAndroidBannerAdKey = "ca-app-pub-3940256099942544/2435281174";
 
-//TODO: the log W/ImageReader_JNI( 3776): Unable to acquire a buffer item, very likely client tried to acquire more than maxImages buffers
-// is current being caused this
-
 class BannerAdContainer extends ConsumerStatefulWidget {
-  const BannerAdContainer({super.key, required this.articleContainer});
-
-  final ArticleContainer articleContainer;
+  const BannerAdContainer({super.key});
 
   @override
   ConsumerState<BannerAdContainer> createState() => _BannerAdContainerState();
@@ -30,16 +25,7 @@ class _BannerAdContainerState extends ConsumerState<BannerAdContainer> {
     if (_bannerAd == null && !hasSucessfullyLoadedAd) {
       loadAd();
     }
-    return kIsWeb
-        ? widget.articleContainer
-        : Column(
-            children: [
-              widget.articleContainer,
-              SizedBox(height: 20),
-              _bannerAd == null ? SizedBox.shrink() : displayAd(),
-              SizedBox(height: 10),
-            ],
-          );
+    return kIsWeb ? SizedBox.shrink() : displayAd();
   }
 
   @override
@@ -49,6 +35,7 @@ class _BannerAdContainerState extends ConsumerState<BannerAdContainer> {
   }
 
   Widget displayAd() {
+    if (_bannerAd == null) return SizedBox.shrink();
     return Align(
       alignment: Alignment.bottomCenter,
       child: SafeArea(

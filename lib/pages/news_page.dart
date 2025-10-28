@@ -3,7 +3,6 @@ import 'package:centranews/providers/main_articles_provider.dart';
 import 'package:centranews/providers/query_categories_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/utils/pagination.dart';
-import 'package:centranews/widgets/banner_ad_container.dart';
 import 'package:centranews/widgets/article_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -71,19 +70,10 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
                               return displayCircularProgressBar(currentTheme);
                             }
                           }
-                          if (index % numberOfArticlesBeforeShowingBannerAd ==
-                              0) {
-                            return BannerAdContainer(
-                              articleContainer: ArticleContainer(
-                                articleData: mainArticles[index],
-                              ),
-                            );
-                          } else {
-                            return ArticleContainer(
-                              articleData: mainArticles[index],
-                              key: UniqueKey(),
-                            );
-                          }
+                          return ArticleContainer(
+                            articleData: mainArticles[index],
+                            key: UniqueKey(),
+                          );
                         },
                       ),
                     ),

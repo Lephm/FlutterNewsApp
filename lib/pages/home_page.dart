@@ -4,6 +4,7 @@ import 'package:centranews/pages/discover_page.dart';
 import 'package:centranews/pages/news_page.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
+import 'package:centranews/widgets/banner_ad_container.dart';
 import 'package:centranews/widgets/custom_home_navigation_bar.dart';
 import 'package:centranews/widgets/custom_safe_area.dart';
 import 'package:centranews/widgets/home_app_bar.dart';
@@ -37,6 +38,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
     return CustomSafeArea(
       child: Scaffold(
+        floatingActionButton: BannerAdContainer(),
         resizeToAvoidBottomInset: false,
         appBar: HomeAppBar(
           headerText: currentPageHeaderText,
