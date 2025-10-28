@@ -53,7 +53,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                         Navigator.of(context).pushNamed("/sign_in");
                       },
                       child: Text(
-                        localization.dontHaveAnAccountSignUpHere,
+                        localization.alreadyHaveAnAccountSignInHere,
                         style: TextStyle(
                           color: currentTheme.currentColorScheme.textSecondary,
                           decoration: TextDecoration.underline,
@@ -84,7 +84,7 @@ class _SignUpState extends ConsumerState<SignUp> {
           style: currentTheme.textTheme.headlineMedium,
         ),
         Text(
-          localization.signInToYourAccount,
+          localization.signUp,
           style: currentTheme.textTheme.bodyLightMedium,
         ),
       ],

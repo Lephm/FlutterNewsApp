@@ -215,7 +215,7 @@ var vietLocalization = const LanguageLocalizationTexts(
   signInWithSocialMedia: "Đăng nhập bằng tài khoản mạng xã hội",
   signInToYourAccount: "Đăng nhập",
   dontHaveAnAccountSignUpHere: "Chưa có tài khoản? Đăng ký tại đây",
-  alreadyHaveAnAccountSignInHere: "Đã cí tài khoản? Đăng nhập tại đây",
+  alreadyHaveAnAccountSignInHere: "Đã có tài khoản? Đăng nhập tại đây",
   confirmPassword: "Xác nhận mật khẩu",
   pleaseEnterAnEmail: "Vui lòng nhập email",
   pleaseEnterAValidEmail: "Vui lòng nhập email hợp lệ",
