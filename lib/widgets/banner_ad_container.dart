@@ -50,7 +50,10 @@ class _BannerAdContainerState extends ConsumerState<BannerAdContainer> {
 
   void loadAd() async {
     if (kIsWeb) {
-      //TODO intergrate adsense
+      //TODO: implement adsense
+      setState(() {
+        hasSucessfullyLoadedAd = true;
+      });
       return;
     }
     final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
