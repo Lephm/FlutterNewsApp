@@ -156,8 +156,8 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
       width: double.infinity,
       height: thumbnailImageHeight,
       child: Center(
-        child: CircularProgressIndicator(
-          backgroundColor: currentTheme.currentColorScheme.bgPrimary,
+        child: Icon(
+          Icons.broken_image_outlined,
           color: currentTheme.currentColorScheme.bgInverse,
         ),
       ),

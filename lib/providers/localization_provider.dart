@@ -12,7 +12,7 @@ class LocalizationNotifier extends Notifier<LanguageLocalizationTexts> {
   LanguageLocalizationTexts build() {
     var langPref = localStorage.getItem("language");
     if (langPref == null) {
-      return engLocalization;
+      return vietLocalization;
     }
     switch (langPref) {
       case "en":
@@ -20,7 +20,7 @@ class LocalizationNotifier extends Notifier<LanguageLocalizationTexts> {
       case "vn":
         return vietLocalization;
       default:
-        return engLocalization;
+        return vietLocalization;
     }
   }
 
