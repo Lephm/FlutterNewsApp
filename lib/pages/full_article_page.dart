@@ -36,11 +36,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
         appBar: AppBar(
           forceMaterialTransparency: true,
           backgroundColor: currentTheme.currentColorScheme.bgPrimary,
-          leading: BackButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed("/");
-            },
-          ),
+          leading: BackButton(),
         ),
         backgroundColor: currentTheme.currentColorScheme.bgPrimary,
         body: _isLoading
