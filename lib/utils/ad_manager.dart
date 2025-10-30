@@ -43,7 +43,7 @@ class AdManager {
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
           debugPrint('Ad was loaded.');
-          ad?.show();
+          ad.show();
         },
         onAdFailedToLoad: (LoadAdError error) {
           debugPrint('Ad failed to load with error: $error');

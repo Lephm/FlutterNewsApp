@@ -8,19 +8,19 @@ class CustomTextTheme {
   CustomColorScheme currentColorScheme;
 
   TextStyle get bodyMedium {
-    return GoogleFonts.inter(
+    return GoogleFonts.lato(
       textStyle: TextStyle(color: currentColorScheme.textPrimary),
     );
   }
 
   TextStyle get bodyLightMedium {
-    return GoogleFonts.inter(
+    return GoogleFonts.lato(
       textStyle: TextStyle(color: currentColorScheme.textSecondary),
     );
   }
 
   TextStyle get bodyMediumBold {
-    return GoogleFonts.inter(
+    return GoogleFonts.lato(
       textStyle: TextStyle(
         color: currentColorScheme.textPrimary,
         fontWeight: FontWeight.bold,
@@ -29,23 +29,23 @@ class CustomTextTheme {
   }
 
   TextStyle get bodyInverseMedium {
-    return GoogleFonts.inter(
+    return GoogleFonts.lato(
       textStyle: TextStyle(color: currentColorScheme.textInverse),
     );
   }
 
   TextStyle get bodyLarge {
-    return GoogleFonts.inter(textStyle: TextStyle());
+    return GoogleFonts.lato(textStyle: TextStyle());
   }
 
   TextStyle get bodySmall {
-    return GoogleFonts.inter(
+    return GoogleFonts.lato(
       textStyle: TextStyle(fontSize: 15, color: currentColorScheme.textPrimary),
     );
   }
 
   TextStyle get smallLabelBold {
-    return GoogleFonts.inter(
+    return GoogleFonts.lato(
       textStyle: TextStyle(
         fontSize: 10,
         color: currentColorScheme.textPrimary,
@@ -55,7 +55,7 @@ class CustomTextTheme {
   }
 
   TextStyle get smallLabelBoldInverse {
-    return GoogleFonts.inter(
+    return GoogleFonts.lato(
       textStyle: TextStyle(
         fontSize: 10,
         color: currentColorScheme.textInverse,
@@ -65,7 +65,7 @@ class CustomTextTheme {
   }
 
   TextStyle get bodyBold {
-    return GoogleFonts.inter(
+    return GoogleFonts.lato(
       textStyle: TextStyle(
         fontSize: 15,
         color: currentColorScheme.textPrimary,
@@ -75,13 +75,13 @@ class CustomTextTheme {
   }
 
   TextStyle get headlineMedium {
-    return GoogleFonts.inter(
+    return GoogleFonts.lato(
       textStyle: TextStyle(fontSize: 30, color: currentColorScheme.textPrimary),
     );
   }
 
   TextStyle get navigationLabelStyle {
-    return GoogleFonts.inter(
+    return GoogleFonts.lato(
       textStyle: TextStyle(fontSize: 12, color: currentColorScheme.textPrimary),
     );
   }
