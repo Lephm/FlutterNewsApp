@@ -40,7 +40,11 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
               onPressed: () {
                 Scaffold.of(context).openEndDrawer();
               },
-              icon: Icon(Icons.account_circle, size: 30),
+              icon: Icon(
+                Icons.account_circle,
+                size: 30,
+                color: currentTheme.currentColorScheme.bgSecondary,
+              ),
             ),
           ],
         ),
@@ -63,7 +67,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
       icon: Icon(
         Icons.filter_alt,
         size: 24,
-        color: currentTheme.currentColorScheme.bgInverse.withAlpha(180),
+        color: currentTheme.currentColorScheme.bgSecondary,
       ),
     );
   }

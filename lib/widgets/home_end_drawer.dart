@@ -72,7 +72,7 @@ class _HomeEndDrawerState extends ConsumerState<HomeEndDrawer> {
       child: HomeButtonContainer(
         children: [
           customCircleAvatar(
-            Icon(Icons.login, color: currentTheme.currentColorScheme.bgInverse),
+            Icon(Icons.login, color: currentTheme.currentColorScheme.bgPrimary),
             currentTheme,
           ),
           Text(localization.signIn, style: currentTheme.textTheme.bodyMedium),
@@ -103,7 +103,7 @@ class _HomeEndDrawerState extends ConsumerState<HomeEndDrawer> {
           customCircleAvatar(
             Icon(
               Icons.logout,
-              color: currentTheme.currentColorScheme.bgInverse,
+              color: currentTheme.currentColorScheme.bgPrimary,
             ),
             currentTheme,
           ),
