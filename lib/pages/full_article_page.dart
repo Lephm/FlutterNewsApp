@@ -1,4 +1,5 @@
 import 'package:centranews/models/article_data.dart';
+import 'package:centranews/widgets/article_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -24,6 +25,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
   String articleID = "";
   bool _isLoading = true;
   ArticleData? articleData;
+  List<ArticleData> relatedArticles = [];
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
     if (_isLoading == true) {
       fetchArticle();
     }
+
     return CustomSafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -44,6 +47,27 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
             : ((articleData == null) ? renderErrorPage() : renderArticle()),
       ),
     );
+  }
+
+  void fetchRelatedArticles() async {
+    try {
+      final articleId = widget.arg as String;
+      final response = await Supabase.instance.client.rpc(
+        'get_similar_articles',
+        params: {"current_article_id": articleId},
+      );
+      List<ArticleData> datas = [];
+      for (var value in response) {
+        datas.add(ArticleData.fromJson(value));
+      }
+      if (mounted) {
+        setState(() {
+          relatedArticles = [...datas];
+        });
+      }
+    } catch (e) {
+      debugPrint('Error calling RPC: $e');
+    }
   }
 
   Widget renderErrorPage() {
@@ -71,64 +95,102 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
   }
 
   Widget renderArticle() {
+    fetchRelatedArticles();
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: currentTheme.currentColorScheme.bgPrimary,
-              boxShadow: [
-                BoxShadow(
-                  spreadRadius: 5,
-                  blurRadius: 5,
-                  offset: Offset(0, 0),
-                  color: currentTheme.currentColorScheme.bgInverse.withAlpha(
-                    100,
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            displayCurrentArticle(),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      localization.relatedArticles,
+                      style: currentTheme.textTheme.headlineMedium,
+                    ),
                   ),
-                ),
-              ],
+                  renderRelatedArticlesIfSuitable(),
+                ],
+              ),
             ),
-            constraints: BoxConstraints(maxWidth: 800),
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            child: Column(
-              spacing: 10,
-              children: [
-                Text(
-                  articleData!.articleTitle,
-                  style: currentTheme.textTheme.headlineMedium,
-                ),
-
-                Image.network(
-                  articleData!.thumbnailUrl,
-                  errorBuilder: (context, error, stackTrace) =>
-                      displayThumbnailErrorWidget(),
-                  width: double.infinity,
-                  height: thumbnailImageHeight,
-                  fit: BoxFit.cover,
-                ),
-                Text(
-                  articleData!.articleSummary,
-                  style: currentTheme.textTheme.bodySmall,
-                ),
-                horizontalDivideLine(),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    localization.sources,
-                    style: currentTheme.textTheme.bodyBold,
-                  ),
-                ),
-                displayGoToSourceButton(),
-              ],
-            ),
-          ),
+          ],
         ),
       ),
     );
+  }
+
+  Widget displayCurrentArticle() {
+    var currentTheme = ref.watch(themeProvider);
+    var localization = ref.watch(localizationProvider);
+    return Center(
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          border: Border.all(color: currentTheme.currentColorScheme.bgInverse),
+          borderRadius: BorderRadius.circular(10),
+          color: currentTheme.currentColorScheme.bgPrimary,
+        ),
+        constraints: BoxConstraints(maxWidth: 800),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        child: Column(
+          spacing: 10,
+          children: [
+            Text(
+              articleData!.articleTitle,
+              style: currentTheme.textTheme.headlineMedium,
+            ),
+
+            Image.network(
+              articleData!.thumbnailUrl,
+              errorBuilder: (context, error, stackTrace) =>
+                  displayThumbnailErrorWidget(),
+              width: double.infinity,
+              height: thumbnailImageHeight,
+              fit: BoxFit.cover,
+            ),
+            Text(
+              articleData!.articleSummary,
+              style: currentTheme.textTheme.bodySmall,
+            ),
+            horizontalDivideLine(),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                localization.sources,
+                style: currentTheme.textTheme.bodyBold,
+              ),
+            ),
+            displayGoToSourceButton(),
+            horizontalDivideLine(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget renderRelatedArticlesIfSuitable() {
+    var localization = ref.watch(localizationProvider);
+    var currentTheme = ref.watch(themeProvider);
+    return (relatedArticles.isEmpty)
+        ? Text(
+            localization.cantFindRelevantArticles,
+            style: currentTheme.textTheme.bodyMediumBold,
+          )
+        : displayRelatedArticles();
+  }
+
+  Widget displayRelatedArticles() {
+    List<ArticleContainer> articles = [];
+    for (var article in relatedArticles) {
+      articles.add(ArticleContainer(articleData: article));
+    }
+    return Container(child: Column(spacing: 30, children: articles));
   }
 
   Widget displayCircularProgressBar() {
@@ -161,8 +223,6 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
       });
     }
   }
-
-  void showErrorMessage() {}
 
   Widget displayThumbnailErrorWidget() {
     var currentTheme = ref.watch(themeProvider);

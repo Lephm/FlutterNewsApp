@@ -107,7 +107,8 @@ class _SignInState extends ConsumerState<SignIn> {
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 0, horizontal: 40),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 100,
           children: [
             IconButton(
               onPressed: () {
@@ -122,19 +123,6 @@ class _SignInState extends ConsumerState<SignIn> {
                         ThemeBrightness.light
                     ? "assets/darkapple.png"
                     : "assets/apple.png",
-                width: 40,
-                height: 40,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                userManager.signInWithTwitter(context);
-              },
-              icon: Image.asset(
-                currentTheme.currentColorScheme.themeType ==
-                        ThemeBrightness.light
-                    ? "assets/twitter.png"
-                    : "assets/darktwitter.png",
                 width: 40,
                 height: 40,
               ),

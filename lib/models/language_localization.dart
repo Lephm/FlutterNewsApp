@@ -67,6 +67,7 @@ class LanguageLocalizationTexts {
     required this.vietnam,
     required this.russia,
     required this.category,
+    required this.relatedArticles,
   });
 
   final String signIn;
@@ -107,6 +108,7 @@ class LanguageLocalizationTexts {
   final String youDoNotHaveAnyBookmark;
   final String search;
   final String category;
+  final String relatedArticles;
 
   //Categories label
   final String politics;
@@ -244,6 +246,7 @@ var engLocalization = const LanguageLocalizationTexts(
   vietnam: "Vietnam",
   russia: "Russia",
   category: "Categories",
+  relatedArticles: "Related Articles",
 );
 
 var vietLocalization = const LanguageLocalizationTexts(
@@ -313,4 +316,5 @@ var vietLocalization = const LanguageLocalizationTexts(
   vietnam: "Việt Nam",
   russia: "Russia",
   category: "Chủ Đề",
+  relatedArticles: "Bài viết liên quan",
 );
