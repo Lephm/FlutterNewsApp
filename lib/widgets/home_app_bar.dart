@@ -26,7 +26,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
           : SizedBox.shrink(),
       title: Center(
         child: (isNewsPage())
-            ? CustomSearchBar()
+            ? appIcon(ref)
             : Text(
                 headerText,
                 style: currentTheme.textTheme.headlineMedium,
@@ -57,6 +57,15 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   bool isNewsPage() {
     return currentPageIndex == 0;
+  }
+
+  Widget appIcon(WidgetRef ref) {
+    var currentTheme = ref.watch(themeProvider);
+    return Image(
+      image: AssetImage("assets/app_icon.png"),
+      height: 40,
+      color: currentTheme.currentColorScheme.bgInverse,
+    );
   }
 
   Widget drawerIcon(BuildContext context, CustomTheme currentTheme) {
