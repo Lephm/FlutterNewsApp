@@ -13,7 +13,10 @@ void showAlertMessage(
     builder: (context) => AlertDialog(
       backgroundColor: currentTheme.currentColorScheme.bgPrimary,
 
-      title: BackButton(style: ButtonStyle(alignment: Alignment(-1.0, -1.0))),
+      title: BackButton(
+        color: currentTheme.currentColorScheme.bgInverse,
+        style: ButtonStyle(alignment: Alignment(-1.0, -1.0)),
+      ),
       content: Text(content, style: currentTheme.textTheme.bodyMedium),
     ),
   );
@@ -32,7 +35,10 @@ void showSignInPrompt(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          BackButton(style: ButtonStyle(alignment: Alignment(-1.0, -1.0))),
+          BackButton(
+            color: currentTheme.currentColorScheme.bgInverse,
+            style: ButtonStyle(alignment: Alignment(-1.0, -1.0)),
+          ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pushNamed("/sign_in");
