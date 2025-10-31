@@ -29,10 +29,7 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
     var currentTheme = ref.watch(themeProvider);
     var queryCategories = ref.watch(queryCategoriesProvider);
     if (currentQueryCategories != queryCategories) {
-      setState(() {
-        currentQueryCategories = queryCategories;
-      });
-      refreshData();
+      refreshDataToRefelectSearchQueries();
     }
     scrollController.addListener(onScroll);
     if (mounted && !hasFetchDataForTheFirstTime) {
@@ -97,6 +94,17 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
   void dispose() {
     scrollController.dispose();
     super.dispose();
+  }
+
+  void refreshDataToRefelectSearchQueries() {
+    var queryCategories = ref.watch(queryCategoriesProvider);
+    scrollToTop(scrollController);
+    if (mounted) {
+      setState(() {
+        currentQueryCategories = queryCategories;
+      });
+    }
+    refreshData();
   }
 
   void onScroll() async {

@@ -51,4 +51,14 @@ mixin Pagination {
             scrollController.position.maxScrollExtent &&
         !isLoading);
   }
+
+  void scrollToTop(ScrollController scrollController) {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        0.0,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
 }

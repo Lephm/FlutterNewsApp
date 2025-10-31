@@ -41,12 +41,23 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
           forceMaterialTransparency: true,
           backgroundColor: currentTheme.currentColorScheme.bgPrimary,
           leading: BackButton(color: currentTheme.currentColorScheme.bgInverse),
+          actions: [homeIcon()],
         ),
         backgroundColor: currentTheme.currentColorScheme.bgPrimary,
         body: _isLoading
             ? displayCircularProgressBar()
             : ((articleData == null) ? renderErrorPage() : renderArticle()),
       ),
+    );
+  }
+
+  Widget homeIcon() {
+    var currentTheme = ref.watch(themeProvider);
+    return IconButton(
+      onPressed: () {
+        Navigator.of(context).pushNamed("/");
+      },
+      icon: Icon(Icons.home, color: currentTheme.currentColorScheme.bgInverse),
     );
   }
 
