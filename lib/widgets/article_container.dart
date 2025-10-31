@@ -86,13 +86,17 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
   Widget displayCategoriesLabels() {
     var localization = ref.watch(localizationProvider);
     var categoryContainers = <Widget>[];
-    for (var categorie in widget.articleData.categories) {
-      categoryContainers.add(
-        ArticleLabel(
-          content: localization.getLocalLanguageLabelText(categorie),
-          inversed: true,
-        ),
-      );
+    for (int i = 0; i < widget.articleData.categories.length; i++) {
+      if (i < 4) {
+        categoryContainers.add(
+          ArticleLabel(
+            content: localization.getLocalLanguageLabelText(
+              widget.articleData.categories[i],
+            ),
+            inversed: true,
+          ),
+        );
+      }
     }
 
     return Padding(

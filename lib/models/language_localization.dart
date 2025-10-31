@@ -246,7 +246,7 @@ var engLocalization = const LanguageLocalizationTexts(
   vietnam: "Vietnam",
   russia: "Russia",
   category: "Categories",
-  relatedArticles: "Related Articles",
+  relatedArticles: "Suggested Articles",
 );
 
 var vietLocalization = const LanguageLocalizationTexts(
@@ -316,5 +316,5 @@ var vietLocalization = const LanguageLocalizationTexts(
   vietnam: "Việt Nam",
   russia: "Russia",
   category: "Chủ Đề",
-  relatedArticles: "Bài viết liên quan",
+  relatedArticles: "Gợi ý bài viết",
 );
