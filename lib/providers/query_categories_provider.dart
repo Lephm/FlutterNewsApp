@@ -29,4 +29,8 @@ class QueryCategoriesNotifier extends Notifier<List<String>> {
       state = [...newCategoryQueryList];
     }
   }
+
+  void resetCategoryQuery() {
+    state = [];
+  }
 }

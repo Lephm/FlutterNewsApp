@@ -24,28 +24,21 @@ class _CategorySelectionState extends ConsumerState<CategorySelection> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: currentTheme.currentColorScheme.bgInverse,
-          width: 0.4,
-        ),
         borderRadius: BorderRadius.circular(10),
         color: currentTheme.currentColorScheme.bgPrimary,
       ),
       width: 60,
-      child: Row(
-        children: [
-          Checkbox(
-            value: _isChecked,
-            onChanged: onCheckBoxChanged,
-            fillColor: WidgetStatePropertyAll(
-              currentTheme.currentColorScheme.bgPrimary,
-            ),
-          ),
-          Text(
-            localization.getLocalLanguageLabelText(widget.category),
-            style: currentTheme.textTheme.bodyMedium,
-          ),
-        ],
+      child: CheckboxListTile(
+        title: Text(
+          localization.getLocalLanguageLabelText(widget.category),
+          style: currentTheme.textTheme.bodyMedium,
+        ),
+        value: _isChecked,
+        onChanged: onCheckBoxChanged,
+        fillColor: WidgetStatePropertyAll(
+          currentTheme.currentColorScheme.bgPrimary,
+        ),
+        checkColor: currentTheme.currentColorScheme.bgInverse,
       ),
     );
   }
@@ -68,6 +61,10 @@ class _CategorySelectionState extends ConsumerState<CategorySelection> {
     if (queryCategoriesList.contains(widget.category)) {
       setState(() {
         _isChecked = true;
+      });
+    } else {
+      setState(() {
+        _isChecked = false;
       });
     }
   }

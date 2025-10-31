@@ -26,7 +26,7 @@ final lightTheme = CustomColorScheme(
   themeType: ThemeBrightness.light,
   bgPrimary: Colors.white,
   bgSecondary: const Color.fromARGB(255, 218, 218, 218),
-  bgInverse: Colors.black,
+  bgInverse: Color.fromARGB(198, 33, 33, 33),
   textPrimary: Colors.black,
   textSecondary: const Color.fromARGB(255, 102, 102, 102),
   textInverse: Colors.white,

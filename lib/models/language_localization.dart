@@ -68,6 +68,7 @@ class LanguageLocalizationTexts {
     required this.russia,
     required this.category,
     required this.relatedArticles,
+    required this.clearFilter,
   });
 
   final String signIn;
@@ -109,6 +110,7 @@ class LanguageLocalizationTexts {
   final String search;
   final String category;
   final String relatedArticles;
+  final String clearFilter;
 
   //Categories label
   final String politics;
@@ -247,6 +249,7 @@ var engLocalization = const LanguageLocalizationTexts(
   russia: "Russia",
   category: "Categories",
   relatedArticles: "Suggested Articles",
+  clearFilter: "Clear Filter",
 );
 
 var vietLocalization = const LanguageLocalizationTexts(
@@ -317,4 +320,5 @@ var vietLocalization = const LanguageLocalizationTexts(
   russia: "Russia",
   category: "Chủ Đề",
   relatedArticles: "Gợi ý bài viết",
+  clearFilter: "Xóa chọn lọc",
 );

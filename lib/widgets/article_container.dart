@@ -47,14 +47,6 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(containerBorderRadius),
         color: currentTheme.currentColorScheme.bgPrimary,
-        boxShadow: [
-          BoxShadow(
-            spreadRadius: 5,
-            blurRadius: 5,
-            offset: Offset(0, 0),
-            color: currentTheme.currentColorScheme.bgInverse.withAlpha(100),
-          ),
-        ],
       ),
       width: 600,
       height: 300,

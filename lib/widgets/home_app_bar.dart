@@ -43,7 +43,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
               icon: Icon(
                 Icons.account_circle,
                 size: 30,
-                color: currentTheme.currentColorScheme.bgSecondary,
+                color: currentTheme.currentColorScheme.bgInverse,
               ),
             ),
           ],
@@ -67,7 +67,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
       icon: Icon(
         Icons.filter_alt,
         size: 24,
-        color: currentTheme.currentColorScheme.bgSecondary,
+        color: currentTheme.currentColorScheme.bgInverse,
       ),
     );
   }

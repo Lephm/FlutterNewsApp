@@ -1,4 +1,5 @@
 import 'package:centranews/providers/localization_provider.dart';
+import 'package:centranews/providers/query_categories_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/utils/categories_list.dart';
 import 'package:centranews/widgets/category_selection.dart';
@@ -23,7 +24,7 @@ class _HomeDrawerState extends ConsumerState<HomeDrawer> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            titleText(),
+            Row(children: [titleText(), clearFilterButton()]),
             SizedBox(height: 30),
             Expanded(
               child: ListView.builder(
@@ -42,6 +43,19 @@ class _HomeDrawerState extends ConsumerState<HomeDrawer> {
     );
   }
 
+  Widget clearFilterButton() {
+    var currentTheme = ref.watch(themeProvider);
+    return TextButton(
+      onPressed: clearFilter,
+      child: Text("Clear Filter", style: currentTheme.textTheme.bodyMedium),
+    );
+  }
+
+  void clearFilter() {
+    var queryCategoriesManager = ref.watch(queryCategoriesProvider.notifier);
+    queryCategoriesManager.resetQueryParams();
+  }
+
   Widget titleText() {
     var localization = ref.watch(localizationProvider);
     var currentTheme = ref.watch(themeProvider);
@@ -49,14 +63,13 @@ class _HomeDrawerState extends ConsumerState<HomeDrawer> {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       width: 200,
       decoration: BoxDecoration(
-        border: Border.all(color: currentTheme.currentColorScheme.bgInverse),
         borderRadius: BorderRadius.circular(10),
         color: currentTheme.currentColorScheme.bgPrimary,
       ),
       child: Text(
         localization.category,
         style: currentTheme.textTheme.headlineMedium,
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.start,
       ),
     );
   }

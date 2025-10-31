@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../providers/localization_provider.dart';
 import '../providers/theme_provider.dart';
+import '../widgets/article_label.dart';
 import '../widgets/custom_safe_area.dart';
 
 final supabase = Supabase.instance.client;
@@ -108,12 +109,9 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      localization.relatedArticles,
-                      style: currentTheme.textTheme.headlineMedium,
-                    ),
+                  Text(
+                    localization.relatedArticles,
+                    style: currentTheme.textTheme.headlineMedium,
                   ),
                   renderRelatedArticlesIfSuitable(),
                 ],
@@ -132,33 +130,52 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-          border: Border.all(color: currentTheme.currentColorScheme.bgInverse),
-          borderRadius: BorderRadius.circular(10),
           color: currentTheme.currentColorScheme.bgPrimary,
         ),
         constraints: BoxConstraints(maxWidth: 800),
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 10,
           children: [
+            displayCategoriesLabels(),
+
             Text(
               articleData!.articleTitle,
               style: currentTheme.textTheme.headlineMedium,
+              textAlign: TextAlign.start,
             ),
-
-            Image.network(
-              articleData!.thumbnailUrl,
-              errorBuilder: (context, error, stackTrace) =>
-                  displayThumbnailErrorWidget(),
-              width: double.infinity,
-              height: thumbnailImageHeight,
-              fit: BoxFit.cover,
+            Row(
+              spacing: 8,
+              children: [
+                Icon(
+                  Icons.history,
+                  size: 20,
+                  color: currentTheme.currentColorScheme.textSecondary,
+                ),
+                Text(
+                  articleData!.date,
+                  style: currentTheme.textTheme.bodyLightMedium,
+                  textAlign: TextAlign.start,
+                ),
+              ],
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                articleData!.thumbnailUrl,
+                errorBuilder: (context, error, stackTrace) =>
+                    displayThumbnailErrorWidget(),
+                width: double.infinity,
+                height: thumbnailImageHeight,
+                fit: BoxFit.cover,
+              ),
             ),
             Text(
               articleData!.articleSummary,
               style: currentTheme.textTheme.bodySmall,
+              textAlign: TextAlign.justify,
             ),
-            horizontalDivideLine(),
             Align(
               alignment: Alignment.topLeft,
               child: Text(
@@ -167,10 +184,42 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
               ),
             ),
             displayGoToSourceButton(),
-            horizontalDivideLine(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget displayCategoriesLabels() {
+    var localization = ref.watch(localizationProvider);
+    var categoryContainers = <Widget>[];
+    if (articleData == null) {
+      return SizedBox.shrink();
+    }
+    if (articleData != null) {
+      for (int i = 0; i < articleData!.categories.length; i++) {
+        categoryContainers.add(
+          ArticleLabel(
+            content: localization.getLocalLanguageLabelText(
+              articleData!.categories[i],
+            ),
+            inversed: true,
+          ),
+        );
+      }
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          spacing: 5,
+          children: categoryContainers,
+        ),
+      ],
     );
   }
 
