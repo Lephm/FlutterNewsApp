@@ -119,12 +119,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage> with Pagination {
       });
     }
     try {
-      var response = await supabase
-          .from('articles')
-          .select()
-          .contains('categories', discoveredQueryParams)
-          .order('created_at', ascending: true)
-          .range(startIndex, endIndex);
+      var response = await getDiscoveredArticles();
       List<ArticleData> discoveredArticlesFromResponse = [];
       for (var value in response) {
         discoveredArticlesFromResponse.add(ArticleData.fromJson(value));
@@ -150,6 +145,15 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage> with Pagination {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getDiscoveredArticles() async {
+    return supabase
+        .from('articles')
+        .select()
+        .contains('categories', discoveredQueryParams)
+        .order('created_at', ascending: false)
+        .range(startIndex, endIndex);
+  }
+
   void onRefresh() async {
     if (mounted) {
       setState(() {
@@ -159,12 +163,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage> with Pagination {
     }
 
     try {
-      var response = await supabase
-          .from('articles')
-          .select()
-          .contains('categories', discoveredQueryParams)
-          .order('created_at', ascending: true)
-          .range(startIndex, endIndex);
+      var response = await getDiscoveredArticles();
       if (mounted) {
         setState(() {
           discoveredArticles = [];

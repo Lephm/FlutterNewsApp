@@ -215,6 +215,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
                     displayThumbnailErrorWidget(),
                 width: double.infinity,
                 height: thumbnailImageHeight,
+                fit: BoxFit.fitHeight,
               ),
             ),
             Text(
