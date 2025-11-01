@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../models/app_info.dart';
 import '../providers/localization_provider.dart';
 import '../providers/theme_provider.dart';
 import '../widgets/article_label.dart';
@@ -42,6 +43,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
           backgroundColor: currentTheme.currentColorScheme.bgPrimary,
           leading: BackButton(color: currentTheme.currentColorScheme.bgInverse),
           actions: [homeIcon()],
+          title: Center(child: appIcon()),
         ),
         backgroundColor: currentTheme.currentColorScheme.bgPrimary,
         body: _isLoading
@@ -49,6 +51,38 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
             : ((articleData == null)
                   ? displayErrorPage()
                   : displayArticlePage()),
+      ),
+    );
+  }
+
+  Widget appIcon() {
+    var currentTheme = ref.watch(themeProvider);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: TextButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed("/");
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 5,
+          children: [
+            Flexible(
+              child: Image(
+                image: AssetImage("assets/app_icon.png"),
+                height: 30,
+              ),
+            ),
+            Flexible(
+              child: Text(
+                AppInfo.title,
+                style: currentTheme.textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -181,7 +215,6 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
                     displayThumbnailErrorWidget(),
                 width: double.infinity,
                 height: thumbnailImageHeight,
-                fit: BoxFit.cover,
               ),
             ),
             Text(
