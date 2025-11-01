@@ -26,12 +26,11 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
   @override
   Widget build(BuildContext context) {
     var mainArticles = ref.watch(mainArticlesProvider);
-    var currentTheme = ref.watch(themeProvider);
     var queryCategories = ref.watch(queryCategoriesProvider);
+    scrollController.addListener(onScroll);
     if (currentQueryCategories != queryCategories) {
       refreshDataToRefelectSearchQueries();
     }
-    scrollController.addListener(onScroll);
     if (mounted && !hasFetchDataForTheFirstTime) {
       if (mainArticles.isEmpty) {
         fetchDataForFirstTime();
@@ -41,59 +40,72 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
         });
       }
     }
-    return (mainArticles.isEmpty && !isLoading && queryCategories.isNotEmpty)
+    return cantFindRelevantArticles()
         ? displayCantFindRelevantArticles()
-        : Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: RefreshIndicator(
-                    key: _refreshIndicatorKey,
-                    backgroundColor: currentTheme.currentColorScheme.bgPrimary,
-                    color: currentTheme.currentColorScheme.bgInverse,
-                    onRefresh: () async {
-                      refreshData();
-                    },
-
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 1200),
-                      child: GridView.builder(
-                        gridDelegate: pageGridDelegate,
-                        controller: scrollController,
-                        physics: BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics(),
-                        ),
-                        padding: pageEdgeInset,
-                        itemCount: mainArticles.length + (isLoading ? 1 : 0),
-                        itemBuilder: (context, index) {
-                          try {
-                            if (index == mainArticles.length) {
-                              if (queryCategories.isEmpty && isLoading) {
-                                return displayCircularProgressBar(currentTheme);
-                              }
-                            }
-                            return ArticleContainer(
-                              articleData: mainArticles[index],
-                              key: UniqueKey(),
-                            );
-                          } catch (e) {
-                            return displayCircularProgressBar(currentTheme);
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
+        : displayArticles();
   }
 
   @override
   void dispose() {
     scrollController.dispose();
     super.dispose();
+  }
+
+  Widget displayArticles() {
+    var mainArticles = ref.watch(mainArticlesProvider);
+    var currentTheme = ref.watch(themeProvider);
+    var queryCategories = ref.watch(queryCategoriesProvider);
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: RefreshIndicator(
+              key: _refreshIndicatorKey,
+              backgroundColor: currentTheme.currentColorScheme.bgPrimary,
+              color: currentTheme.currentColorScheme.bgInverse,
+              onRefresh: () async {
+                refreshData();
+              },
+
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 1200),
+                child: GridView.builder(
+                  gridDelegate: pageGridDelegate,
+                  controller: scrollController,
+                  physics: BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics(),
+                  ),
+                  padding: pageEdgeInset,
+                  itemCount: mainArticles.length + (isLoading ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    try {
+                      if (index == mainArticles.length) {
+                        if (queryCategories.isEmpty && isLoading) {
+                          return displayCircularProgressBar(currentTheme);
+                        }
+                      }
+                      return ArticleContainer(
+                        articleData: mainArticles[index],
+                        key: UniqueKey(),
+                      );
+                    } catch (e) {
+                      return displayCircularProgressBar(currentTheme);
+                    }
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  bool cantFindRelevantArticles() {
+    var queryCategories = ref.watch(queryCategoriesProvider);
+    var mainArticles = ref.watch(mainArticlesProvider);
+    return mainArticles.isEmpty && !isLoading && queryCategories.isNotEmpty;
   }
 
   void refreshDataToRefelectSearchQueries() {

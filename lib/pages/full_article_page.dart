@@ -46,7 +46,9 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
         backgroundColor: currentTheme.currentColorScheme.bgPrimary,
         body: _isLoading
             ? displayCircularProgressBar()
-            : ((articleData == null) ? renderErrorPage() : renderArticle()),
+            : ((articleData == null)
+                  ? displayErrorPage()
+                  : displayArticlePage()),
       ),
     );
   }
@@ -82,7 +84,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
     }
   }
 
-  Widget renderErrorPage() {
+  Widget displayErrorPage() {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
     return Padding(
@@ -106,7 +108,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
     );
   }
 
-  Widget renderArticle() {
+  Widget displayArticlePage() {
     fetchRelatedArticles();
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
@@ -250,7 +252,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
     for (var article in relatedArticles) {
       articles.add(ArticleContainer(articleData: article));
     }
-    return Container(child: Column(spacing: 30, children: articles));
+    return Column(spacing: 30, children: articles);
   }
 
   Widget displayCircularProgressBar() {
