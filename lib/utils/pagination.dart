@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import '../models/custom_theme.dart';
 
 mixin Pagination {
+  static const double mainAxisExtendHeight = 400;
   final int _itemsPerPage = 15;
   int currentPage = 0;
   bool isLoading = false;
   final pageGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
     crossAxisSpacing: 20,
     maxCrossAxisExtent: 600,
-    mainAxisExtent: 300,
+    mainAxisExtent: mainAxisExtendHeight,
     childAspectRatio: 1.0,
   );
   static const double almostTheEndOfPagePercent = 0.9;

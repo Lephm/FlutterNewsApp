@@ -12,10 +12,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../utils/pagination.dart';
+
 const double containerBorderRadius = 10;
 const double containerHorizontalLabelPadding = 5;
 final supabase = Supabase.instance.client;
-const double thumbnailImageHeight = 150;
+const double thumbnailImageHeight = 300;
 
 class ArticleContainer extends ConsumerStatefulWidget {
   const ArticleContainer({super.key, required this.articleData});
@@ -49,7 +51,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
         color: currentTheme.currentColorScheme.bgPrimary,
       ),
       width: 600,
-      height: 300,
+      height: Pagination.mainAxisExtendHeight,
       child: Stack(
         fit: StackFit.passthrough,
         children: [
@@ -113,7 +115,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
 
   Widget displayThumbnail() {
     return Flexible(
-      flex: 1,
+      flex: 2,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(containerBorderRadius),
         child: Image.network(
