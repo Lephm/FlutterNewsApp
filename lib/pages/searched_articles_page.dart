@@ -79,7 +79,6 @@ class _SearchedArticlesPageState extends ConsumerState<SearchedArticlesPage>
         style: currentTheme.textTheme.bodyMediumBold,
       ),
     );
-    ;
   }
 
   Widget displayArticles() {
