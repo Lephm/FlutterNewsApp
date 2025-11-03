@@ -38,6 +38,6 @@ final darkTheme = CustomColorScheme(
   bgSecondary: const Color.fromARGB(255, 112, 121, 140),
   bgInverse: const Color.fromARGB(255, 245, 241, 237),
   textPrimary: const Color.fromARGB(255, 245, 241, 237),
-  textSecondary: const Color.fromARGB(255, 112, 121, 140),
+  textSecondary: const Color.fromARGB(255, 176, 188, 212),
   textInverse: const Color.fromARGB(255, 37, 35, 35),
 );
