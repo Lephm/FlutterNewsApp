@@ -116,15 +116,20 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
   Widget displayThumbnail() {
     return Flexible(
       flex: 2,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(containerBorderRadius),
-        child: Image.network(
-          widget.articleData.thumbnailUrl,
-          errorBuilder: (context, error, stackTrace) =>
-              displayThumbnailErrorWidget(),
-          width: double.infinity,
-          height: thumbnailImageHeight,
-          fit: BoxFit.cover,
+      child: TextButton(
+        onPressed: () {
+          goToFullArticlePage();
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(containerBorderRadius),
+          child: Image.network(
+            widget.articleData.thumbnailUrl,
+            errorBuilder: (context, error, stackTrace) =>
+                displayThumbnailErrorWidget(),
+            width: double.infinity,
+            height: thumbnailImageHeight,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
