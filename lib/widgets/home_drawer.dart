@@ -18,6 +18,7 @@ class _HomeDrawerState extends ConsumerState<HomeDrawer> {
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
     return Drawer(
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 2, vertical: 15),
         color: currentTheme.currentColorScheme.bgPrimary,

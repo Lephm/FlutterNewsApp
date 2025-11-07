@@ -29,6 +29,7 @@ class _HomeEndDrawerState extends ConsumerState<HomeEndDrawer> {
       loadInitialLanguageSetting();
     }
     return Drawer(
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       backgroundColor: currentTheme.currentColorScheme.bgPrimary,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10.0),

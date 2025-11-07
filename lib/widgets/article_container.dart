@@ -46,6 +46,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
     var currentTheme = ref.watch(themeProvider);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+      padding: EdgeInsetsGeometry.fromLTRB(0, 10, 0, 0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(containerBorderRadius),
         color: currentTheme.currentColorScheme.bgPrimary,
