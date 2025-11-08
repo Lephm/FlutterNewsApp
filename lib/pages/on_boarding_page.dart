@@ -1,3 +1,4 @@
+import 'package:centranews/widgets/custom_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:localstorage/localstorage.dart';
@@ -12,24 +13,45 @@ class OnBoardingPage extends ConsumerStatefulWidget {
 }
 
 class _OnBoardingPageState extends ConsumerState<OnBoardingPage> {
+  int currentPageIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
-    return Scaffold(
-      backgroundColor: currentTheme.currentColorScheme.bgPrimary,
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-            saveHasLoadedOnBoardingPage();
-          },
-          child: Text("Pressme"),
-        ),
+    return CustomSafeArea(
+      child: Scaffold(
+        backgroundColor: currentTheme.currentColorScheme.bgPrimary,
+        body: currentPageIndex == 0 ? introductionPage() : finalPage(),
       ),
     );
   }
 
   void saveHasLoadedOnBoardingPage() {
     localStorage.setItem("hasLoadedOnboarding", "true");
-    Navigator.of(context).pushReplacementNamed("/");
+  }
+
+  Widget introductionPage() {
+    return Center(
+      child: TextButton(
+        onPressed: () {
+          setState(() {
+            currentPageIndex = 1;
+            saveHasLoadedOnBoardingPage();
+          });
+        },
+        child: Text("Continue"),
+      ),
+    );
+  }
+
+  Widget finalPage() {
+    return Center(
+      child: TextButton(
+        onPressed: () {
+          Navigator.of(context).pushReplacementNamed("/");
+        },
+        child: Text("Go to main page"),
+      ),
+    );
   }
 }
