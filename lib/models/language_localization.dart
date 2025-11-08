@@ -75,6 +75,9 @@ class LanguageLocalizationTexts {
     required this.weHaveSendResetPasswordCode,
     required this.resetPassword,
     required this.resetPasswordSucessfully,
+    required this.introText,
+    required this.gettingStarted,
+    required this.skip,
   });
 
   final String signIn;
@@ -123,6 +126,9 @@ class LanguageLocalizationTexts {
   final String weHaveSendResetPasswordCode;
   final String resetPassword;
   final String resetPasswordSucessfully;
+  final String introText;
+  final String gettingStarted;
+  final String skip;
 
   //Categories label
   final String politics;
@@ -268,6 +274,9 @@ var engLocalization = const LanguageLocalizationTexts(
   weHaveSendResetPasswordCode: "We have send your a reset password code",
   resetPassword: "Reset password",
   resetPasswordSucessfully: "You have reset password sucessfully",
+  introText: "AI powered News app",
+  gettingStarted: "Getting Started",
+  skip: "Skip",
 );
 
 var vietLocalization = const LanguageLocalizationTexts(
@@ -345,4 +354,7 @@ var vietLocalization = const LanguageLocalizationTexts(
   weHaveSendResetPasswordCode: "Chúng tôi đã gửi mã xác nhận cho bận",
   resetPassword: "Cài đặt mặt khẩu mới",
   resetPasswordSucessfully: "Mật khẩu mới đã được cập nhật",
+  introText: "Tin tức mới nhất",
+  gettingStarted: "Bắt đầu",
+  skip: "Bỏ qua",
 );

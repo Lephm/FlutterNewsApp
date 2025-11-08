@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomInputContainer extends StatelessWidget {
-  const CustomInputContainer({super.key, this.child, this.backgroundColor});
+  const CustomInputContainer({
+    super.key,
+    this.child,
+    this.backgroundColor,
+    this.customBorder,
+  });
+
   final Color? backgroundColor;
   final Widget? child;
+  final Border? customBorder;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +21,7 @@ class CustomInputContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(10),
+        border: customBorder,
       ),
       child: child,
     );
