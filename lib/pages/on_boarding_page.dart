@@ -67,12 +67,12 @@ class _OnBoardingPageState extends ConsumerState<OnBoardingPage> {
           children: [
             AnimatedOpacity(
               opacity: _imageVisible ? 1.0 : 0.0,
-              duration: const Duration(seconds: 3),
+              duration: const Duration(seconds: 2),
               child: appIntroWidget(),
             ),
             AnimatedSlide(
               offset: _offset,
-              duration: const Duration(milliseconds: 1000),
+              duration: const Duration(milliseconds: 2000),
               curve: Curves.easeInOut,
               child: Container(
                 constraints: BoxConstraints(maxWidth: 500),
