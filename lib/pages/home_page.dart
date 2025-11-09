@@ -39,19 +39,18 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     if (dontNeedToShowOnBoardingPage()) {
       return displayHomePage();
+    } else {
+      loadOnboardingStateFromLocalStorage();
+      return isLoadingOnbardingState
+          ? circularProgressBarPage()
+          : hasLoadedOnboardingState
+          ? displayHomePage()
+          : OnBoardingPage();
     }
-    loadOnboardingStateFromLocalStorage();
-    return isLoadingOnbardingState
-        ? circularProgressBarPage()
-        : hasLoadedOnboardingState
-        ? displayHomePage()
-        : OnBoardingPage();
   }
 
   bool dontNeedToShowOnBoardingPage() {
-    //TODO: return true if its on web
-    //return kIsWeb;
-    return false;
+    return kIsWeb;
   }
 
   Widget displayHomePage() {
