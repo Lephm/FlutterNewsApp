@@ -150,7 +150,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
   }
 
   Widget displayThumbnailErrorWidget() {
-    return SizedBox(width: double.infinity, height: 40);
+    return SizedBox(width: double.infinity, height: 60);
   }
 
   Widget displayPublishedDate() {
@@ -380,7 +380,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
           widget.articleData.articleSummary,
           style: currentTheme.textTheme.bodySmall,
           textAlign: TextAlign.start,
-          maxLines: cantLoadImage ? 8 : 2,
+          maxLines: cantLoadImage ? 6 : 2,
           overflow: TextOverflow.fade,
         ),
       ),
