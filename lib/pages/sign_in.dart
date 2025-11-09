@@ -8,6 +8,7 @@ import 'package:centranews/widgets/custom_form_button.dart';
 import 'package:centranews/widgets/custom_safe_area.dart';
 import 'package:centranews/widgets/custom_textformfield.dart';
 import 'package:centranews/widgets/form_app_bar.dart';
+import 'package:centranews/widgets/horizontal_divide_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -143,25 +144,13 @@ class _SignInState extends ConsumerState<SignIn> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        horizontalDivideLine(),
+        Expanded(child: HorizontalDivideLine(height: 1, horizontalMargin: 10)),
         Text(
           localization.signInWithSocialMedia,
           style: currentTheme.textTheme.bodyMedium,
         ),
-        horizontalDivideLine(),
+        Expanded(child: HorizontalDivideLine(height: 1, horizontalMargin: 10)),
       ],
-    );
-  }
-
-  Widget horizontalDivideLine() {
-    var currentTheme = ref.watch(themeProvider);
-    return Expanded(
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-        color: currentTheme.currentColorScheme.bgInverse,
-        width: double.infinity,
-        height: 1,
-      ),
     );
   }
 

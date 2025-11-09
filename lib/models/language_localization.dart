@@ -345,7 +345,7 @@ var vietLocalization = const LanguageLocalizationTexts(
   art: "Nghệ Thuật",
   vietnam: "Việt Nam",
   russia: "Russia",
-  category: "Chủ Đề",
+  category: "Chuyên mục",
   relatedArticles: "Bài viết gợi ý",
   clearFilter: "Xóa chọn lọc",
   pleaseEnterSearchTerm: "Hãy nhập từ khóa tìm kiếm",

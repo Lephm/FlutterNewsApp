@@ -303,6 +303,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
   }
 
   Widget displaySecondaryLabels() {
+    var currentTheme = ref.watch(themeProvider);
     var trustLevelIconColor = getSuitableTrustIconColor(
       widget.articleData.articleTrustLevel,
     );
@@ -312,6 +313,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
         horizontal: containerHorizontalLabelPadding,
       ),
       child: Row(
+        spacing: 10,
         children: [
           ArticleLabel(
             content: getSuitableTextForTrustLevel(
@@ -320,6 +322,14 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
             leadingIcon: Icon(
               Icons.circle,
               color: trustLevelIconColor,
+              size: 14,
+            ),
+          ),
+          ArticleLabel(
+            content: widget.articleData.publisher,
+            leadingIcon: Icon(
+              Icons.newspaper,
+              color: currentTheme.currentColorScheme.bgInverse,
               size: 14,
             ),
           ),

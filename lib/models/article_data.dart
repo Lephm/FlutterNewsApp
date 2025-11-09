@@ -22,6 +22,7 @@ class ArticleData {
     required this.thumbnailUrl,
     required this.date,
     required this.source,
+    required this.publisher,
   });
 
   ArticleData.fromJson(Map<String, dynamic> json)
@@ -33,7 +34,8 @@ class ArticleData {
 
       thumbnailUrl = json["thumbnail_url"].toString(),
       date = parseDateToString(json["published_at"].toString()),
-      source = json["source"]?.toString() ?? "N/A";
+      source = json["source"]?.toString() ?? "N/A",
+      publisher = json["publisher"]?.toString() ?? "N/A";
 
   final String articleID;
   final String articleTitle;
@@ -42,6 +44,7 @@ class ArticleData {
   final String articleTrustLevel;
   final String thumbnailUrl;
   final String source;
+  final String publisher;
   String date;
 
   @override

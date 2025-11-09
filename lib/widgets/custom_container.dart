@@ -18,14 +18,10 @@ class CustomContainer extends ConsumerWidget {
       decoration: BoxDecoration(
         color: currentTheme.currentColorScheme.bgPrimary,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: currentTheme.currentColorScheme.bgSecondary,
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 3),
-          ),
-        ],
+        border: Border.all(
+          color: currentTheme.currentColorScheme.bgInverse,
+          width: 0.5,
+        ),
       ),
       child: child,
     );

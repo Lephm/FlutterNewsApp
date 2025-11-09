@@ -1,6 +1,7 @@
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/query_categories_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
+import 'package:centranews/widgets/horizontal_divide_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,17 +26,22 @@ class _CategorySelectionState extends ConsumerState<CategorySelection> {
       decoration: BoxDecoration(
         color: currentTheme.currentColorScheme.bgPrimary,
       ),
-      child: CheckboxListTile(
-        title: Text(
-          localization.getLocalLanguageLabelText(widget.category),
-          style: currentTheme.textTheme.bodyMedium,
-        ),
-        value: _isChecked,
-        onChanged: onCheckBoxChanged,
-        fillColor: WidgetStatePropertyAll(
-          currentTheme.currentColorScheme.bgPrimary,
-        ),
-        checkColor: currentTheme.currentColorScheme.bgInverse,
+      child: Column(
+        children: [
+          CheckboxListTile(
+            title: Text(
+              localization.getLocalLanguageLabelText(widget.category),
+              style: currentTheme.textTheme.bodyMedium,
+            ),
+            value: _isChecked,
+            onChanged: onCheckBoxChanged,
+            fillColor: WidgetStatePropertyAll(
+              currentTheme.currentColorScheme.bgPrimary,
+            ),
+            checkColor: currentTheme.currentColorScheme.bgInverse,
+          ),
+          HorizontalDivideLine(height: 0.5, horizontalMargin: 10),
+        ],
       ),
     );
   }

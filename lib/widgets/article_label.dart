@@ -38,7 +38,7 @@ class ArticleLabel extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (leadingIcon != null) ...[leadingIcon!, const SizedBox(width: 5)],
-          Text(content, style: labelTextStyle),
+          Text(content, style: labelTextStyle, overflow: TextOverflow.fade),
         ],
       ),
     );

@@ -154,7 +154,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
           children: [
             displayCurrentArticle(),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
+              margin: EdgeInsets.symmetric(horizontal: 5),
               child: Column(
                 children: [
                   Text(
@@ -176,12 +176,11 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
     var localization = ref.watch(localizationProvider);
     return Center(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           color: currentTheme.currentColorScheme.bgPrimary,
         ),
         constraints: BoxConstraints(maxWidth: 800),
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 10,
@@ -205,6 +204,18 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
                   articleData!.date,
                   style: currentTheme.textTheme.bodyLightMedium,
                   textAlign: TextAlign.start,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                ArticleLabel(
+                  content: articleData!.publisher,
+                  leadingIcon: Icon(
+                    Icons.newspaper,
+                    color: currentTheme.currentColorScheme.bgInverse,
+                    size: 14,
+                  ),
                 ),
               ],
             ),
@@ -332,16 +343,6 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage> {
           color: currentTheme.currentColorScheme.bgInverse,
         ),
       ),
-    );
-  }
-
-  Widget horizontalDivideLine() {
-    var currentTheme = ref.watch(themeProvider);
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-      color: currentTheme.currentColorScheme.bgInverse,
-      width: double.infinity,
-      height: 1,
     );
   }
 
