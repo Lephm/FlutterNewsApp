@@ -121,17 +121,18 @@ class _SignInState extends ConsumerState<SignIn> {
               },
               icon: Image.asset("assets/google.png", width: 40, height: 40),
             ),
-            IconButton(
-              onPressed: () {},
-              icon: Image.asset(
-                currentTheme.currentColorScheme.themeType ==
-                        ThemeBrightness.light
-                    ? "assets/darkapple.png"
-                    : "assets/apple.png",
-                width: 40,
-                height: 40,
-              ),
-            ),
+            //TODO: Uncomment this and implement sign in with Apple
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: Image.asset(
+            //     currentTheme.currentColorScheme.themeType ==
+            //             ThemeBrightness.light
+            //         ? "assets/darkapple.png"
+            //         : "assets/apple.png",
+            //     width: 40,
+            //     height: 40,
+            //   ),
+            // ),
           ],
         ),
       ),
