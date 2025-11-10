@@ -64,6 +64,16 @@ class CustomTextTheme {
     );
   }
 
+  TextStyle get categoryTextBoldInverse {
+    return GoogleFonts.rubik(
+      textStyle: TextStyle(
+        fontSize: 11,
+        color: currentColorScheme.textInverse,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
   TextStyle get bodyBold {
     return GoogleFonts.rubik(
       textStyle: TextStyle(

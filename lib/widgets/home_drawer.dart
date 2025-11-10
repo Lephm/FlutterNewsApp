@@ -1,8 +1,7 @@
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/query_categories_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
-import 'package:centranews/utils/categories_list.dart';
-import 'package:centranews/widgets/category_selection.dart';
+import 'package:centranews/widgets/category_selection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,17 +31,7 @@ class _HomeDrawerState extends ConsumerState<HomeDrawer> {
               ],
             ),
             SizedBox(height: 30),
-            Expanded(
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),
-                ),
-                itemCount: categories.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return CategorySelection(category: categories[index]);
-                },
-              ),
-            ),
+            Expanded(child: CategorySelectionContainer()),
           ],
         ),
       ),
