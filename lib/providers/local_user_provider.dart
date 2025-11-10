@@ -1,5 +1,4 @@
 import 'package:centranews/models/local_user.dart';
-import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/utils/custom_navigator_settings.dart';
 import 'package:flutter/foundation.dart';
@@ -31,11 +30,14 @@ class UserNotifier extends Notifier<LocalUser?> {
             supabase.auth.currentUser!.email ?? "User",
           ),
         );
-        if (CustomNavigatorSettings.navigatorKey.currentState!.mounted) {
-          CustomNavigatorSettings.navigatorKey.currentState?.pushNamed("/");
-        }
       }
     });
+  }
+
+  void goToHomePage() {
+    if (CustomNavigatorSettings.navigatorKey.currentState!.mounted) {
+      CustomNavigatorSettings.navigatorKey.currentState?.pushNamed("/");
+    }
   }
 
   final _auth = supabase.auth;
@@ -52,18 +54,12 @@ class UserNotifier extends Notifier<LocalUser?> {
     required String password,
     required BuildContext context,
   }) async {
-    var localization = ref.watch(localizationProvider);
     var currentTheme = ref.watch(themeProvider);
     try {
+      showProgressBar(context);
       await _auth.signUp(email: email, password: password);
       await _auth.signInWithPassword(email: email, password: password);
-      if (context.mounted) {
-        showAlertMessage(
-          context,
-          localization.signInSucessFullyMessage,
-          currentTheme,
-        );
-      }
+      goToHomePage();
     } catch (e) {
       if (context.mounted) {
         showAlertMessage(context, e.toString(), currentTheme);
@@ -78,18 +74,11 @@ class UserNotifier extends Notifier<LocalUser?> {
     required String password,
     required BuildContext context,
   }) async {
-    var localization = ref.watch(localizationProvider);
     var currentTheme = ref.watch(themeProvider);
+    showProgressBar(context);
     try {
-      showProgressBar(context);
       await _auth.signInWithPassword(email: email, password: password);
-      if (context.mounted) {
-        showAlertMessage(
-          context,
-          localization.signInSucessFullyMessage,
-          currentTheme,
-        );
-      }
+      goToHomePage();
     } catch (e) {
       if (context.mounted) {
         showAlertMessage(context, e.toString(), currentTheme);
@@ -99,8 +88,12 @@ class UserNotifier extends Notifier<LocalUser?> {
     }
   }
 
-  void signOut() async {
-    return _auth.signOut();
+  void signOut(BuildContext context) async {
+    try {
+      await _auth.signOut();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   void signInWithGoogle(BuildContext context) async {
@@ -112,6 +105,7 @@ class UserNotifier extends Notifier<LocalUser?> {
           redirectTo:
               'https://abugihnaowqdwntoervn.supabase.co/auth/v1/callback',
         );
+        goToHomePage();
       } catch (e) {
         if (context.mounted) {
           showAlertMessage(context, e.toString(), currentTheme);
@@ -149,6 +143,7 @@ class UserNotifier extends Notifier<LocalUser?> {
         idToken: idToken,
         accessToken: accessToken,
       );
+      goToHomePage();
     } catch (e) {
       if (context.mounted) {
         showAlertMessage(context, e.toString(), currentTheme);

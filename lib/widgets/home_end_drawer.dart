@@ -89,7 +89,7 @@ class _HomeEndDrawerState extends ConsumerState<HomeEndDrawer> {
     return TextButton(
       onPressed: () async {
         try {
-          userNotifier.signOut();
+          userNotifier.signOut(context);
           showAlertMessage(
             context,
             localization.youHaveSucessfullySignedOut,
