@@ -64,4 +64,8 @@ mixin Pagination {
       );
     }
   }
+
+  int get itemPerPage {
+    return _itemsPerPage;
+  }
 }

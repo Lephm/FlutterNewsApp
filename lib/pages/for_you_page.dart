@@ -28,6 +28,7 @@ class _ForYouPageState extends ConsumerState<ForYouPage> with Pagination {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
   List<String>? forYouQueryParams;
+  bool hasFinishedLoadingForTheFirstTime = false;
 
   @override
   void initState() {
@@ -39,12 +40,19 @@ class _ForYouPageState extends ConsumerState<ForYouPage> with Pagination {
   Widget build(BuildContext context) {
     scrollController.addListener(onScroll);
     var currentTheme = ref.watch(themeProvider);
-    return (forYouQueryParams == null || forYouArticles.isEmpty)
+    return (forYouQueryParams == null ||
+            forYouArticles.isEmpty ||
+            !hasFinishedLoadingForTheFirstTime)
         ? displayCircularProgressBar(currentTheme)
         : forYouPage();
   }
 
   Future<void> loadForYouQueryParams() async {
+    if (mounted) {
+      setState(() {
+        hasFinishedLoadingForTheFirstTime = false;
+      });
+    }
     if (supabase.auth.currentUser != null &&
         !hasLoadCurrentUserPreferedCategory) {
       hasLoadCurrentUserPreferedCategory = true;
@@ -56,12 +64,18 @@ class _ForYouPageState extends ConsumerState<ForYouPage> with Pagination {
     } else {
       if (supabase.auth.currentUser == null) {
         hasLoadCurrentUserPreferedCategory = false;
+        if (mounted) {
+          setState(() {
+            hasFinishedLoadingForTheFirstTime = true;
+          });
+        }
       }
       if (mounted &&
           forYouQueryParams != defaultForYouQueryParams &&
           forYouQueryParams == null) {
         setState(() {
           forYouQueryParams = defaultForYouQueryParams;
+          hasFinishedLoadingForTheFirstTime = true;
         });
         refreshForYouArticles();
       }
@@ -94,24 +108,39 @@ class _ForYouPageState extends ConsumerState<ForYouPage> with Pagination {
         if (mounted) {
           await refreshForYouArticles();
         }
-        refreshDataIfCantFindArticlesBasedOnUserPreferedQueryCategories();
+        shouldRefreshDataIfCantFindArticlesBasedOnUserPreferedQueryCategories();
       });
     } catch (error) {
       debugPrint('$error');
     }
   }
 
-  void refreshDataIfCantFindArticlesBasedOnUserPreferedQueryCategories() {
+  bool isValidForYouArticleLength() {
+    return forYouArticles.length >= (itemPerPage - 5);
+  }
+
+  void shouldRefreshDataIfCantFindArticlesBasedOnUserPreferedQueryCategories() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && forYouArticles.isEmpty) {
+      if (mounted && !isValidForYouArticleLength()) {
         setState(() {
           forYouQueryParams = defaultForYouQueryParams;
         });
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
           if (mounted) {
-            refreshForYouArticles();
+            await refreshForYouArticles();
+            if (mounted) {
+              setState(() {
+                hasFinishedLoadingForTheFirstTime = true;
+              });
+            }
           }
         });
+      } else {
+        if (mounted) {
+          setState(() {
+            hasFinishedLoadingForTheFirstTime = true;
+          });
+        }
       }
     });
   }
