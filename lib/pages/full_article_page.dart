@@ -36,11 +36,11 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
   List<ArticleData> relatedArticles = [];
   bool isBookmarked = false;
 
-  Future<void> loadBookmarkStateStartUp() async {
+  Future<void> loadBookmarkStateStartUp(ArticleData data) async {
     if (supabase.auth.currentUser == null) return;
     var articleIsBookmarked = await BookmarkManager.isArticleBookmarked(
       supabase.auth.currentUser!.id,
-      articleData!.articleID,
+      data.articleID,
     );
     if (mounted) {
       setState(() {
@@ -406,10 +406,11 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
           .select()
           .eq("article_id", articleID)
           .single();
+      var currentArticleData = ArticleData.fromJson(data);
+      await loadBookmarkStateStartUp(currentArticleData);
       setState(() {
-        articleData = ArticleData.fromJson(data);
+        articleData = currentArticleData;
       });
-      await loadBookmarkStateStartUp();
     } catch (e) {
       debugPrint(e.toString());
     } finally {
