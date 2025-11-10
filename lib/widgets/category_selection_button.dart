@@ -116,6 +116,7 @@ class _CategorySelectionButtonState
       addCategoryToUserPref();
     } else {
       queryCategoriesManager.removeCategoryQuery(widget.category);
+      removeCategoryToUserPref();
     }
   }
 
@@ -131,7 +132,6 @@ class _CategorySelectionButtonState
     }
   }
 
-  //TODO: currently not using this incase user remove selection
   Future<void> removeCategoryToUserPref() async {
     if (supabase.auth.currentUser == null) return;
     try {
