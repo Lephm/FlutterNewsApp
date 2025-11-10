@@ -40,7 +40,7 @@ class _SearchedArticlesPageState extends ConsumerState<SearchedArticlesPage>
           leading: BackButton(
             color: currentTheme.currentColorScheme.bgInverse,
             onPressed: () {
-              Navigator.of(context).pushNamed("/");
+              Navigator.of(context).pop();
             },
           ),
           title: Center(

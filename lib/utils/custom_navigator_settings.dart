@@ -9,12 +9,15 @@ import 'package:flutter/material.dart';
 
 abstract class CustomNavigatorSettings {
   static final Map<String, Widget Function(BuildContext context)> allRoutes = {
-    "/": (context) => HomePage(),
-    "/sign_in": (context) => SignIn(),
-    "/sign_up": (context) => SignUp(),
-    "/search_articles": (context) => SearchedArticlesPage(),
-    "/reset_password_prompt": (context) => ResetPasswordPromptPage(),
-    "/reset_password": (context) => ResetPasswordPage(),
+    "/": (context) => PopScope(canPop: false, child: HomePage()),
+    "/sign_in": (context) => PopScope(canPop: false, child: SignIn()),
+    "/sign_up": (context) => PopScope(canPop: false, child: SignUp()),
+    "/search_articles": (context) =>
+        PopScope(canPop: false, child: SearchedArticlesPage()),
+    "/reset_password_prompt": (context) =>
+        PopScope(canPop: false, child: ResetPasswordPromptPage()),
+    "/reset_password": (context) =>
+        PopScope(canPop: false, child: ResetPasswordPage()),
   };
 
   static String initialRoute = '/';
@@ -27,9 +30,14 @@ abstract class CustomNavigatorSettings {
       final uri = Uri.parse(settings.name!);
       final String formatedUri = uri.toString();
       final arg = formatedUri.split("/").last;
-      return MaterialPageRoute(builder: (context) => FullArticlePage(arg: arg));
+      return MaterialPageRoute(
+        builder: (context) =>
+            PopScope(canPop: false, child: FullArticlePage(arg: arg)),
+      );
     }
-    return MaterialPageRoute(builder: (context) => HomePage());
+    return MaterialPageRoute(
+      builder: (context) => PopScope(canPop: false, child: HomePage()),
+    );
   }
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

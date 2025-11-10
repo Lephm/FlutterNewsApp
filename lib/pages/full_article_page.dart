@@ -131,7 +131,12 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
         appBar: AppBar(
           forceMaterialTransparency: true,
           backgroundColor: currentTheme.currentColorScheme.bgPrimary,
-          leading: BackButton(color: currentTheme.currentColorScheme.bgInverse),
+          leading: BackButton(
+            color: currentTheme.currentColorScheme.bgInverse,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
           actions: [
             (_isLoading || articleData == null)
                 ? SizedBox.shrink()
