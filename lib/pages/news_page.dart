@@ -44,7 +44,7 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
     }
     return cantFindRelevantArticles()
         ? displayCantFindRelevantArticles()
-        : isRefreshing
+        : (isRefreshing || !hasFetchDataForTheFirstTime)
         ? displayCircularProgressBar(currentTheme)
         : displayArticles();
   }

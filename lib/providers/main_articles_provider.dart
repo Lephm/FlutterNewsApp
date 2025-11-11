@@ -71,7 +71,6 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
         endIndex,
         queryParams: queryParams,
       );
-      state = [];
       List<ArticleData> firstTimeLoadingArticlesList = [];
       for (var value in data) {
         firstTimeLoadingArticlesList = [
@@ -83,6 +82,7 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
       List<ArticleData> randomizedArticleList = [
         ...firstTimeLoadingArticlesList,
       ];
+      state = [];
       state = randomizedArticleList;
     } catch (e) {
       if (context.mounted) {
