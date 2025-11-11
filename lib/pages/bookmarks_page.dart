@@ -2,6 +2,7 @@ import 'package:centranews/models/article_data.dart';
 import 'package:centranews/providers/local_user_provider.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
+import 'package:centranews/utils/article_data_retrieve_helper.dart';
 import 'package:centranews/utils/bookmark_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -179,7 +180,10 @@ class _BookmarksPageState extends ConsumerState<BookmarksPage> with Pagination {
       if (bookmarkArticlesList.isNotEmpty) {
         if (mounted) {
           setState(() {
-            bookmarkArticles = [...bookmarkArticles, ...bookmarkArticlesList];
+            bookmarkArticles = getUniqueArticleDatas(
+              bookmarkArticlesList,
+              bookmarkArticlesList,
+            );
           });
         }
       }

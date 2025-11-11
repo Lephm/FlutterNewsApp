@@ -1,3 +1,4 @@
+import 'package:centranews/utils/article_data_retrieve_helper.dart';
 import 'package:centranews/utils/pagination.dart';
 import 'package:centranews/widgets/custom_search_bar.dart';
 import 'package:flutter/material.dart';
@@ -198,18 +199,19 @@ class _SearchedArticlesPageState extends ConsumerState<SearchedArticlesPage>
           .or("title.ilike.%$searchTerm%,summary.ilike.%$searchTerm%")
           .range(startIndex, endIndex)
           .order('created_at', ascending: false);
-
+      List<ArticleData> newSearchedData = [];
       if (data.isNotEmpty) {
         for (var value in data) {
-          if (context.mounted) {
-            setState(() {
-              searchedArticles = [
-                ...searchedArticles,
-                ArticleData.fromJson(value),
-              ];
-            });
-          }
+          newSearchedData = [...newSearchedData, ArticleData.fromJson(value)];
         }
+      }
+      if (mounted) {
+        setState(() {
+          searchedArticles = getUniqueArticleDatas(
+            searchedArticles,
+            newSearchedData,
+          );
+        });
       }
     } catch (e) {
       debugPrint(e.toString());

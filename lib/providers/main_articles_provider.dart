@@ -1,6 +1,7 @@
 import 'package:centranews/models/article_data.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
+import 'package:centranews/utils/article_data_retrieve_helper.dart';
 import 'package:centranews/utils/custom_exception.dart';
 import 'package:centranews/utils/pop_up_message.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,10 +38,11 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
       if (data.isEmpty) {
         throw ArticleDataIsEmpty("There are no more articles");
       }
-
+      List<ArticleData> newArticleData = [];
       for (var value in data) {
-        state = [...state, ArticleData.fromJson(value)];
+        newArticleData = [...newArticleData, ArticleData.fromJson(value)];
       }
+      state = getUniqueArticleDatas(state, newArticleData);
     } on ArticleDataIsEmpty catch (e) {
       debugPrint(e.toString());
       rethrow;
@@ -81,7 +83,7 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
       List<ArticleData> randomizedArticleList = [
         ...firstTimeLoadingArticlesList,
       ];
-      state = [...randomizedArticleList];
+      state = randomizedArticleList;
     } catch (e) {
       if (context.mounted) {
         showAlertMessage(

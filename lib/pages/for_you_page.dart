@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:centranews/utils/article_data_retrieve_helper.dart';
 import 'package:centranews/utils/pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -237,7 +238,10 @@ class _ForYouPageState extends ConsumerState<ForYouPage> with Pagination {
       if (forYouArticlesFromResponse.isNotEmpty) {
         if (mounted) {
           setState(() {
-            forYouArticles = [...forYouArticles, ...forYouArticlesFromResponse];
+            forYouArticles = getUniqueArticleDatas(
+              forYouArticles,
+              forYouArticlesFromResponse,
+            );
           });
         }
       }
