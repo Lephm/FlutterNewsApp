@@ -25,7 +25,6 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
 
   @override
   Widget build(BuildContext context) {
-    var mainArticles = ref.watch(mainArticlesProvider);
     var currentTheme = ref.watch(themeProvider);
     scrollController.addListener(onScroll);
     ref.listen(queryCategoriesProvider, (oldQueries, newQueries) {
@@ -34,24 +33,17 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
       }
     });
     if (mounted && !hasFetchDataForTheFirstTime) {
-      if (mainArticles.isEmpty) {
-        fetchDataForFirstTime();
-      } else {
-        setState(() {
-          hasFetchDataForTheFirstTime = true;
-        });
-      }
+      fetchDataForFirstTime();
     }
     return cantFindRelevantArticles()
         ? displayCantFindRelevantArticles()
-        : isRefreshing
+        : (isRefreshing && !hasFetchDataForTheFirstTime)
         ? displayCircularProgressBar(currentTheme)
         : displayArticles();
   }
 
   @override
   void dispose() {
-    scrollController.dispose();
     super.dispose();
   }
 
@@ -164,30 +156,27 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
 
   void fetchDataForFirstTime() async {
     var mainArticleNotifier = ref.watch(mainArticlesProvider.notifier);
-    var mainArticles = ref.watch(mainArticlesProvider);
-    if (mainArticles.isEmpty) {
-      setState(() {
-        resetCurrentPage();
-        hasFetchDataForTheFirstTime = true;
-        isLoading = true;
-        isRefreshing = true;
-      });
-      try {
-        await mainArticleNotifier.refereshArticlesData(
-          context: context,
-          startIndex: startIndex,
-          endIndex: endIndex,
-        );
-      } catch (e) {
-        debugPrint(e.toString());
-      } finally {
-        if (mounted) {
-          setState(() {
-            hasFetchDataForTheFirstTime = true;
-            isLoading = false;
-            isRefreshing = false;
-          });
-        }
+    setState(() {
+      resetCurrentPage();
+      hasFetchDataForTheFirstTime = false;
+      isLoading = true;
+      isRefreshing = true;
+    });
+    try {
+      await mainArticleNotifier.refereshArticlesData(
+        context: context,
+        startIndex: startIndex,
+        endIndex: endIndex,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    } finally {
+      if (mounted) {
+        setState(() {
+          hasFetchDataForTheFirstTime = true;
+          isLoading = false;
+          isRefreshing = false;
+        });
       }
     }
   }
