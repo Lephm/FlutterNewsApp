@@ -215,6 +215,7 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
     setState(() {
       resetCurrentPage();
       isLoading = true;
+      isRefreshing = true;
     });
     debugPrint("refresh articles data");
     await mainArticleNotifier.refereshArticlesData(
@@ -226,6 +227,7 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
     if (mounted) {
       setState(() {
         isLoading = false;
+        isRefreshing = false;
       });
     }
   }
