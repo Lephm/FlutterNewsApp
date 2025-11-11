@@ -277,7 +277,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
           children: [
             displayCategoriesLabels(),
 
-            Text(
+            SelectableText(
               articleData!.articleTitle,
               style: currentTheme.textTheme.headlineMedium,
               textAlign: TextAlign.start,
@@ -320,7 +320,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
                 fit: BoxFit.fitHeight,
               ),
             ),
-            Text(
+            SelectableText(
               formattedSummaryText,
               style: currentTheme.textTheme.bodySmall,
               textAlign: TextAlign.justify,
