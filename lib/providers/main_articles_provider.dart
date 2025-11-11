@@ -70,9 +70,18 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
         queryParams: queryParams,
       );
       state = [];
+      List<ArticleData> firstTimeLoadingArticlesList = [];
       for (var value in data) {
-        state = [...state, ArticleData.fromJson(value)];
+        firstTimeLoadingArticlesList = [
+          ...firstTimeLoadingArticlesList,
+          ArticleData.fromJson(value),
+        ];
       }
+      firstTimeLoadingArticlesList.shuffle();
+      List<ArticleData> randomizedArticleList = [
+        ...firstTimeLoadingArticlesList,
+      ];
+      state = [...randomizedArticleList];
     } catch (e) {
       if (context.mounted) {
         showAlertMessage(

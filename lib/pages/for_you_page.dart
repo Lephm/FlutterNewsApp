@@ -282,8 +282,10 @@ class _ForYouPageState extends ConsumerState<ForYouPage> with Pagination {
       }
       if (newForYouArticlesList.isNotEmpty) {
         if (mounted) {
+          newForYouArticlesList.shuffle();
+          List<ArticleData> randomizedArticlesList = [...newForYouArticlesList];
           setState(() {
-            forYouArticles = [...forYouArticles, ...newForYouArticlesList];
+            forYouArticles = [...forYouArticles, ...randomizedArticlesList];
           });
         }
       }
