@@ -21,18 +21,18 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
       GlobalKey<RefreshIndicatorState>();
   final ScrollController scrollController = ScrollController();
   bool hasFetchDataForTheFirstTime = false;
-  List<String> currentQueryCategories = [];
   bool isRefreshing = true;
 
   @override
   Widget build(BuildContext context) {
     var mainArticles = ref.watch(mainArticlesProvider);
-    var queryCategories = ref.watch(queryCategoriesProvider);
     var currentTheme = ref.watch(themeProvider);
     scrollController.addListener(onScroll);
-    if (currentQueryCategories != queryCategories) {
-      refreshDataToRefelectSearchQueries();
-    }
+    ref.listen(queryCategoriesProvider, (oldQueries, newQueries) {
+      if (oldQueries != newQueries) {
+        refreshDataToRefelectSearchQueries();
+      }
+    });
     if (mounted && !hasFetchDataForTheFirstTime) {
       if (mainArticles.isEmpty) {
         fetchDataForFirstTime();
@@ -113,13 +113,8 @@ class _NewsPageState extends ConsumerState<NewsPage> with Pagination {
   }
 
   void refreshDataToRefelectSearchQueries() {
-    var queryCategories = ref.watch(queryCategoriesProvider);
+    debugPrint("query new articles");
     scrollToTop(scrollController);
-    if (mounted) {
-      setState(() {
-        currentQueryCategories = queryCategories;
-      });
-    }
     refreshData();
   }
 
