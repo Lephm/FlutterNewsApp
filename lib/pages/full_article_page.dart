@@ -63,7 +63,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
     return Row(
       children: [
         Text(
-          bookmarkCount == null
+          bookmarkCount != null
               ? bookmarkCount.toString()
               : articleData != null
               ? articleData!.bookmarkCount.toString()

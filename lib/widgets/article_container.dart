@@ -295,32 +295,35 @@ class _ArticleContainer extends ConsumerState<ArticleContainer>
       return;
     }
     try {
+      if (mounted) {
+        showProgressBar(context, currentTheme);
+      }
       if (isBookmarked) {
-        BookmarkManager.removeArticleIdFromBookmark(
+        await BookmarkManager.removeArticleIdFromBookmark(
           localUser.uid,
           widget.articleData.articleID,
           bookmarkCount ?? widget.articleData.bookmarkCount,
         );
       } else {
-        BookmarkManager.addArticleIdToBookmark(
+        await BookmarkManager.addArticleIdToBookmark(
           localUser.uid,
           widget.articleData.articleID,
           bookmarkCount ?? widget.articleData.bookmarkCount,
         );
       }
-      loadBookmarkState();
+      await loadBookmarkState();
     } catch (e) {
       debugPrint(e.toString());
+    } finally {
+      if (mounted) {
+        closeProgressBar(context);
+      }
     }
   }
 
-  void loadBookmarkState() async {
-    var currentTheme = ref.watch(themeProvider);
+  Future<void> loadBookmarkState() async {
     try {
       if (supabase.auth.currentUser == null) return;
-      if (mounted) {
-        showProgressBar(context, currentTheme);
-      }
       var articleIsBookmarked = await BookmarkManager.isArticleBookmarked(
         widget.articleData.articleID,
       );
@@ -335,10 +338,6 @@ class _ArticleContainer extends ConsumerState<ArticleContainer>
       }
     } catch (e) {
       debugPrint(e.toString());
-    } finally {
-      if (mounted) {
-        closeProgressBar(context);
-      }
     }
   }
 
