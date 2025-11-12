@@ -1,11 +1,24 @@
 image: cirrusci/flutter:stable
-  pages:
-    stage: deploy
-    script:
-      - flutter build web --release --base-href="/centralmedia-fe/"
-      - mv build/web public
-    artifacts:
-      paths:
-        - public
-    only:
-      - main
+
+stages:
+  - build
+  - deploy
+
+build_web_app:
+  stage: build
+  script:
+    - flutter pub get
+    - flutter build web --release --base-href="/centralmedia-fe/"
+  artifacts:
+    paths:
+      - build/web
+
+pages:
+  stage: deploy
+  script:
+    - cp -r build/web public
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
