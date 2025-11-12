@@ -9,7 +9,7 @@ build_web_app:
   stage: build
   script:
     - flutter pub get
-    - flutter build web --release
+    - flutter build web --release --base-href="/centralmedia-fe/"
   artifacts:
     paths:
       - build/web
