@@ -213,9 +213,12 @@ class _ArticleContainer extends ConsumerState<ArticleContainer>
       child: Row(
         children: [
           SizedBox(width: 10),
-          Text(
-            bookmarkCount.toString(),
-            style: currentTheme.textTheme.bodyMedium,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              bookmarkCount.toString(),
+              style: currentTheme.textTheme.bodyMedium,
+            ),
           ),
           bookmarkButton(),
         ],
