@@ -35,11 +35,14 @@ class _ArticleContainer extends ConsumerState<ArticleContainer>
   bool isBookmarked = false;
   bool cantLoadImage = false;
   int? bookmarkCount;
+  bool hasLoadInitialAdditionArticleData = false;
 
   @override
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
-    loadBookmarkStateStartUp();
+    if (!hasLoadInitialAdditionArticleData) {
+      loadBookmarkStateStartUp();
+    }
     BookmarkManager.getBookmarkCount(widget.articleData.articleID);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
@@ -282,6 +285,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer>
       setState(() {
         isBookmarked = articleIsBookmarked;
         bookmarkCount = bookmarkCountData;
+        hasLoadInitialAdditionArticleData = true;
       });
     }
   }

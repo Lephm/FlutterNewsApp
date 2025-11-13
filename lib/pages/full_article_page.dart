@@ -37,6 +37,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
   List<ArticleData> relatedArticles = [];
   bool isBookmarked = false;
   int? bookmarkCount;
+  bool hasLoadInitialAdditionArticleData = false;
 
   Future<void> loadBookmarkStateStartUp(ArticleData data) async {
     try {
@@ -50,6 +51,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
         setState(() {
           isBookmarked = articleIsBookmarked;
           bookmarkCount = bookmarkCountData;
+          hasLoadInitialAdditionArticleData = true;
         });
       }
     } catch (e) {
@@ -449,7 +451,9 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
           .eq("article_id", articleID)
           .single();
       var currentArticleData = ArticleData.fromJson(data);
-      await loadBookmarkStateStartUp(currentArticleData);
+      if (!hasLoadInitialAdditionArticleData) {
+        await loadBookmarkStateStartUp(currentArticleData);
+      }
       if (mounted) {
         setState(() {
           articleData = currentArticleData;
