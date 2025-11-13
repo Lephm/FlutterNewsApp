@@ -38,6 +38,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
   bool isBookmarked = false;
   int? bookmarkCount;
   bool hasLoadInitialAdditionArticleData = false;
+  bool hasFetchRelatedArticle = false;
 
   Future<void> loadBookmarkStateStartUp(ArticleData data) async {
     try {
@@ -236,6 +237,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
       if (mounted) {
         setState(() {
           relatedArticles = [...datas];
+          hasFetchRelatedArticle = true;
         });
       }
     } catch (e) {
@@ -268,7 +270,9 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
   }
 
   Widget displayArticlePage() {
-    fetchRelatedArticles();
+    if (!hasFetchRelatedArticle) {
+      fetchRelatedArticles();
+    }
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
     return SingleChildScrollView(
