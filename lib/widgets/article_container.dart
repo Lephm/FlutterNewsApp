@@ -37,7 +37,6 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
 
-    BookmarkManager.getBookmarkCount(widget.articleData.articleID);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       padding: EdgeInsetsGeometry.fromLTRB(0, 10, 0, 0),

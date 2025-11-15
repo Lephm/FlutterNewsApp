@@ -1,4 +1,3 @@
-import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/query_categories_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
 import 'package:centranews/utils/categories_list.dart';
