@@ -133,7 +133,9 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage>
                     showAlertMessage(context, e.toString(), currentTheme);
                   }
                 } finally {
-                  closeProgressBar(context);
+                  if (mounted) {
+                    closeProgressBar(context);
+                  }
                 }
               }
             },
