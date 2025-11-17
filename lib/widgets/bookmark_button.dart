@@ -41,12 +41,13 @@ class _BookmarkButtonState extends ConsumerState<BookmarkButton>
       fit: BoxFit.scaleDown,
       child: Row(
         children: [
-          Text(
-            bookmarkCount == null
-                ? widget.parentBookmarkCount.toString()
-                : bookmarkCount.toString(),
-            style: currentTheme.textTheme.bodyMedium,
-          ),
+          //TODO: currently not displaying bookmark count
+          // Text(
+          //   bookmarkCount == null
+          //       ? widget.parentBookmarkCount.toString()
+          //       : bookmarkCount.toString(),
+          //   style: currentTheme.textTheme.bodyMedium,
+          // ),
           IconButton(
             onPressed: () {
               toggleBookmark();
