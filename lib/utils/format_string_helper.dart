@@ -3,5 +3,8 @@ String formatSummaryText(String summaryText) {
 }
 
 String formatBulletsPoints(String summaryText) {
-  return summaryText.replaceAll(r'\n', '\n').replaceAll(r'<li>', '\n \u2022 ');
+  return summaryText
+      .replaceAll(r'\n', '\n')
+      .replaceAll(r'<li>', '\n \u2022 ')
+      .replaceAll(r'</li>', "");
 }
