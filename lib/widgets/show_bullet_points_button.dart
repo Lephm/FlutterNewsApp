@@ -36,17 +36,17 @@ class ShowBulletPointsButton extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          constraints: BoxConstraints(maxHeight: 600, maxWidth: 300),
           scrollable: true,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              BackButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                color: currentTheme.currentColorScheme.bgInverse,
-              ),
-            ],
+          iconPadding: EdgeInsetsGeometry.fromLTRB(10, 10, 10, 0),
+          icon: Align(
+            alignment: Alignment.centerLeft,
+            child: BackButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              color: currentTheme.currentColorScheme.bgInverse,
+            ),
           ),
           backgroundColor: currentTheme.currentColorScheme.bgPrimary,
           content: Text(
