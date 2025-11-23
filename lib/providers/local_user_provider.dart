@@ -4,7 +4,6 @@ import 'package:centranews/utils/custom_navigator_settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../utils/pop_up_message.dart';
@@ -96,61 +95,6 @@ class UserNotifier extends Notifier<LocalUser?> {
     }
   }
 
-  void signInWithGoogle(BuildContext context) async {
-    var currentTheme = ref.watch(themeProvider);
-    if (kIsWeb) {
-      try {
-        await supabase.auth.signInWithOAuth(
-          OAuthProvider.google,
-          redirectTo:
-              'https://abugihnaowqdwntoervn.supabase.co/auth/v1/callback',
-        );
-        goToHomePage();
-      } catch (e) {
-        if (context.mounted) {
-          showAlertMessage(context, e.toString(), currentTheme);
-        }
-      } finally {
-        closeProgressBar();
-      }
-      return;
-    }
-    const webClientId =
-        '459545354997-il8rqbl88n9i53k1ouua0qk2c8s3o9r5.apps.googleusercontent.com';
-
-    const iosClientId =
-        '459545354997-4u3n1d1q1e9nhu3pp5jac0on5lcfqg5p.apps.googleusercontent.com';
-
-    final GoogleSignIn googleSignIn = GoogleSignIn(
-      clientId: iosClientId,
-      serverClientId: webClientId,
-    );
-    final googleUser = await googleSignIn.signIn();
-    final googleAuth = await googleUser!.authentication;
-    final accessToken = googleAuth.accessToken;
-    final idToken = googleAuth.idToken;
-
-    try {
-      if (accessToken == null) {
-        throw 'No Access Token found.';
-      }
-      if (idToken == null) {
-        throw 'No ID Token found.';
-      }
-
-      await supabase.auth.signInWithIdToken(
-        provider: OAuthProvider.google,
-        idToken: idToken,
-        accessToken: accessToken,
-      );
-      goToHomePage();
-    } catch (e) {
-      if (context.mounted) {
-        showAlertMessage(context, e.toString(), currentTheme);
-      }
-    }
-  }
-
   void showProgressBar(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
     _progressBarRoute = DialogRoute(
@@ -188,21 +132,5 @@ class UserNotifier extends Notifier<LocalUser?> {
 
   void setLocalUser(LocalUser? user) {
     state = user;
-  }
-
-  //TODO: fully implement signInWithTwitter
-  void signInWithTwitter(BuildContext context) async {
-    var currentTheme = ref.watch(themeProvider);
-    try {
-      await supabase.auth.signInWithOAuth(
-        OAuthProvider.twitter,
-        redirectTo:
-            'https://abugihnaowqdwntoervn.supabase.co/auth/v1/callback', // Supabase deep link
-      );
-    } catch (e) {
-      if (context.mounted) {
-        showAlertMessage(context, e.toString(), currentTheme);
-      }
-    }
   }
 }

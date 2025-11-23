@@ -9,6 +9,6 @@ final themeProvider = NotifierProvider<ThemeNotifier, CustomTheme>(
 class ThemeNotifier extends Notifier<CustomTheme> {
   @override
   CustomTheme build() {
-    return CustomTheme(currentColorScheme: darkTheme);
+    return CustomTheme(currentColorScheme: lightTheme);
   }
 }

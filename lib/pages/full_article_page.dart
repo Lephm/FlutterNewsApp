@@ -1,7 +1,6 @@
 import 'package:centranews/models/article_data.dart';
 import 'package:centranews/utils/format_string_helper.dart';
 import 'package:centranews/utils/full_screen_overlay_progress_bar.dart';
-import 'package:centranews/widgets/article_container.dart';
 import 'package:centranews/widgets/bookmark_button.dart';
 import 'package:centranews/widgets/show_bullet_points_button.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../models/app_info.dart';
 import '../providers/localization_provider.dart';
 import '../providers/theme_provider.dart';
-import '../utils/article_data_retrieve_helper.dart';
 import '../widgets/article_label.dart';
 import '../widgets/custom_safe_area.dart';
 
@@ -33,8 +31,6 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
   String articleID = "";
   bool _isLoading = true;
   ArticleData? articleData;
-  List<ArticleData> relatedArticles = [];
-  bool hasFetchRelatedArticle = false;
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +59,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
                   ),
             (_isLoading || articleData == null)
                 ? SizedBox.shrink()
-                : BookmarkButton(
-                    parentBookmarkCount: articleData!.bookmarkCount,
-                    articleID: articleData!.articleID,
-                  ),
+                : BookmarkButton(articleID: articleData!.articleID),
           ],
           title: Center(child: appIcon()),
         ),
@@ -113,28 +106,6 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
     );
   }
 
-  void fetchRelatedArticles() async {
-    try {
-      final articleId = widget.arg as String;
-      final response = await Supabase.instance.client.rpc(
-        'get_similar_articles',
-        params: {"current_article_id": articleId},
-      );
-      List<ArticleData> datas = [];
-      for (var value in response) {
-        datas.add(ArticleData.fromJson(value));
-      }
-      if (mounted) {
-        setState(() {
-          relatedArticles = [...datas];
-          hasFetchRelatedArticle = true;
-        });
-      }
-    } catch (e) {
-      debugPrint('Error calling RPC: $e');
-    }
-  }
-
   Widget displayErrorPage() {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
@@ -160,9 +131,6 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
   }
 
   Widget displayArticlePage() {
-    if (!hasFetchRelatedArticle) {
-      fetchRelatedArticles();
-    }
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
     return SingleChildScrollView(
@@ -179,7 +147,6 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
                     localization.relatedArticles,
                     style: currentTheme.textTheme.headlineMedium,
                   ),
-                  renderRelatedArticlesIfSuitable(),
                 ],
               ),
             ),
@@ -301,30 +268,6 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
     );
   }
 
-  Widget renderRelatedArticlesIfSuitable() {
-    var localization = ref.watch(localizationProvider);
-    var currentTheme = ref.watch(themeProvider);
-    return (relatedArticles.isEmpty)
-        ? Text(
-            localization.cantFindRelevantArticles,
-            style: currentTheme.textTheme.bodyMediumBold,
-          )
-        : displayRelatedArticles();
-  }
-
-  Widget displayRelatedArticles() {
-    List<ArticleContainer> articles = [];
-    for (var article in relatedArticles) {
-      articles.add(
-        ArticleContainer(
-          articleData: article,
-          key: ValueKey(article.articleID),
-        ),
-      );
-    }
-    return Column(spacing: 30, children: articles);
-  }
-
   Widget displayCircularProgressBar() {
     var currentTheme = ref.watch(themeProvider);
     return Center(
@@ -341,7 +284,7 @@ class _FullArticlePageState extends ConsumerState<FullArticlePage>
       articleID = arg as String;
       final data = await supabase
           .from("articles")
-          .select(ARTICLESSELECTPARAMETER)
+          .select()
           .eq("article_id", articleID)
           .single();
       var currentArticleData = ArticleData.fromJson(data);

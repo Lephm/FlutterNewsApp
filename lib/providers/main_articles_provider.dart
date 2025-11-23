@@ -11,9 +11,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final supabase = Supabase.instance.client;
 
 final mainArticlesProvider =
-NotifierProvider<MainArticlesNotifier, List<ArticleData>>(
+    NotifierProvider<MainArticlesNotifier, List<ArticleData>>(
       () => MainArticlesNotifier(),
-);
+    );
 
 class MainArticlesNotifier extends Notifier<List<ArticleData>> {
   @override
@@ -86,6 +86,7 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
       state = [];
       state = randomizedArticleList;
     } catch (e) {
+      debugPrint(e.toString());
       if (context.mounted) {
         showAlertMessage(
           context,
@@ -96,21 +97,22 @@ class MainArticlesNotifier extends Notifier<List<ArticleData>> {
     }
   }
 
-  Future<List<Map<String, dynamic>>> queryArticles(int startIndex,
-      int endIndex, {
-        List<String> queryParams = const [],
-      }) async {
+  Future<List<Map<String, dynamic>>> queryArticles(
+    int startIndex,
+    int endIndex, {
+    List<String> queryParams = const [],
+  }) async {
     if (queryParams.isEmpty) {
       return supabase
           .from('articles')
-          .select(ARTICLESSELECTPARAMETER)
+          .select()
           .order('created_at', ascending: false)
           .order('article_id', ascending: true)
           .range(startIndex, endIndex);
     }
     return supabase
         .from('articles')
-        .select(ARTICLESSELECTPARAMETER)
+        .select()
         .overlaps('categories', queryParams)
         .order('created_at', ascending: false)
         .order('article_id', ascending: true)

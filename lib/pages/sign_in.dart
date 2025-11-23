@@ -1,4 +1,3 @@
-import 'package:centranews/models/custom_color_scheme.dart';
 import 'package:centranews/providers/local_user_provider.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
@@ -8,7 +7,6 @@ import 'package:centranews/widgets/custom_form_button.dart';
 import 'package:centranews/widgets/custom_safe_area.dart';
 import 'package:centranews/widgets/custom_textformfield.dart';
 import 'package:centranews/widgets/form_app_bar.dart';
-import 'package:centranews/widgets/horizontal_divide_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -52,8 +50,6 @@ class _SignInState extends ConsumerState<SignIn> {
                   appIntroWidget(),
                   signInForm(),
                   rememberMeAndForgotPasswordRow(),
-                  signInWithSocialMediaRow(),
-                  otherSignInMethodRow(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: TextButton(
@@ -99,58 +95,6 @@ class _SignInState extends ConsumerState<SignIn> {
           localization.signInToYourAccount,
           style: currentTheme.textTheme.bodyLightMedium,
         ),
-      ],
-    );
-  }
-
-  Widget otherSignInMethodRow() {
-    var userManager = ref.watch(userProvider.notifier);
-    var currentTheme = ref.watch(themeProvider);
-    return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 600),
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 40),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 100,
-          children: [
-            IconButton(
-              onPressed: () {
-                userManager.signInWithGoogle(context);
-              },
-              icon: Image.asset("assets/google.png", width: 40, height: 40),
-            ),
-            //TODO: Uncomment this and implement sign in with Apple
-            // IconButton(
-            //   onPressed: () {},
-            //   icon: Image.asset(
-            //     currentTheme.currentColorScheme.themeType ==
-            //             ThemeBrightness.light
-            //         ? "assets/darkapple.png"
-            //         : "assets/apple.png",
-            //     width: 40,
-            //     height: 40,
-            //   ),
-            // ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget signInWithSocialMediaRow() {
-    var localization = ref.watch(localizationProvider);
-    var currentTheme = ref.watch(themeProvider);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Expanded(child: HorizontalDivideLine(height: 1, horizontalMargin: 10)),
-        Text(
-          localization.signInWithSocialMedia,
-          style: currentTheme.textTheme.bodyMedium,
-        ),
-        Expanded(child: HorizontalDivideLine(height: 1, horizontalMargin: 10)),
       ],
     );
   }

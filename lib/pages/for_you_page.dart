@@ -259,7 +259,7 @@ class _ForYouPageState extends ConsumerState<ForYouPage> with Pagination {
   Future<List<Map<String, dynamic>>> getForYouArticles() async {
     return supabase
         .from('articles')
-        .select(ARTICLESSELECTPARAMETER)
+        .select()
         .overlaps('categories', forYouQueryParams ?? defaultForYouQueryParams)
         .order('created_at', ascending: false)
         .order('article_id', ascending: true)

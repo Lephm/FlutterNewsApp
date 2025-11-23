@@ -20,7 +20,7 @@ class _CustomSearchBarState extends ConsumerState<CustomSearchBar> {
   Widget build(BuildContext context) {
     var currentTheme = ref.watch(themeProvider);
     var localization = ref.watch(localizationProvider);
-    return Container(
+    return SizedBox(
       height: 30,
       child: SearchBar(
         elevation: WidgetStatePropertyAll(0),

@@ -11,13 +11,8 @@ import 'package:centranews/utils/full_screen_overlay_progress_bar.dart';
 final supabase = Supabase.instance.client;
 
 class BookmarkButton extends ConsumerStatefulWidget {
-  const BookmarkButton({
-    super.key,
-    required this.parentBookmarkCount,
-    required this.articleID,
-  });
+  const BookmarkButton({super.key, required this.articleID});
 
-  final int parentBookmarkCount;
   final String articleID;
 
   @override
@@ -26,7 +21,6 @@ class BookmarkButton extends ConsumerStatefulWidget {
 
 class _BookmarkButtonState extends ConsumerState<BookmarkButton>
     with FullScreenOverlayProgressBar {
-  int? bookmarkCount;
   bool isBookmarked = false;
   bool hasLoadInitialAdditionArticleData = false;
 
@@ -71,13 +65,10 @@ class _BookmarkButtonState extends ConsumerState<BookmarkButton>
     var articleIsBookmarked = await BookmarkManager.isArticleBookmarked(
       widget.articleID,
     );
-    var bookmarkCountData = await BookmarkManager.getBookmarkCount(
-      widget.articleID,
-    );
+
     if (mounted) {
       setState(() {
         isBookmarked = articleIsBookmarked;
-        bookmarkCount = bookmarkCountData;
         hasLoadInitialAdditionArticleData = true;
       });
     }
@@ -99,13 +90,11 @@ class _BookmarkButtonState extends ConsumerState<BookmarkButton>
         await BookmarkManager.removeArticleIdFromBookmark(
           localUser.uid,
           widget.articleID,
-          bookmarkCount ?? widget.parentBookmarkCount,
         );
       } else {
         await BookmarkManager.addArticleIdToBookmark(
           localUser.uid,
           widget.articleID,
-          bookmarkCount ?? widget.parentBookmarkCount,
         );
       }
       await loadBookmarkState();
@@ -124,13 +113,10 @@ class _BookmarkButtonState extends ConsumerState<BookmarkButton>
       var articleIsBookmarked = await BookmarkManager.isArticleBookmarked(
         widget.articleID,
       );
-      var bookmarkCountData = await BookmarkManager.getBookmarkCount(
-        widget.articleID,
-      );
+
       if (mounted) {
         setState(() {
           isBookmarked = articleIsBookmarked;
-          bookmarkCount = bookmarkCountData;
         });
       }
     } catch (e) {

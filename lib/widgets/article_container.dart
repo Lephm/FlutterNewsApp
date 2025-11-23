@@ -1,20 +1,15 @@
 import 'package:centranews/models/article_data.dart';
 import 'package:centranews/providers/localization_provider.dart';
 import 'package:centranews/providers/theme_provider.dart';
-import 'package:centranews/utils/bookmark_manager.dart';
-import 'package:centranews/utils/custom_navigator_settings.dart';
 import 'package:centranews/utils/format_string_helper.dart';
-import 'package:centranews/utils/pop_up_message.dart';
 import 'package:centranews/widgets/article_label.dart';
 import 'package:centranews/widgets/bookmark_button.dart';
 import 'package:centranews/widgets/show_bullet_points_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../utils/full_screen_overlay_progress_bar.dart';
 import '../utils/pagination.dart';
 
 const double containerBorderRadius = 10;
@@ -213,10 +208,7 @@ class _ArticleContainer extends ConsumerState<ArticleContainer> {
             size: 25,
             bulletPoints: widget.articleData.bulletPoints,
           ),
-          BookmarkButton(
-            parentBookmarkCount: widget.articleData.bookmarkCount,
-            articleID: widget.articleData.articleID,
-          ),
+          BookmarkButton(articleID: widget.articleData.articleID),
         ],
       ),
     );

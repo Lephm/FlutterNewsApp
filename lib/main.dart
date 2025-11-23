@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,12 +17,11 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: Colors.black),
   );
+  await dotenv.load(fileName: ".env");
   await initLocalStorage();
-  await Supabase.initialize(
-    url: 'https://abugihnaowqdwntoervn.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFidWdpaG5hb3dxZHdudG9lcnZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk1MjE5MzcsImV4cCI6MjA3NTA5NzkzN30.SkLffRRkYKoP8V_syZk2WM6MBUUggwVQERY64sqk25s',
-  );
+  String supabaseUrl = dotenv.env['SUPABASE_URL'] ?? "";
+  String supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'] ?? "";
+  await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
   runApp(ProviderScope(child: MyApp()));
 }
 

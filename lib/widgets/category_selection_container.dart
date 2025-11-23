@@ -53,29 +53,27 @@ class _CategorySelectionContainerState
       );
     }
 
-    return Container(
-      child: SingleChildScrollView(
-        controller: scrollController,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 20,
-          children: [
-            displayCategoriesSelectionButton(
-              selectedWidget,
-              Icon(
-                Icons.filter_alt,
-                color: currentTheme.currentColorScheme.bgInverse,
-              ),
+    return SingleChildScrollView(
+      controller: scrollController,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 20,
+        children: [
+          displayCategoriesSelectionButton(
+            selectedWidget,
+            Icon(
+              Icons.filter_alt,
+              color: currentTheme.currentColorScheme.bgInverse,
             ),
-            displayCategoriesSelectionButton(
-              unselectedWidget,
-              Icon(
-                Icons.category,
-                color: currentTheme.currentColorScheme.bgInverse,
-              ),
+          ),
+          displayCategoriesSelectionButton(
+            unselectedWidget,
+            Icon(
+              Icons.category,
+              color: currentTheme.currentColorScheme.bgInverse,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -87,7 +85,7 @@ class _CategorySelectionContainerState
     if (categorSelectionWidgets.isEmpty) return SizedBox.shrink();
     return Align(
       alignment: Alignment.topLeft,
-      child: Container(
+      child: SizedBox(
         width: 300,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

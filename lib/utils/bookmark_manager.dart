@@ -1,10 +1,6 @@
-import 'dart:math' as math;
-
 import 'package:centranews/models/article_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import 'article_data_retrieve_helper.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -29,10 +25,8 @@ class BookmarkManager {
   static Future<void> addArticleIdToBookmark(
     String userId,
     String articleId,
-    int currentBookmarkCount,
   ) async {
     try {
-      await increaseBookmarkCount(currentBookmarkCount, articleId);
       await supabase.from('bookmarks').insert({
         'user_id': userId,
         'article_id': articleId,
@@ -45,10 +39,8 @@ class BookmarkManager {
   static Future<void> removeArticleIdFromBookmark(
     String userId,
     String articleId,
-    int currentBookmarkCount,
   ) async {
     try {
-      await decreaseBookmarkCount(currentBookmarkCount, articleId);
       await supabase
           .from('bookmarks')
           .delete()
@@ -79,7 +71,7 @@ class BookmarkManager {
     }
     var data = await supabase
         .from('articles')
-        .select(ARTICLESSELECTPARAMETER)
+        .select()
         .inFilter("article_id", articleIdList)
         .order('created_at', ascending: false)
         .order('article_id', ascending: true);
@@ -88,45 +80,5 @@ class BookmarkManager {
       bookmarkArticles.add(ArticleData.fromJson(article));
     }
     return bookmarkArticles;
-  }
-
-  static Future<int> getBookmarkCount(String articleId) async {
-    try {
-      final List<Map<String, dynamic>> data = await supabase
-          .from('articles_additional_data')
-          .select('bookmark_count')
-          .eq("article_id", articleId);
-      int bookmarkCount = data.isEmpty ? 0 : data[0]["bookmark_count"];
-      return bookmarkCount;
-    } catch (e) {
-      debugPrint(e.toString());
-      return 0;
-    }
-  }
-
-  static Future<void> increaseBookmarkCount(
-    int currentBookmarkCount,
-    String articleId,
-  ) async {
-    await supabase
-        .from('articles_additional_data')
-        .upsert({
-          'article_id': articleId,
-          'bookmark_count': currentBookmarkCount += 1,
-        })
-        .eq("article_id", articleId);
-  }
-
-  static Future<void> decreaseBookmarkCount(
-    int currentBookmarkCount,
-    String articleId,
-  ) async {
-    await supabase
-        .from('articles_additional_data')
-        .upsert({
-          'article_id': articleId,
-          'bookmark_count': math.max(0, currentBookmarkCount -= 1),
-        })
-        .eq("article_id", articleId);
   }
 }

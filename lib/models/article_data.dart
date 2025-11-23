@@ -23,7 +23,6 @@ class ArticleData {
     required this.date,
     required this.source,
     required this.publisher,
-    required this.bookmarkCount,
     required this.bulletPoints,
   });
 
@@ -37,9 +36,6 @@ class ArticleData {
       thumbnailUrl = json["thumbnail_url"].toString(),
       date = parseDateToString(json["published_at"].toString()),
       source = json["source"]?.toString() ?? "N/A",
-      bookmarkCount = json["articles_additional_data"] != null
-          ? json["articles_additional_data"]["bookmark_count"] ?? 0
-          : 0,
       bulletPoints = json["bullet_points"]?.toString() ?? "N/A",
       publisher = json["publisher"]?.toString() ?? "N/A";
 
@@ -52,7 +48,6 @@ class ArticleData {
   final String source;
   final String publisher;
   String date;
-  final int bookmarkCount;
   final String bulletPoints;
 
   @override
