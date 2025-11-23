@@ -50,7 +50,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   bool dontNeedToShowOnBoardingPage() {
-    return kIsWeb;
+    // TODO: currently showing onboarding on web for testingreturn kIsWeb;
+    return false;
   }
 
   Widget displayHomePage() {
